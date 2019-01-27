@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.DetailedEvents"
+    tools:showIn="@layout/activity_detailed_events">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.getmate.demo181201.CustomViews.EventTimelineImageView
+            android:layout_width="match_parent"
+            android:id="@+id/event_poster_sa"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:id="@+id/title_sa"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:text="Clay Modelling"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="at"/>
+            <TextView
+                android:layout_marginHorizontal="25dp"
+                android:textAlignment="center"
+                android:id="@+id/venue_sa"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:text="Babaji asjhfjoahahfijahfahfajhfkjehfkjewhfkjehfjewhfijewhfiewhfewhifewhfhewijfhewifhwefhweiohfiwehfoiuewhjfka sbjodasf"
+                android:padding="5dp"
+                android:textSize="18dp"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="10dp"
+            android:background="#DADBDF"/>
+
+
+
+
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="3">
+            <Button
+                android:background="@null"
+                android:padding="5dp"
+                android:id="@+id/link_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:drawableTop="@drawable/link"
+
+                android:text="Register"
+                />
+            <Button
+                android:background="@null"
+                android:padding="5dp"
+                android:drawableTop="@drawable/clock"
+                android:text="AUG 01, 6 pm"
+                android:id="@+id/time_sa"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                />
+            <Button
+                android:background="@null"
+                android:padding="5dp"
+                android:text="9 going"
+                android:id="@+id/gng_cnt_btn_sa"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:drawableTop="@drawable/people"/>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/description_sa"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="no large text here because it sucks more than a newborn baby doed to nipple"
+            android:ellipsize="middle"
+
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <com.getmate.demo181201.InterestSelection.RoundedImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/sports"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="4dip"
+                android:layout_marginTop="4dip"
+                android:layout_marginBottom="4dip"
+                android:id="@+id/creator_prfl_pic_sa"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:text="Random___Nerd"
+                    android:id="@+id/creator_handle_sa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="Dhuv Gajwa"
+                    android:id="@+id/creator_name_sa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/creator_email_sa"
+            android:drawablePadding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/emaill"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="dhruvgajwa008@gmail.com" />
+
+        <TextView
+            android:drawablePadding="10dp"
+            android:id="@+id/creator_phone_sa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/phone"
+            android:text="7092541851"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="10dp"
+            android:background="@color/darkgrey"/>
+
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/organiserLinLay1"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_height="wrap_content">
+
+
+            <ImageButton
+
+                android:layout_width="40dp"
+                android:background="@drawable/people"
+                android:layout_height="40dp" />
+            <LinearLayout
+
+                android:layout_weight="9"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+                <TextView
+                    android:id="@+id/org1Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dhruv Gajwa"/>
+                <TextView
+                    android:id="@+id/org1Phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7092541851"/>
+                <TextView
+                    android:id="@+id/org1Email"
+                    android:layout_width="wrap_content"
+                    android:text="dhruvgajwa008@gmail.com"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <Button
+
+                android:padding="10dp"
+                android:background="@drawable/phone"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                />
+
+        </LinearLayout>
+        <View
+            android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="10dp"
+        android:background="@color/darkgrey"/>
+
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/organiserLinLay2"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_height="wrap_content">
+
+
+            <ImageButton
+
+                android:layout_width="40dp"
+                android:background="@drawable/people"
+                android:layout_height="40dp" />
+            <LinearLayout
+                android:layout_weight="9"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+                <TextView
+                    android:id="@+id/org2Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dhruv Gajwa"/>
+                <TextView
+                    android:id="@+id/org2Phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7092541851"/>
+                <TextView
+                    android:id="@+id/org2Email"
+                    android:text="getmateiit@gmail.com"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <Button
+
+                android:padding="10dp"
+                android:background="@drawable/phone"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                />
+
+        </LinearLayout>
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="10dp"
+            android:background="@color/darkgrey"/>
+
+
+
+        <LinearLayout
+
+            android:id="@+id/organiserLinLay3"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_height="wrap_content">
+
+
+            <ImageButton
+
+                android:layout_width="40dp"
+                android:background="@drawable/people"
+                android:layout_height="40dp" />
+            <LinearLayout
+                android:layout_weight="9"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+                <TextView
+                    android:id="@+id/org3Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dhruv Gajwa"/>
+                <TextView
+                    android:id="@+id/org3Phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7092541851"/>
+                <TextView
+                    android:id="@+id/org3Email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dhruv@gmial.com"/>
+
+            </LinearLayout>
+            <Button
+                android:layout_gravity="center_vertical"
+
+                android:padding="10dp"
+                android:background="@drawable/phone"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

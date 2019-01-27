@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  this is layout of the item in timeline so
+  make it again as per need
+ -->
+
+<android.support.v7.widget.CardView
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.getmate.demo181201.CustomViews.EventTimelineImageView
+        android:layout_width="match_parent"
+        android:background="@drawable/event_image_demo"
+        android:layout_height="344dp"
+        />
+
+    <TextView
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="#BF000000"
+        android:textStyle="bold"
+        android:text="Splash Art competition"/>
+
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:text="Margin widths are defined as fixed values at each breakpoint range. To better adapt to the screen, the margin width can change at different breakpoints. Wider margins are more appropriate for larger screens, as they create more whitespace around the perimeter of content.  "
+            android:ellipsize="end"
+            android:lineSpacingExtra="4dp"
+            android:maxLines="2"
+            />
+        <TextView
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textUrl"
+            android:visibility="gone"
+            android:textColorLink="@color/link"
+            android:linksClickable="true"
+            android:padding="5dp"
+            android:paddingRight="@dimen/feed_item_padding_left_right"
+            android:text="link"/>
+
+        <com.getmate.demo181201.CustomViews.EventTimelineImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/feedImage1"
+
+            android:layout_marginVertical="5dp"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:layout_marginBottom="20dp"
+            android:visibility="visible"/>
+        <RelativeLayout
+            android:layout_marginLeft="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+            <Button
+                android:background="@drawable/info_icon"
+                android:id="@+id/dtl_btn"
+                android:alpha="0.8"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+            <Button
+                android:layout_toLeftOf="@+id/i3"
+                android:id="@+id/i2"
+                android:layout_marginHorizontal="12dp"
+                android:background="@drawable/heart_icon"
+                android:alpha="0.8"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+            <Button
+                android:layout_toLeftOf="@+id/i4"
+                android:id="@+id/i3"
+                android:layout_marginHorizontal="12dp"
+                android:background="@drawable/save_icon"
+                android:alpha="0.8"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+            <Button
+                android:id="@+id/i4"
+                android:layout_marginHorizontal="12dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/share_icon"
+                android:alpha="0.8"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>

@@ -1,0 +1,18 @@
+{"logs": [{"outputFile": "C:\\Users\\admin\\Desktop\\Getmate_final\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-hy\\values-hy.xml","map": [{"source": "C:\\Users\\admin\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-wallet-12.0.1.aar\\5c2877e4b0e4df22ce5a868851e8c860\\res\\values-hy\\values.xml","from": {"startLines": "4","startColumns": "0","startOffsets": "202","endColumns": "105","endOffsets": "307"},"to": {"startLines": "110","startColumn><!--
+    TODO: Before you release your application, you need a Google Maps API key.
+
+    To do this, you can either add your release key credentials to your existing
+    key, or create a new key.
+
+    Note that this file specifies the API key for the release build target.
+    If you have previously set up a key for the debug target with the debug signing certificate,
+    you will also need to set up a key for your release certificate.
+
+    Follow the directions here:
+
+    https://developers.google.com/maps/documentation/android/signup
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+<string name="google_maps_key" translatable="false">YOUR_KEY_HERE</string></>

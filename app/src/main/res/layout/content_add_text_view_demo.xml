@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme.NoActionBar"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.AddTextViewDemo"
+    tools:showIn="@layout/activity_add_text_view_demo">
+
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edittext_background"
+                android:hint=" Title"
+                app:met_baseColor="@color/black"
+                app:met_errorColor="@color/red"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="title"
+                app:met_helperText="Integer"
+                app:met_primaryColor="@color/basil_orange"
+                app:met_underlineColor="@color/darkgrey" />
+
+            <RelativeLayout
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:text="Select event location on Map" />
+
+                <Button
+                    android:background="@drawable/edit_text_background"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="62dp"
+                    android:text="MAP"
+                    android:elevation="50dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+
+                    android:layout_height="32dp"
+                    android:layout_gravity="" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:text="Click to add interests tags" />
+
+                <Button
+                    android:background="@drawable/edit_text_background"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="62dp"
+                    android:text="Tags"
+                    android:elevation="5dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+
+                    android:layout_height="32dp"
+                    android:layout_gravity="" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:text="Set Date of event" />
+
+                <Button
+                    android:layout_width="62dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity=""
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/edit_text_background"
+                    android:elevation="5dp"
+                    android:text="Date"
+
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:text="Set Time of event" />
+
+                <Button
+                    android:background="@drawable/edit_text_background"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="62dp"
+                    android:text="Time"
+                    android:elevation="5dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+
+                    android:layout_height="32dp"
+                    android:layout_gravity="" />
+            </RelativeLayout>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edittext_background"
+                android:hint=" Venue"
+                app:met_baseColor="@color/black"
+                app:met_errorColor="@color/red"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="venue"
+                app:met_helperText="Integer"
+                app:met_primaryColor="@color/basil_orange"
+                app:met_underlineColor="@color/darkgrey" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edittext_background"
+                android:hint=" Extra link"
+                app:met_baseColor="@color/black"
+                app:met_errorColor="@color/red"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Extra link"
+                app:met_helperText="Integer"
+                app:met_primaryColor="@color/basil_orange"
+                app:met_underlineColor="@color/darkgrey" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edittext_background"
+                android:hint="Description"
+
+                app:met_baseColor="@color/black"
+                app:met_errorColor="@color/red"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Description"
+                app:met_helperText="Integer"
+                app:met_primaryColor="@color/basil_orange"
+                app:met_underlineColor="@color/darkgrey" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="172dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_margin="24dp"
+                android:text="Add Image Here"
+                android:textColor="@color/white"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:text="Other Organisers Details"/>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_marginHorizontal="24dp"
+                android:background="@drawable/profile_background"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="name"/>
+                <EditText
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="email"/>
+                <EditText
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="phone"/>
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

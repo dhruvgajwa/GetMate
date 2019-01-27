@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.MapFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:orientation="vertical">
+        <fragment
+            android:layout_width="match_parent"
+            android:id="@+id/map_view"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+
+            />
+        <RadioGroup
+            android:id="@+id/level_radio_grp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            >
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:text="BEGINNER"
+                android:background="@drawable/rbt_selector"
+                android:gravity="center"
+                android:layout_gravity="center"
+                />
+            <RadioButton
+                android:layout_width="0dp"
+                android:button="@null"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@drawable/rbt_selector"
+                android:text="INTERMEDIATE"
+                android:layout_weight="01"
+                android:layout_height="match_parent" />
+            <RadioButton
+                android:layout_width="0dp"
+                android:background="@drawable/rbt_selector"
+                android:text="EXPERT"
+                android:button="@null"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/people_event_radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:weightSum="2"
+            android:layout_margin="1dp"
+            android:background="@color/bg_interest"
+
+            >
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ppl_rbt_map_2"
+                android:text="people"
+                android:background="@drawable/people_radio_button"
+                android:button="@null"
+                android:textColor="@drawable/people_radiobutton_textcolor"
+                android:layout_gravity="center"
+                android:gravity="center"
+                />
+
+
+            <RadioButton
+                android:textColor="@drawable/people_radiobutton_textcolor"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:button="@null"
+                android:text="events"
+                android:background="@drawable/people_radio_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/event_r_btn_map"
+                />
+
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/childlinearlayout"
+
+        >
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/check_box_image"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:id="@+id/checkbox"
+            android:focusable="false"
+            />
+        <com.getmate.demo181201.InterestSelection.RoundedImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/sports"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="4dip"
+            android:layout_marginTop="4dip"
+            android:layout_marginBottom="4dip"
+            android:id="@+id/childimage"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="4dip"
+            android:layout_marginTop="4dip"
+            android:text="Sports"
+            android:gravity="center"
+            android:layout_gravity="center"
+
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:id="@+id/childtext"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/levelpack"
+        android:orientation="horizontal"
+
+
+
+        >
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:id="@+id/radiogroup"
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/radio_btn_selector"
+                android:text="beginner"
+                android:id="@+id/beginner"
+
+
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:background="@drawable/radio_btn_selector"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:text="intermediate"
+                android:id="@+id/intermediate"
+
+                android:button="@null"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="12dp"
+                android:checked="false"
+                android:textStyle="bold"
+
+
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:background="@drawable/radio_btn_selector"
+                android:layout_weight="1"
+                android:text="expert"
+                android:id="@+id/expert"
+
+                android:button="@null"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:checked="false"
+                />
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>

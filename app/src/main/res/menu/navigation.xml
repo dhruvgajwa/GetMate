@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_shop"
+        android:icon="@drawable/ic_action_name_timeline"
+        android:title="Timeline" />
+
+    <item
+        android:id="@+id/navigation_gifts"
+        android:icon="@drawable/ic_action_name_getmate"
+        android:title="FindMates" />
+
+    <item
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/ic_action_name_eventmap"
+        android:title="EventMap" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_action_name_profile"
+        android:title="Profile" />
+
+</menu>

@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.getmate.demo181201.Activities.editEvent"
+    tools:showIn="@layout/activity_edit_event">
+
+    <LinearLayout
+        android:weightSum="3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+
+            android:layout_width="0dp"
+            android:text="Create Event"
+            android:background="@color/white"
+            android:textColor="@color/blue"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            />
+        <Button
+            android:id="@+id/done_ee"
+            android:layout_margin="3dp"
+            android:background="@drawable/activities_button"
+            android:layout_width="0dp"
+            android:text="DONE"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <ScrollView
+        android:background="@drawable/profile_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_marginHorizontal="5dp"
+        android:elevation="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/title_ee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                app:met_floatingLabel="normal"
+                android:hint="Enter Title"
+                android:inputType="text"
+                android:maxLines="2" />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="9"
+                android:text="Show venue on map"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+
+            <Button
+                android:layout_gravity="center_vertical"
+                android:id="@+id/show_on_map_ee"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/map"
+                android:padding="10dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="pick Date"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <Button
+                android:id="@+id/date_ee"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/calander" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="10"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="pick Time"
+                android:layout_weight="9"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <Button
+
+                android:id="@+id/time_ee"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/clock" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Click to add Interest Tags"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:layout_weight="9"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+
+                />
+            <Button
+                android:id="@+id/interest_ee"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/tags"
+                android:layout_gravity="center_vertical"
+
+                />
+
+        </LinearLayout>
+
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/tagsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            app:alignItems="stretch"
+            app:alignContent="stretch">
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/recycler_view_iB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/recycler_view_iI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_iE"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/venue_ee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:inputType="textMultiLine"
+                app:met_floatingLabel="normal"
+                android:hint="Venue"
+                 />
+
+
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/link_ee"
+                app:met_floatingLabel="normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:hint="Link of event(available)"
+                android:inputType="text"
+                android:maxLines="2" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="Description:"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/description_ee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:hint="here put full explaination regarding the event you created so that users may get clear idea of the extent "
+                android:inputType="textMultiLine"
+                android:padding="8dp"
+                android:singleLine="false"
+                android:background="@drawable/edit_text_background"
+                android:textCursorDrawable="@color/black"
+                android:gravity="top|left"
+
+
+                />
+
+        </LinearLayout>
+        <LinearLayout
+
+            android:id="@+id/orgMainLinLay"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:weightSum="10"
+                android:orientation="horizontal">
+
+                <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                   android:layout_weight="9"
+                    android:layout_gravity="center_vertical"
+                android:text="Other Organisers Details :"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+
+                <Button
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/organisersButton"
+                    android:background="@drawable/add_button"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:background="@drawable/add_image_buto"
+            android:id="@+id/add_image_button"
+
+            />
+
+    </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+</LinearLayout>
