@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,15 +22,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.getmate.demo181201.Fragments.ProfileFragment;
 import com.getmate.demo181201.InterestSelection.InterestSelectionActivity;
 import com.getmate.demo181201.MainActivity;
-import com.getmate.demo181201.Objects.Person;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
 import com.google.android.gms.tasks.Continuation;
@@ -43,12 +38,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -64,21 +62,21 @@ import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
-public class EditProfile extends AppCompatActivity {
+public class EditProfile extends AppCompatActivity  {
 
 
     private static final int REQUEST_FOR_INTERNET_PERMISSION = 10;
-    EditText dateView;
+    MaterialEditText dateView;
     int mYear,mMonth,mDay,age;
     String DOB;
-    TextView done;
-    EditText name,Bio;
-    EditText scl1,scl2,scl3;
+    Button done,checkHandle;
+    MaterialEditText name,Bio;
+    MaterialEditText scl1,scl2,scl3;
     EditText pos1,pos2,pos3;
     EditText comp1,comp2,comp3;
     private String address =null;
-    EditText phoneNo,fb_url,insta_url,linkedin_url;
-    Person me = new Person();
+    EditText fb_url,insta_url,linkedin_url;
+    MaterialEditText phoneNo,email,website;
     Profile profile = new Profile();
     ArrayList<String> school = new ArrayList<>();
     ArrayList<Profile.Work>  work = new ArrayList<>();
@@ -91,7 +89,7 @@ public class EditProfile extends AppCompatActivity {
     private static final int UNIQUE_HANDLE =1;
     String unique_handle = null;
     final private int TO_INTEREST_SELECTION =10;
-    private EditText cityname;
+    private MaterialEditText cityname;
 
     final private int REQUEST_FOR_LOCATION = 123;
     final private int REQUEST_FOR_STORAGE= 111;
@@ -103,23 +101,33 @@ public class EditProfile extends AppCompatActivity {
     private Uri uri = null; //store image value or path of image
     private CircleImageView imageButton;
     private  Button submit;
-    TextView handle;
+    MaterialEditText handle;
     private StorageReference storageReference;
-
     private RadioButton RadioBtnM,RadioBtnF,RadioBtnO;
-    private boolean fromRegisterActivity = false;
-    private boolean fromProfileFragment = false;
-
     private FirebaseUser currentUser;
     private FirebaseFirestore db;
     private RadioButton radioStudent, radioEmployee;
     private String Tagline;
+    private Button verifyEmail;
+    private Profile oldUserData ;
+
+    private boolean isHandleUnique = false;
+    private boolean fromRegisterActivity = false;
+    private boolean fromProfileFragment = false;
+    private boolean isProfileUploaded = false;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.edit_profile2);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        db = FirebaseFirestore.getInstance();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);//why locale .US?
+
         findViewsById();
         checkInternetPermission();
 
@@ -130,27 +138,13 @@ public class EditProfile extends AppCompatActivity {
         }
         if (intent.getBooleanExtra("fromProfileFragment",false)){
             fromProfileFragment = true;
-           Bundle bundle = intent.getBundleExtra("bundle");
-           Log.i("Kaun","fromProfileFragment"+bundle.toString());
-           Profile user = (Profile) bundle.get("profile");
-            if (user!=null){
-
-
-                profile = user;
-                Gson gson = new Gson();
-                String json = gson.toJson(user);
-                Log.i("EDP",json);
-                updtaeUI(user);
-            }
-
-            }
-
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference();
-        db = FirebaseFirestore.getInstance();
-
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);//why locale .US?
+            String profileStringData = intent.getStringExtra("dataFromProfileFragment");
+            Gson gson = new Gson();
+            oldUserData = gson.fromJson(profileStringData,Profile.class);
+            Log.i("EDP",profileStringData);
+            profile = oldUserData;
+            updtaeUI(oldUserData);
+           }
 
         pickDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +163,7 @@ public class EditProfile extends AppCompatActivity {
                         Calendar dob = Calendar.getInstance();
                         age = mYear-year;
                         dob.set(year,month,dayOfMonth);
+                        dateView.setVisibility(View.VISIBLE);
                         dateView.setText(simpleDateFormat.format(dob.getTime()));
                         DOB = String.valueOf(dob.getTimeInMillis());
                         profile.setDOB(DOB);
@@ -210,20 +205,17 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-        LinearLayout workLinLay = findViewById(R.id.workLinLay);
+        /*LinearLayout workLinLay = findViewById(R.id.workLinLay);
         workLinLay.setVisibility(View.GONE);
-        scl3.setVisibility(View.GONE);
+        scl3.setVisibility(View.GONE);*/
 
         radioStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 radioStudent.setChecked(true);
                 radioEmployee.setChecked(false);
                 scl1.setHint("Where you study? eg. IIT Madras");
                 scl2.setHint("What you study? eg. Biomedical Engineering");
-
-
 
             }
         });
@@ -277,11 +269,14 @@ public class EditProfile extends AppCompatActivity {
         });
 
 
-        handleButton.setOnClickListener(new View.OnClickListener() {
+        checkHandle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EditProfile.this, getHandle.class);
-                startActivityForResult(intent,UNIQUE_HANDLE);
+                String sHandle = handle.getText().toString().trim();
+                boolean d = check_Handle(sHandle);
+                if (d){
+                    profile.setHandle(sHandle);
+                }
 
             }
         });
@@ -294,8 +289,9 @@ public class EditProfile extends AppCompatActivity {
 
                 boolean isValid = validateForm();
 
-
-
+                if (!isValid){
+                    return;
+                }
 
 
                 if(currentUser.getUid()!=null){
@@ -313,13 +309,13 @@ public class EditProfile extends AppCompatActivity {
                 if(!TextUtils.isEmpty(scl2.getText().toString())){
                     school.add(scl2.getText().toString());
                 }
-                if(!TextUtils.isEmpty(scl3.getText().toString())){
+               /* if(!TextUtils.isEmpty(scl3.getText().toString())){
                     school.add(scl3.getText().toString());
-                }
+                }*/
 
-                profile.setSchools(school);
+               // profile.setSchools(school);
 
-               if(!TextUtils.isEmpty(pos1.getText().toString())&&TextUtils.isEmpty(comp1.getText().toString())){
+             /*  if(!TextUtils.isEmpty(pos1.getText().toString())&&TextUtils.isEmpty(comp1.getText().toString())){
                     work.add( new Profile.Work(pos1.getText().toString(),comp1.getText().toString()));
                 }
                 if(!TextUtils.isEmpty(pos2.getText().toString())&&TextUtils.isEmpty(comp2.getText().toString())){
@@ -328,10 +324,10 @@ public class EditProfile extends AppCompatActivity {
                 if(!TextUtils.isEmpty(pos3.getText().toString())&&TextUtils.isEmpty(comp3.getText().toString())){
                     work.add( new Profile.Work(pos3.getText().toString(),comp3.getText().toString()));
                 }
+*/
 
 
-
-                if (radioEmployee.isChecked()){
+             if (radioEmployee.isChecked()){
                    profile.setStudent(false);
                     Tagline = "Works as "+scl2.getText().toString()+" at "+scl1.getText().toString();
 
@@ -343,14 +339,14 @@ public class EditProfile extends AppCompatActivity {
                 if (fromProfileFragment){
                           }
                 if (fromRegisterActivity){
-
+                    profile.setLat(currentLocation.getLatitude());
+                    profile.setLon(currentLocation.getLongitude());
                     }
                 profile.setSclComp(scl1.getText().toString());
                 profile.setSector(scl2.getText().toString());
                 profile.setTagline(Tagline);
                 profile.setWork(work);
-                profile.setLat(currentLocation.getLatitude());
-                profile.setLon(currentLocation.getLongitude());
+
                 profile.setAddress(address);
 
                 if(profilePic!=null){
@@ -378,7 +374,6 @@ public class EditProfile extends AppCompatActivity {
                     });
 
                 }
-
 
 
                 if (fromRegisterActivity){
@@ -413,7 +408,7 @@ public class EditProfile extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             Log.i("KaunHuMein","fromProfileFragmentDataUpdationSuccessFull");
 
-                            FragmentTransaction transaction ;
+                            /*FragmentTransaction transaction ;
                             ProfileFragment fragment = new ProfileFragment();
                             Bundle bundle = new Bundle();
                             bundle.putParcelable("data",profile);
@@ -422,7 +417,9 @@ public class EditProfile extends AppCompatActivity {
                             transaction.replace(R.id.main_container, fragment);
                             transaction.addToBackStack(null);
                             transaction.commitAllowingStateLoss();
-                            finish();
+                            finish();*/
+                            Intent i = new Intent(EditProfile.this,MainActivity.class);
+                            startActivity(i);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -472,9 +469,11 @@ public class EditProfile extends AppCompatActivity {
             if(resultCode==Activity.RESULT_OK){
                 unique_handle = data.getStringExtra("handle");
                 profile.setHandle(unique_handle);
+/*
 
                 handle.setText(unique_handle);
                 handle.setVisibility(View.VISIBLE);
+*/
 
             }
         }
@@ -549,7 +548,6 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
-
     private void UploadImage(Uri uri){
         final StorageReference ref = storageReference.child("profilePic/"+currentUser.getUid());
         //TODO:change this storageRef
@@ -576,7 +574,9 @@ public class EditProfile extends AppCompatActivity {
                     if (profilePic==null){
                         profilePic = downloadUri.toString();
                         Log.i("Kaun","profilePic = "+profilePic.toString() );
+
                     }
+                    isProfileUploaded = true;
                     Picasso.get().load(Uri.parse(profilePic)).into(imageButton);
 
                 } else {
@@ -599,38 +599,43 @@ public class EditProfile extends AppCompatActivity {
         }
 
         if (profile.getDOB()==null){
-            Toast.makeText(getApplicationContext(),"DOB not specified",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"DOB not specified",Toast.LENGTH_LONG).show();
             isValid=false;
         }
 
 
         if (profile.getGender()==null){
-            Toast.makeText(getApplicationContext(),"Gender not specified",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Gender not specified",Toast.LENGTH_LONG).show();
             isValid=false;
         }
 
         profile.setBio(Bio.getText().toString().trim());
         if (profile.getBio()==null){
-            Toast.makeText(getApplicationContext(),"Bio is empty not specified",Toast.LENGTH_SHORT).show();
+            Bio.setError("Fill bio");
+            Toast.makeText(getApplicationContext(),"Bio is empty not specified",Toast.LENGTH_LONG).show();
             isValid=false;
         }
 
         if (profile.getAllInterests()==null){
-            Toast.makeText(getApplicationContext(),"Interests are not specified",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Interests are not specified",Toast.LENGTH_LONG).show();
             isValid=false;
         }
-
+        profile.setHandle(handle.getText().toString().trim());
         if (profile.getHandle()==null){
-            Toast.makeText(getApplicationContext(),"Handle not specified",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Handle not specified",Toast.LENGTH_LONG).show();
             isValid=false;
         }
 
-
+        if (!isProfileUploaded){
+            Toast.makeText(getApplicationContext(),"profile Image Not uploaded",Toast.LENGTH_LONG).show();
+            isValid=false;
+        }
 
 
         return isValid;
     }
     private void findViewsById() {
+        email = findViewById(R.id.email_ep);
         cityname = findViewById(R.id.city_name);
         imageButton = findViewById(R.id.profile_aep);
         done = findViewById(R.id.done_aep);
@@ -639,9 +644,9 @@ public class EditProfile extends AppCompatActivity {
         Bio = findViewById(R.id.bio_aep);
         scl1= findViewById(R.id.scl1);
         scl2= findViewById(R.id.scl2);
-        scl3= findViewById(R.id.scl3);
+        checkHandle = findViewById(R.id.check_handle);
         pos1= findViewById(R.id.pos1);
-        handle = findViewById(R.id.handle_display);
+        handle = findViewById(R.id.unique_handle);
         pos2= findViewById(R.id.pos2);
         pos3= findViewById(R.id.pos3);
         fb_url= findViewById(R.id.fb_url_aep);
@@ -653,14 +658,14 @@ public class EditProfile extends AppCompatActivity {
         comp2 = findViewById(R.id.company2);
         comp3 = findViewById(R.id.company3);
         interestbutton = findViewById(R.id.interest_btn_aep);
-        handleButton = findViewById(R.id.handle_btn_aep);
+        //handleButton = findViewById(R.id.handle_btn_aep);
         locationbutton =findViewById(R.id.location_aep);
         RadioBtnO = findViewById(R.id.radio_other);
         RadioBtnF= findViewById(R.id.radio_female);
         RadioBtnM = findViewById(R.id.radio_male);
         radioEmployee= findViewById(R.id.radio_employee);
         radioStudent = findViewById(R.id.radio_student);
-
+        verifyEmail = findViewById(R.id.verify_email);
 
     }
 
@@ -690,6 +695,7 @@ public class EditProfile extends AppCompatActivity {
 
                 if (location!= null) {
                     lm.removeUpdates(this);
+
                     l = location;
                     currentLocation = location;
 
@@ -830,17 +836,20 @@ public class EditProfile extends AppCompatActivity {
 
     private void updtaeUI(Profile profile){
 
-        Picasso.get().load(profile.getProfilePic()).into(imageButton);
-        name.setText(profile.getName());
+        if(profile.getProfilePic()!=null){
+            Picasso.get().load(profile.getProfilePic()).into(imageButton);
+            }
+
+
+            name.setText(profile.getName());
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         Calendar c = Calendar.getInstance();
         if (profile.getDOB()!=null){
             c.setTimeInMillis(Long.valueOf(profile.getDOB()));
         }
 
-
         dateView.setText(simpleDateFormat.format(c.getTime()));
-         RadioBtnM.setChecked(profile.getGender().equals("male"));
+        RadioBtnM.setChecked(profile.getGender().equals("male"));
         RadioBtnF.setChecked(profile.getGender().equals("female"));
         RadioBtnO.setChecked(profile.getGender().equals("other"));
         Bio.setText(profile.getBio());
@@ -859,13 +868,18 @@ public class EditProfile extends AppCompatActivity {
             scl2.setText(profile.getSector());
         }
         cityname.setText(profile.getCity());
+  // scl1.setText(profile.getSchools().get(1));
+        email.setText(currentUser.getEmail());
+        if (profile.isEmailVerified()){
+            verifyEmail.setText("verified");
+            verifyEmail.setBackgroundColor(getResources().getColor(R.color.image_color));
+        }
 
+        if (profile.getHandle()!=null){
+            handle.setText(profile.getHandle());
+        }
 
-
-
-
-       // scl1.setText(profile.getSchools().get(1));
-
+        checkHandle.setText("change");
         phoneNo.setText(profile.getPhoneNo());
     }
 
@@ -885,5 +899,40 @@ public class EditProfile extends AppCompatActivity {
             Log.i("Kaun","build version is smaller");
         }
     }
+
+
+
+    public boolean check_Handle(String handle){
+        //run a querry that result in this data
+
+        db.collection("profiles").whereEqualTo("handle",handle).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                if (list.size()==0){
+                    isHandleUnique = true;
+                    Log.i("Kaun","The handle is unique");
+                    isHandleUnique = true;
+                    checkHandle.setBackgroundColor(getResources().getColor(R.color.image_color));
+
+                }
+                else {
+                    isHandleUnique = false;
+                    Log.i("Kaun","The Handle already exists");
+                    Toast.makeText(getApplicationContext(),"Handle already Exixits",Toast.LENGTH_LONG).show();
+
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("Kaun","Failed",e.getCause());
+                Toast.makeText(getApplicationContext(),"Not Reachable",Toast.LENGTH_LONG).show();
+                isHandleUnique= false;
+            }
+        });
+    return  isHandleUnique;
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.getmate.demo181201.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class Login extends AppCompatActivity {
     MaterialEditText email, password;
     Button loginBtn;
     FirebaseAuth auth;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -49,9 +51,11 @@ public class Login extends AppCompatActivity {
                     password.setError("Length should be greater than 6");
                 }
                 else{
+                    progressDialog.show();
                    auth.signInWithEmailAndPassword(txt_email,txt_password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                        @Override
                        public void onSuccess(AuthResult authResult) {
+                           progressDialog.dismiss();
                            Intent i = new Intent(Login.this,MainActivity.class);
                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                            startActivity(i);

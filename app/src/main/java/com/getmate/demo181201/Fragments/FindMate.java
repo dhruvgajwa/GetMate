@@ -4,14 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.getmate.demo181201.FindMateUtils.TinderCard;
-import com.getmate.demo181201.FindMateUtils.TinderProfile;
-import com.getmate.demo181201.FindMateUtils.Utils;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
@@ -19,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 
@@ -38,15 +38,11 @@ public class FindMate extends Fragment {
 
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,15 +54,18 @@ public class FindMate extends Fragment {
         if(bundle!=null){
             currentUserProfile = bundle.getParcelable("currentUserProfile");
             if (currentUserProfile!=null){
+
+                Gson gson = new Gson();
+                String json = gson.toJson(currentUserProfile);
+                Log.i("KaunH",json);
                 userGoingEventsId = currentUserProfile.getSavedEvents();
             }
+
             else {
                 Toast.makeText(getActivity(),"Not Reachable",Toast.LENGTH_LONG).show();
             }
 
         }
-
-        Toast.makeText(getActivity(),"LoL",Toast.LENGTH_LONG).show();
 
         View view= inflater.inflate(R.layout.fragment_find_mate, container, false);
 
@@ -82,16 +81,30 @@ public class FindMate extends Fragment {
         mSwipeView.getBuilder()
                 .setDisplayViewCount(3)
                 .setSwipeDecor(new SwipeDecor()
-                        .setPaddingTop(20)
                         .setRelativeScale(0.01f)
                         .setSwipeInMsgLayoutId(R.layout.tinder_swipe_in_msg_view)
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
-
-            //TODO:get the querry to get Tinder Profiles
-        for(TinderProfile tinderProfile : Utils.loadProfiles(this.getContext())){
-            mSwipeView.addView(new TinderCard(mContext, tinderProfile, mSwipeView));
+        //TODO:get the querry to get Tinder Profiles
+        for(int i=0;i<10;i++){
+            mSwipeView.addView(new TinderCard(mContext, mSwipeView,currentUserProfile));
 
         }
+
+
+/*if (currentUserProfile!=null){
+    for (int i=0;i<10;i++){
+        mSwipeView.addView(new TinderCard(mContext, currentUserProfile, mSwipeView));
+
+    }
+}*/
+
+
+
+
+        //mSwipeView.addView(new FindMateCard(mContext,currentUserProfile,mSwipeView));
+
+
+
 
         view.findViewById(R.id.rejectBtn).setOnClickListener(new View.OnClickListener() {
             @Override

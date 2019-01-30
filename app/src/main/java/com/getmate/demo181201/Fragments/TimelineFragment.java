@@ -65,6 +65,9 @@ public class TimelineFragment extends Fragment {
         Log.i("Kaun","OnCreateView called");
         // Inflate the layout for this fragment
 
+
+
+
         View view =  inflater.inflate(R.layout.fragment_timeline, container, false);
         listView = view.findViewById(R.id.frag1_list);
         progressDialog = new ProgressDialog(this.getActivity());

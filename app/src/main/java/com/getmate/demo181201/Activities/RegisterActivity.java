@@ -43,9 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         registerBtn = findViewById(R.id.btn_register);
         progressDialog = new ProgressDialog(RegisterActivity.this);
-       Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Register");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         auth = FirebaseAuth.getInstance();
 
@@ -81,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                progressDialog.dismiss();
+
 
                     FirebaseUser firebaseUser = auth.getCurrentUser();
                     assert firebaseUser != null;
@@ -95,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                     reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            progressDialog.dismiss();
                             if (task.isSuccessful()){
                                 Intent intent = new Intent(RegisterActivity.this,EditProfile.class);
                                 intent.putExtra("fromRegisterActivity",true);
@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 finish();
                             }
                             else {
-
+                                progressDialog.dismiss();
                                 Intent intent = new Intent(RegisterActivity.this,EditProfile.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);

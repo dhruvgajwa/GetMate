@@ -29,11 +29,12 @@
         android:background="#000000">
 
         <com.getmate.demo181201.CustomViews.EventTimelineImageView
+            android:id="@+id/background_image"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:alpha="0.35"
             android:scaleType="center"
-            android:background="@drawable/profile_image"
+            android:background="@null"
 
             />
     </LinearLayout>
@@ -43,16 +44,18 @@
         android:orientation="vertical"
         android:layout_height="wrap_content">
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
 
-        android:src="@drawable/profile_image"
+        android:src="@null"
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="3dp"
         app:civ_fill_color="#35FD5523" />
         <TextView
+            android:id="@+id/name_FMC"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,6 +63,7 @@
             android:textColor="@color/white"
             android:textSize="20dp"/>
         <TextView
+            android:id="@+id/tagline_FMC"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:textAlignment="center"
@@ -69,6 +73,7 @@
             android:textColor="@color/white"
             android:textSize="12dp"/>
         <TextView
+            android:id="@+id/city_FMC"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:textAlignment="center"
@@ -86,7 +91,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:id="@+id/handle"
+            android:id="@+id/handle_FMC"
             android:layout_height="25dp"
             android:text="Random_Nerd"
             android:paddingLeft="10dp"
@@ -113,16 +118,16 @@
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/tagsView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         app:flexWrap="wrap"
         app:alignItems="stretch"
         app:alignContent="stretch">
 
-
-
     </com.google.android.flexbox.FlexboxLayout>
+
+
+
         <view
-        android:layout_marginTop="120dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
         <TextView
@@ -132,6 +137,7 @@
             android:text="what I am looking for"
             android:textSize="10dp"/>
         <TextView
+            android:id="@+id/bio1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12dp"
@@ -150,6 +156,7 @@
             android:text="Acheivements"
         android:textSize="10dp" />
         <TextView
+            android:id="@+id/bio2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12dp"
@@ -168,6 +175,7 @@
             android:text="Acheivements"
             android:textSize="10dp" />
         <TextView
+            android:id="@+id/bio3"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,72 +190,6 @@
 
 
 
-    <LinearLayout
-
-        android:layout_marginTop="400dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <view
-            android:layout_marginTop="120dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-        <TextView
-            android:layout_marginLeft="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="what I am looking for"
-            android:textSize="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:layout_marginHorizontal="16dp"
-            android:textAlignment="center"
-            android:text=" Here am I supposed to write bio? What if I choose to write a joke instead? It is my choice, as for now I am designing the layout I should better stick to just completing the part "/>
-        <view
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="Acheivements"
-            android:textSize="10dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:layout_marginHorizontal="16dp"
-            android:textAlignment="center"
-            android:text=" Here am I supposed to write bio? What if I choose to write a joke instead? It is my choice, as for now I am designing the layout I should better stick to just completing the part "/>
-
-        <view
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="Acheivements"
-            android:textSize="10dp" />
-        <TextView
-            android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:layout_marginHorizontal="16dp"
-            android:textAlignment="center"
-            android:text=" Here am I supposed to write bio? What if I choose to write a joke instead? It is my choice, as for now I am designing the layout I should better stick to just completing the part "/>
-
-
-
-    </LinearLayout>
 
 
 

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -19,7 +18,6 @@ import com.getmate.demo181201.CustomViews.EventTimelineImageView;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.VolleyClasses.AppController;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -30,15 +28,15 @@ public class EventListAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private View convertView;
     private TextView title;
-    private TextView creatorName;
-    private ImageView creatorProfileImage;
+
+
     private EventTimelineImageView eventTimelineImageView;
     private TextView description;
     private TextView timeStamp;
-    private TextView url;
     private TextView savedCount;
     private TextView goingCount;
-    private Button dtl,going,map,share;
+    private Button dtl,map,share;
+    TextView going;
      ImageLoader  imageLoader = AppController.getInstance().getImageLoader();
 
     public EventListAdapter( Context context){
@@ -77,7 +75,7 @@ public class EventListAdapter extends BaseAdapter {
         }
         if(convertView==null)
         {
-            convertView = layoutInflater.inflate(R.layout.timeline_event_item_card,null);
+            convertView = layoutInflater.inflate(R.layout.card_view,null);
             }
 
         if(imageLoader==null){
@@ -85,21 +83,17 @@ public class EventListAdapter extends BaseAdapter {
         }
         final Event event = events.get(i);
 
-        creatorProfileImage = convertView.findViewById(R.id.profile_pic);
-        title = convertView.findViewById(R.id.title);
-        creatorName = convertView.findViewById(R.id.creator_name);
+
+        title = convertView.findViewById(R.id.event_title);
         timeStamp = convertView.findViewById(R.id.timestamp);
-        description = convertView.findViewById(R.id.description);
-        url = convertView.findViewById(R.id.textUrl);
-        eventTimelineImageView = convertView.findViewById(R.id.feedImage1);
+        description = convertView.findViewById(R.id.event_description);
+
+        eventTimelineImageView = convertView.findViewById(R.id.event_image);
         dtl = convertView.findViewById(R.id.dtl_btn);
         going = convertView.findViewById(R.id.gng_button);
         map= convertView.findViewById(R.id.map_btn);
         share = convertView.findViewById(R.id.share_btn);
 
-        if (event.getCreatorProfilePic()!=null){
-            Picasso.get().load(event.getCreatorProfilePic()).into(creatorProfileImage);
-        }
 
 
 
@@ -129,14 +123,13 @@ public class EventListAdapter extends BaseAdapter {
 
 
         title.setText(event.getTitle());
-        creatorName.setText(event.getCreatorName());
+
 
 
         CharSequence time = DateUtils.getRelativeTimeSpanString
                 (Long.parseLong(event.getTime()),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS);
         timeStamp.setText(time);
         description.setText(event.getDescription());
-        url.setText(event.getUrl());
         //eventTimelineImageView.setImageUrl(event.getUrl());
         //use Picasso Library here!
 
@@ -169,7 +162,7 @@ public class EventListAdapter extends BaseAdapter {
             }
         });
 
-        going.setText(String.valueOf(event.getGoingCount()));
+        going.setText(String.valueOf(event.getGoingCount())+"+");
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +179,5 @@ public class EventListAdapter extends BaseAdapter {
     public void getDistance(Location location){
         //Double distance = Math.sqrt();
         }
-
-
 
 }

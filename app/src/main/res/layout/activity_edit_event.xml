@@ -8,6 +8,6 @@
     tools:context=".Activities.editEvent">
 
 
-    <include layout="@layout/content_edit_event" />
+    <include layout="@layout/content_add_text_view_demo" />
 
 </android.support.constraint.ConstraintLayout>

@@ -19,6 +19,7 @@ import com.getmate.demo181201.Activities.editEvent;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
 import com.getmate.demo181201.ViewPagerAdapter;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -134,9 +135,9 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(),EditProfile.class);
                 i.putExtra("fromProfileFragment",true);
-                Bundle bundle1 = new Bundle();
-                bundle1.putParcelable("profile",currentUserProfile);
-                i.putExtra("bundle",bundle1);
+                Gson gson = new Gson();
+                String profileStringData = gson.toJson(currentUserProfile);
+                i.putExtra("dataFromProfileFragment",profileStringData);
                 startActivity(i);
             }
         });
@@ -203,6 +204,7 @@ public class ProfileFragment extends Fragment {
         editProfile = view.findViewById(R.id.edit_profile);
 
 
+
     }
 
 
@@ -212,6 +214,9 @@ public class ProfileFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         if (currentUserProfile.getDOB()!=null){
             c.setTimeInMillis(Long.valueOf(currentUserProfile.getDOB()));
+        }
+        if (currentUserProfile.getProfilePic()!=null){
+            Picasso.get().load(currentUserProfile.getProfilePic()).into(profilePic);
         }
 
         int a = Calendar.getInstance().get(Calendar.YEAR) -  c.get(Calendar.YEAR);

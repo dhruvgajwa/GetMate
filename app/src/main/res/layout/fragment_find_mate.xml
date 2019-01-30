@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:gravity="center"
         android:orientation="horizontal">
@@ -23,9 +24,13 @@
             android:layout_marginLeft="30dp"
                 />
     </LinearLayout>
+
     <com.mindorks.placeholderview.SwipePlaceHolderView
+        android:layout_gravity="top"
         android:id="@+id/swipeView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"/>
+
 
 </FrameLayout>

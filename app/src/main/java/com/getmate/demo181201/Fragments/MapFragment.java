@@ -152,6 +152,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         LatLng sydney = new LatLng(events.get(0).getLat(),events.get(0).getLon());
        // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
         if (events!=null){
             Log.i("Kaun","events are available"+events.get(0).getTitle());

@@ -13,6 +13,4 @@ public class AddTextViewDemo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dtl_event_view);
 
-
-    }
-}
+    }}

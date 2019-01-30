@@ -106,19 +106,35 @@ ProfileFragment.OnFragmentInteractionListener,
         db = FirebaseFirestore.getInstance();
         progressDialog = new ProgressDialog(this);
 
-        currentUser = mAuth.getCurrentUser();
+        if (mAuth.getCurrentUser()!=null){
+            currentUser = mAuth.getCurrentUser();
+            if(currentUser.getUid()==null){
+
+            }
+            else {
+                getProfileData(currentUser.getUid());
+            }
+
+        }
+        else {
+            Intent i = new Intent(MainActivity.this,StartActivity.class);
+            startActivity(i);
+            finish();
+        }
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("AppHumaraHai");
-
+        getSupportActionBar().setTitle("Cohortso");
 
         if (GetLocationFlag){
             checkUserPermission();
             GetLocationFlag = false;
         }
-        getProfileData(currentUser.getUid());
+
+
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

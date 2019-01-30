@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,8 +83,8 @@ public class editEvent extends AppCompatActivity {
     private ImageButton imageButton;
 
 
-    MaterialEditText title_et,venue_et,link_et;
-        EditText description_et;
+    MaterialEditText title_et,venue_et,link_et,description_et;
+
 
     RadioButton email_rb,phone_rb,fb_rb,linkedin_rb;
     Button map_button,interest_button, date_button,done,time_button;
@@ -352,51 +351,21 @@ public class editEvent extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
-
             if (interestB!=null){
                 tags.addAll(interestB);
-                editEvent.RecyclerViewAdapter recyclerViewAdapter =
-                        new editEvent.RecyclerViewAdapter(this,interestB);
-                LinearLayoutManager linearLayoutManager =
-                        new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-                RecyclerView recyclerView = findViewById(R.id.recycler_view_iB);
-                recyclerView.setLayoutManager(linearLayoutManager);
-                recyclerView.setAdapter(recyclerViewAdapter);
+
             }
             if (interestE!=null){
                 tags.addAll(interestE);
-                editEvent.RecyclerViewAdapter recyclerViewAdapter =
-                        new editEvent.RecyclerViewAdapter(this,interestE);
-                LinearLayoutManager linearLayoutManager =
-                        new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-                RecyclerView recyclerView = findViewById(R.id.recycler_view_iE);
-                recyclerView.setLayoutManager(linearLayoutManager);
-                recyclerView.setAdapter(recyclerViewAdapter);
+
             }
             if (interestI!=null){
                 tags.addAll(interestI);
-                editEvent.RecyclerViewAdapter recyclerViewAdapter =
-                        new editEvent.RecyclerViewAdapter(this,interestI);
-                LinearLayoutManager linearLayoutManager =
-                        new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-                RecyclerView recyclerView = findViewById(R.id.recycler_view_iI);
-                recyclerView.setLayoutManager(linearLayoutManager);
-                recyclerView.setAdapter(recyclerViewAdapter);
+
             }
             newEvent.setTags(tags);
 
-
-
-
-
+            flexboxLayout.setVisibility(View.VISIBLE);
             int  tagsCount =tags.size() ;//... integer number of textviews
             TextView[] tages= new TextView[tagsCount];//create dynamic textviewsarray
             LinearLayout.LayoutParams layoutParams = new

@@ -4,9 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.EditProfile">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -29,9 +28,9 @@
                     android:text="Edit Profile"
                     android:textSize="16sp" />
                 <Button
+                    android:id="@+id/done_aep"
                     android:background="@drawable/check_image"
                     android:layout_alignParentRight="true"
-                    android:id="@+id/done_btn_ed2"
                     android:layout_marginRight="8dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp" />
@@ -51,18 +50,19 @@
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_aep"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:alpha="0.61"
                 android:src="@drawable/add_profile_image"
-
                 app:civ_border_color="#707070"
                 app:civ_border_width="3dp"
                 app:civ_fill_color="#35FD5523" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/name_aep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/do_btn_ep2"
+                    android:id="@+id/pick_date"
                     android:layout_width="62dp"
                     android:layout_height="32dp"
                     android:layout_centerVertical="true"
@@ -96,11 +96,13 @@
                     android:textStyle="bold" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:visibility="gone"
+                    android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginHorizontal="40dp"
-                    android:layout_toRightOf="@+id/do_btn_ep2"
+                    android:layout_toRightOf="@+id/pick_date"
                     android:background="@drawable/edittext_background"
                     android:hint=" DD/MM/YYYY"
                     android:textAlignment="center"
@@ -144,6 +146,7 @@
                     android:textStyle="bold" />
 
                 <RadioButton
+
                     android:id="@+id/radio_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -173,6 +176,7 @@
             </RadioGroup>
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/bio_aep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -203,7 +207,7 @@
 
                 <Button
 
-                    android:id="@+id/yes_loc"
+                    android:id="@+id/location_aep"
                     android:layout_width="52dp"
                     android:layout_toLeftOf="@id/no_loc"
                     android:layout_height="40dp"
@@ -232,6 +236,7 @@
                     android:textStyle="normal" />
             </RelativeLayout>
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/city_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -262,6 +267,7 @@
                     android:textSize="20dp" />
 
                 <Button
+                    android:id="@+id/interest_btn_aep"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
@@ -276,22 +282,47 @@
                     android:textStyle="normal" />
             </RelativeLayout>
 
-            <com.rengwuxian.materialedittext.MaterialEditText
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/edittext_background"
-                android:hint=" Unique_handle"
-                app:met_baseColor="@color/black"
-                app:met_errorColor="@color/red"
-                app:met_floatingLabel="normal"
-                app:met_floatingLabelAlwaysShown="true"
-                app:met_floatingLabelText="unique_handle"
-                app:met_primaryColor="@color/basil_orange"
-                app:met_underlineColor="@color/darkgrey" />
+                android:layout_marginTop="12dp">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/unique_handle"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Unique_handle"
+                    app:met_baseColor="@color/black"
+                    app:met_errorColor="@color/red"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Unique_handle"
+                    app:met_primaryColor="@color/basil_orange"
+                    app:met_underlineColor="@color/darkgrey" />
+
+                <Button
+                    android:id="@+id/check_handle"
+                    android:layout_width="76dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/edit_text_background"
+                    android:text="check"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/website_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -314,9 +345,9 @@
                 android:layout_marginTop="12dp">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/email_ep"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
-
                     android:background="@drawable/edittext_background"
                     android:hint="abc@gmail.com"
                     app:met_baseColor="@color/black"
@@ -328,14 +359,14 @@
                     app:met_underlineColor="@color/darkgrey" />
 
                 <Button
-                    android:id="@+id/dob_btn_ep2"
+                    android:id="@+id/verify_email"
                     android:layout_width="76dp"
                     android:layout_height="32dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/edit_text_background"
-                    android:text="confirm"
+                    android:text="verify"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -347,6 +378,7 @@
 
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/phone_no_aep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -427,6 +459,7 @@
 
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/scl1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
@@ -442,6 +475,7 @@
                     app:met_underlineColor="@color/darkgrey" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/scl2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
