@@ -60,10 +60,11 @@ public class getEventLocation extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        LatLng sydney = new LatLng(13.0827, 80.2707);
         lng= sydney;
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {

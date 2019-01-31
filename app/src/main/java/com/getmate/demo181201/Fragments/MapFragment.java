@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -174,7 +175,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Intent i = new Intent(getActivity(),DetailedEvents.class);
-                //i.putExtra("event", (Event) marker.getTag());
+                Gson gson = new Gson();
+
+                String data = gson.toJson(marker.getTag());
+                i.putExtra("event",data);
                 startActivity(i);
                 return false;
             }

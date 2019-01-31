@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.getmate.demo181201.Activities.EditProfile;
+import com.getmate.demo181201.Activities.FullScreenImageView;
 import com.getmate.demo181201.Activities.editEvent;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
@@ -41,6 +42,7 @@ public class ProfileFragment extends Fragment {
     Button createEventButton;
     Context context;
     Button editProfile;
+   boolean isImageFitToScreen = false;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -126,6 +128,29 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(context,editEvent.class);
                 startActivity(intent);
+            }
+        });
+
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(getActivity(),FullScreenImageView.class);
+                i.putExtra("imageLink",currentUserProfile.getProfilePic());
+                startActivity(i);
+
+
+/*
+                if(isImageFitToScreen) {
+                    isImageFitToScreen=false;
+                    profilePic.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+                  //  profilePic.setAdjustViewBounds(true);
+                }else{
+                    isImageFitToScreen=true;
+                    profilePic.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                    profilePic.setScaleType(CircleImageView.ScaleType.CENTER_CROP);
+                }*/
             }
         });
 

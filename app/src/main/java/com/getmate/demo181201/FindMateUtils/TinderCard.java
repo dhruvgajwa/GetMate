@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -225,25 +224,6 @@ public class TinderCard {
     }
 
 
-    public class BEckGround extends AsyncTask<String, Void, String> {
-
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-
-
-
-
-            backgroundImage.setTag(target);
-           /* Picasso.get()
-                    .load(currentUserProfile.getProfilePic())
-                    .error(R.mipmap.ic_launcher)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .into(target);*/
-           return null;
-        }
-    }
 
 
 
@@ -265,7 +245,6 @@ public class TinderCard {
                 backgroundImage.setImageResource(R.mipmap.ic_launcher);
 
             }
-
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {

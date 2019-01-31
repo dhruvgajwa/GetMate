@@ -115,6 +115,7 @@ public class EditProfile extends AppCompatActivity  {
     private boolean fromRegisterActivity = false;
     private boolean fromProfileFragment = false;
     private boolean isProfileUploaded = false;
+    private boolean isProfileUpdated = false;
 
 
 
@@ -301,7 +302,12 @@ public class EditProfile extends AppCompatActivity  {
                 profile.setEmail(currentUser.getEmail());
                 profile.setPhoneNo(phoneNo.getText().toString().trim());
                 profile.setRangeInKm(30);
-                profile.setProfilePic(profilePic);
+
+                if (isProfileUpdated){
+                    profile.setProfilePic(profilePic);
+                }
+
+
                // profile.setLastKnownLocation(new Location(1,1));
                if(!TextUtils.isEmpty(scl1.getText().toString())){
                    school.add(scl1.getText().toString());
@@ -361,9 +367,11 @@ public class EditProfile extends AppCompatActivity  {
                             //profile updated
                             if (task.isSuccessful()){
                                 Log.i("KaunHuMein"," ProfilePic and Basic data updated successfully");
-                                Intent intent1 = new Intent(EditProfile.this,MainActivity.class);
+                                /*Intent intent1 = new Intent(EditProfile.this,MainActivity.class);
+                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent1);
-                                finish();
+                                finish();*/
+                                onBackPressed();
 
                             }
                             else {
@@ -572,6 +580,7 @@ public class EditProfile extends AppCompatActivity  {
                     Uri downloadUri = task.getResult();
                     Log.i("TAG","downlaod "+downloadUri.toString());
                     if (profilePic==null){
+                        isProfileUpdated = true;
                         profilePic = downloadUri.toString();
                         Log.i("Kaun","profilePic = "+profilePic.toString() );
 
@@ -626,7 +635,9 @@ public class EditProfile extends AppCompatActivity  {
             isValid=false;
         }
 
-        if (!isProfileUploaded){
+
+
+        if (!isProfileUploaded && fromRegisterActivity){
             Toast.makeText(getApplicationContext(),"profile Image Not uploaded",Toast.LENGTH_LONG).show();
             isValid=false;
         }
@@ -934,5 +945,8 @@ public class EditProfile extends AppCompatActivity  {
     return  isHandleUnique;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

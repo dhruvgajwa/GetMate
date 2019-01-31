@@ -1,6 +1,9 @@
 package com.getmate.demo181201.Activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -19,6 +22,12 @@ import com.getmate.demo181201.InterestSelection.RoundedImageView;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.R;
 import com.getmate.demo181201.VolleyClasses.AppController;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -36,22 +45,41 @@ public class DetailedEvents extends AppCompatActivity {
     LinearLayout org1,org2,org3;
     Event event = new Event();
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    private FirebaseFirestore db;
+    FirebaseAuth mAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("KaunHU","oncreate called");
+        Log.i("KaunHU", "oncreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_events);
         findViewsById();
-
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser!=null){
+            Log.i("Kaun","current User not null"+currentUser.getDisplayName());
+        }
+        else {
+            Log.i("Kaun","current User is null");
+        }
         String s = getIntent().getStringExtra("event");
-        Log.i("Detailed event",s);
-        Gson gson = new Gson();
+        if (s!=null){
+            Log.i("Detailed event", s);
+            Gson gson = new Gson();
+            event = gson.fromJson(s, Event.class);
+            if (event != null) {
+              updateUI(event);
 
-        Event event = gson.fromJson(s,Event.class);
+            } else {
+                Toast.makeText(getApplicationContext(), "Event Details Not available", Toast.LENGTH_LONG).show();
+            }
 
-
+            }
+        else {
+            handleIntent(getIntent());
+        }
 
         buyTicket.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,104 +92,56 @@ public class DetailedEvents extends AppCompatActivity {
 
 
 
-            if (event!=null){
-                title.setText(event.getTitle());
-                venue.setText(event.getAddress());
-                description.setText(event.getDescription());
-                creatorName.setText(event.getCreatorName());
-                going1.setText(event.getGoingCount()+" going");
+    }
 
+    private void handleIntent(Intent intent) {
+        Log.i("Kaun","handleIntentCalled");
+        String appLinkAction = intent.getAction();
+        Uri appLinkData = intent.getData();
+        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null){
+            String eventId = appLinkData.getLastPathSegment();
+            getEventFromEventId(eventId);
 
-                if(event.getUrl()!=null){
-                    link_relative_layout.setVisibility(View.VISIBLE);
-                    link1.setText(Html.fromHtml("<a href=\""+event.getUrl()+"\">"+event.getUrl()+"</a>"));
-                    link1.setMovementMethod(LinkMovementMethod.getInstance());
-
-                }
-
-
-                CharSequence time = DateUtils.getRelativeTimeSpanString
-                        (Long.parseLong(event.getTime()),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS);
-                date1.setText(time);
-                // creatorEmail.setText(event.getcreatorEmail());
-                //creatorPhone.setText(event.getCreatorPhone());
-
-                if (event.getOrganisers()!=null){
-                    Log.i("KaunHUMein","org size is "+event.getOrganisers().size());
-                }
-                else {
-                    Log.i("KaunHUMein","org size is null");
-                }
-
-
-
-                if (event.getOrganisers()!=null){
-
-                    for (int i=0;i<event.getOrganisers().size();i++){
-                        if(i==0){
-                            org1.setVisibility(View.VISIBLE);
-                            orgname1.setText(event.getOrganisers().get(0).getName());
-                            orgEmail1.setText(event.getOrganisers().get(0).getEmail());
-                            orgP1.setText(event.getOrganisers().get(0).getContactNumber());
-                        }
-                        else if(i==1){
-                            View view = findViewById(R.id.view2);
-                            view.setVisibility(View.VISIBLE);
-                            org2.setVisibility(View.VISIBLE);
-                            orgName2.setText(event.getOrganisers().get(1).getName());
-                            orgEmail2.setText(event.getOrganisers().get(1).getEmail());
-                            orgP2.setText(event.getOrganisers().get(1).getContactNumber());
-                        }
-                        if(i==2){
-                            View view = findViewById(R.id.view3);
-                            view.setVisibility(View.VISIBLE);
-                            org3.setVisibility(View.VISIBLE);
-                            orgName3.setText(event.getOrganisers().get(2).getName());
-                            orgEmail3.setText(event.getOrganisers().get(2).getEmail());
-                            orgP3.setText(event.getOrganisers().get(2).getContactNumber());
-                        }
-                    }
-
-                }
-
-
-                if (imageLoader==null){
-                    imageLoader = AppController.getInstance().getImageLoader();
-                }
-
-                Picasso.get().load(event.getCreatorProfilePic()).into(creatorProfilePic);
-
-                if(event.getImageUrl()!=null){
-                    eventTimelineImageView.setImageUrl(event.getImageUrl(),imageLoader);
-                    eventTimelineImageView.setVisibility(View.VISIBLE);
-                    eventTimelineImageView.setResponseObserver(new EventTimelineImageView.ResponseObserver() {
-                        @Override
-                        public void onError() {
-
-                        }
-
-                        @Override
-                        public void onSuccess() {
-
-                        }
-                    });
-                }
-                else {
-                    eventTimelineImageView.setVisibility(View.GONE);
-                }
-
-
-
-            }
-            else {
-                Toast.makeText(getApplicationContext(),"Event Details Not available",Toast.LENGTH_LONG).show();
-            }
-
-
+        }
 
     }
 
+    private void getEventFromEventId(String eventId) {
+        Log.i("Kaun","getEventFromEventIdCalled");
 
+        db.collection("events").
+                document(eventId).
+                get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot documentSnapshot = task.getResult();
+                Event event = new Event();
+                if (documentSnapshot!=null){
+                    event = documentSnapshot.toObject(Event.class);
+                    if (event!=null){
+                        updateUI(event);
+
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"NOT REACHABLE",Toast.LENGTH_LONG).show();
+                    }
+
+                }
+                else {
+                    Log.i("KaunHai","documnent snapshot is null");
+                }
+
+            }
+        });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i("Kaun","onNewIntentCalled");
+
+        handleIntent(intent);
+    }
 
     private void findViewsById(){
          eventTimelineImageView = findViewById(R.id.event_poster_sa);
@@ -190,5 +170,90 @@ public class DetailedEvents extends AppCompatActivity {
         org2 = findViewById(R.id.organiserLinLay2);
         org3 = findViewById(R.id.organiserLinLay3);
         buyTicket = findViewById(R.id.buy_ticket);
+    }
+
+
+    public void updateUI(Event event){
+        title.setText(event.getTitle());
+        venue.setText(event.getAddress());
+        description.setText(event.getDescription());
+        creatorName.setText(event.getCreatorName());
+        going1.setText(event.getGoingCount() + " going");
+
+
+        if (event.getUrl() != null) {
+            link_relative_layout.setVisibility(View.VISIBLE);
+            link1.setText(Html.fromHtml("<a href=\"" + event.getUrl() + "\">" + event.getUrl() + "</a>"));
+            link1.setMovementMethod(LinkMovementMethod.getInstance());
+
+        }
+
+
+        CharSequence time = DateUtils.getRelativeTimeSpanString
+                (Long.parseLong(event.getTime()), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+        date1.setText(time);
+        // creatorEmail.setText(event.getcreatorEmail());
+        //creatorPhone.setText(event.getCreatorPhone());
+
+        if (event.getOrganisers() != null) {
+            Log.i("KaunHUMein", "org size is " + event.getOrganisers().size());
+        } else {
+            Log.i("KaunHUMein", "org size is null");
+        }
+
+
+        if (event.getOrganisers() != null) {
+
+            for (int i = 0; i < event.getOrganisers().size(); i++) {
+                if (i == 0) {
+                    org1.setVisibility(View.VISIBLE);
+                    orgname1.setText(event.getOrganisers().get(0).getName());
+                    orgEmail1.setText(event.getOrganisers().get(0).getEmail());
+                    orgP1.setText(event.getOrganisers().get(0).getContactNumber());
+                } else if (i == 1) {
+                    View view = findViewById(R.id.view2);
+                    view.setVisibility(View.VISIBLE);
+                    org2.setVisibility(View.VISIBLE);
+                    orgName2.setText(event.getOrganisers().get(1).getName());
+                    orgEmail2.setText(event.getOrganisers().get(1).getEmail());
+                    orgP2.setText(event.getOrganisers().get(1).getContactNumber());
+                }
+                if (i == 2) {
+                    View view = findViewById(R.id.view3);
+                    view.setVisibility(View.VISIBLE);
+                    org3.setVisibility(View.VISIBLE);
+                    orgName3.setText(event.getOrganisers().get(2).getName());
+                    orgEmail3.setText(event.getOrganisers().get(2).getEmail());
+                    orgP3.setText(event.getOrganisers().get(2).getContactNumber());
+                }
+            }
+
+        }
+
+
+        if (imageLoader == null) {
+            imageLoader = AppController.getInstance().getImageLoader();
+        }
+
+        Picasso.get().load(event.getCreatorProfilePic()).into(creatorProfilePic);
+
+        if (event.getImageUrl() != null) {
+            eventTimelineImageView.setImageUrl(event.getImageUrl(), imageLoader);
+            eventTimelineImageView.setVisibility(View.VISIBLE);
+            eventTimelineImageView.setResponseObserver(new EventTimelineImageView.ResponseObserver() {
+                @Override
+                public void onError() {
+
+                }
+
+                @Override
+                public void onSuccess() {
+
+                }
+            });
+        } else {
+            eventTimelineImageView.setVisibility(View.GONE);
+        }
+
     }
 }
