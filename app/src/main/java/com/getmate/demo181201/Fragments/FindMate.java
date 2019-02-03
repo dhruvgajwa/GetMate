@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.getmate.demo181201.FindMateUtils.FindMateAlgorithm;
 import com.getmate.demo181201.FindMateUtils.TinderCard;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.Objects.Profile;
@@ -18,6 +19,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
@@ -34,6 +37,7 @@ public class FindMate extends Fragment {
     ArrayList<Profile> result = new ArrayList<>();
 
     Profile currentUserProfile =new Profile();
+    Profile user1 = new Profile();
     public FindMate() {
 
     }
@@ -76,7 +80,35 @@ public class FindMate extends Fragment {
        // getLatestEvent();
        // getProfilesByUserIds(userIdofSuggestedProfiles);
 
+        FindMateAlgorithm f = new FindMateAlgorithm(currentUserProfile);
+        ArrayList<Profile> recommendations = new ArrayList<>();
+        recommendations = f.getPoeopleFromSameCity();
+        Log.i("FindMate","size of data returned from Algo is"+recommendations.size());
 
+        FirebaseFirestore db= FirebaseFirestore.getInstance();
+        db.collection("profiles").whereEqualTo("city",currentUserProfile.getCity())
+                .get().addOnCompleteListener(
+                new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+
+                            for (QueryDocumentSnapshot querry: task.getResult()){
+                                Log.i("FindMate","one");
+                                Profile p = new Profile();
+                                p = querry.toObject(Profile.class);
+                                result.add(p);
+                                user1 = p;
+                                mSwipeView.addView(new TinderCard(mContext, mSwipeView,p,currentUserProfile));
+
+                            }
+                            Log.i("FindMate","size of data returned from local function" +
+                                    " is"+result.get(0).getHandle()+result.get(1).getHandle());
+                        }
+                    }
+                }
+        );
+        recommendations.addAll(result);
 
         mSwipeView.getBuilder()
                 .setDisplayViewCount(3)
@@ -84,20 +116,13 @@ public class FindMate extends Fragment {
                         .setRelativeScale(0.01f)
                         .setSwipeInMsgLayoutId(R.layout.tinder_swipe_in_msg_view)
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
-        //TODO:get the querry to get Tinder Profiles
-        for(int i=0;i<10;i++){
-            mSwipeView.addView(new TinderCard(mContext, mSwipeView,currentUserProfile));
-
-        }
-
-
-/*if (currentUserProfile!=null){
-    for (int i=0;i<10;i++){
-        mSwipeView.addView(new TinderCard(mContext, currentUserProfile, mSwipeView));
-
-    }
-}*/
-
+        
+        result.add(currentUserProfile);
+      /*  for (Profile recommended : result) {
+            Log.i("FindMate","2");
+             mSwipeView.addView(new TinderCard(mContext, mSwipeView,recommended,currentUserProfile));
+            }
+*/
 
 
 

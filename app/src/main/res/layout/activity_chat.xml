@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/AppThemeForChatActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,7 +13,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
 
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/basil_orange"
             android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
             android:layout_width="match_parent"
 
@@ -38,7 +39,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             app:tabSelectedTextColor="#fff"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/basil_orange"
             android:layout_width="match_parent"
             app:tabTextColor="#fff"
             app:tabIndicatorColor="#fff"

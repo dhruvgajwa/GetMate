@@ -55,6 +55,7 @@ public class DetailedEvents extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_events);
         findViewsById();
+
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -84,13 +85,10 @@ public class DetailedEvents extends AppCompatActivity {
         buyTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(DetailedEvents.this,PaytmGateway.class);
+                startActivity(i);
             }
         });
-
-
-
-
 
     }
 

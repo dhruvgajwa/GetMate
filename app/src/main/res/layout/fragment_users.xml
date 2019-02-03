@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:theme="@style/AppThemeForChatActivity"
+    android:background="@color/white"
     tools:context=".ChatsFragments.UsersFragment">
 
     <!-- TODO: Update blank fragment layout -->

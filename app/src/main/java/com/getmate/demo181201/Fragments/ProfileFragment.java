@@ -19,7 +19,7 @@ import com.getmate.demo181201.Activities.FullScreenImageView;
 import com.getmate.demo181201.Activities.editEvent;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
-import com.getmate.demo181201.ViewPagerAdapter;
+import com.getmate.demo181201.Adapters.ViewPagerAdapter;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -127,7 +127,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context,editEvent.class);
+                intent.putExtra("currentUserData",new Gson().toJson(currentUserProfile));
                 startActivity(intent);
+
             }
         });
 

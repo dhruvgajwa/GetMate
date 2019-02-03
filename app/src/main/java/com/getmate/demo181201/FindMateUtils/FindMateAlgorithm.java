@@ -1,10 +1,16 @@
 package com.getmate.demo181201.FindMateUtils;
 
+import android.support.annotation.NonNull;
+
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.Objects.Profile;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,16 +22,18 @@ public class FindMateAlgorithm  {
     Profile currentUserData ;
 
     public FindMateAlgorithm(Profile currentUserData){
+
         this.currentUserData= currentUserData;
+        db = FirebaseFirestore.getInstance();
     }
 
-    public ArrayList<Profile> getEventsFromSavedEventIds(){
+    public ArrayList<Profile> getRecommendedProfiles(){
 
         ArrayList<String> ids =currentUserData.getSavedEvents();
         ArrayList<Event> events = new ArrayList<>();
         ArrayList<Profile> profilesToBeShown = new ArrayList<>();
         ArrayList<String> allGoingProfilesIds = new ArrayList<>();
-        db = FirebaseFirestore.getInstance();
+
 
         Calendar c = Calendar.getInstance();
         Long t = c.getTimeInMillis();
@@ -68,5 +76,29 @@ return profilesToBeShown;
 
     }
 
+
+
+    public ArrayList<Profile> getPoeopleFromSameCity(){
+        ArrayList<Profile> peopleFromSameCity = new ArrayList<>();
+
+
+
+
+        db.collection("profiles").whereEqualTo("city",currentUserData.getCity())
+                .get().addOnCompleteListener(
+                new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot querry: task.getResult()){
+                                peopleFromSameCity.add(querry.toObject(Profile.class));
+                            }
+                        }
+                    }
+                }
+        );
+
+        return peopleFromSameCity;
+    }
 
 }

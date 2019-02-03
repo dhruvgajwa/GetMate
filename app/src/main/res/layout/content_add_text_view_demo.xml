@@ -49,9 +49,9 @@
 
 
     <ScrollView
-        app:layout_constraintStart_toEndOf="@id/app_bar"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="115dp"
         tools:layout_editor_absoluteY="16dp">
 
@@ -203,6 +203,7 @@
 
 
             <com.google.android.flexbox.FlexboxLayout
+                android:layout_marginHorizontal="20dp"
                 android:visibility="gone"
                 android:layout_marginVertical="16dp"
                 android:id="@+id/tagsView"

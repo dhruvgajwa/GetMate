@@ -8,16 +8,28 @@
     tools:context=".Activities.Login">
 
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/bar_layout"
-        />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/barlayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:background="@color/basil_orange"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"/>
 
+    </android.support.v7.widget.Toolbar>
     <LinearLayout
+
         android:padding="16dp"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/barlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

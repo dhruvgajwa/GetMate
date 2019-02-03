@@ -5,29 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.getmate.demo181201.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.HashMap;
-
 public class RegisterActivity extends AppCompatActivity {
-        MaterialEditText username,email,password;
+        MaterialEditText email,password,cPassword;
         Button registerBtn;
         FirebaseAuth auth;
         DatabaseReference reference;
@@ -37,25 +29,19 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        username = findViewById(R.id.username);
+        cPassword = findViewById(R.id.password_confirm);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         registerBtn = findViewById(R.id.btn_register);
         progressDialog = new ProgressDialog(RegisterActivity.this);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         auth = FirebaseAuth.getInstance();
-
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String txt_username = username.getText().toString();
-                String txt_password = password.getText().toString();
-                String txt_email = email.getText().toString();
-                if (TextUtils.isEmpty(txt_email)||TextUtils.isEmpty(txt_password)||TextUtils.isEmpty(txt_username)){
+                String confirm_password = cPassword.getText().toString().trim();
+                String txt_password = password.getText().toString().trim();
+                String txt_email = email.getText().toString().trim();
+                if (TextUtils.isEmpty(txt_email)||TextUtils.isEmpty(txt_password)||(!confirm_password.equals(txt_password))){
                     Toast.makeText(getApplicationContext(),"Fields are required",Toast.LENGTH_LONG).show();
 
                 }
@@ -64,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else {
                     progressDialog.show();
-                    register(txt_username,txt_email,txt_password);
+                    register(txt_email,txt_password);
                 }
 
             }
@@ -75,14 +61,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void register(final String username, String email, String password){
+    private void register( String email, String password){
 
         auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+                progressDialog.dismiss();
+                Intent intent = new Intent(RegisterActivity.this,EditProfile.class);
+                intent.putExtra("fromRegisterActivity",true);
+                intent.putExtra("email",email);
+                startActivity(intent);
+                finish();
 
-
-                    FirebaseUser firebaseUser = auth.getCurrentUser();
+                    /*FirebaseUser firebaseUser = auth.getCurrentUser();
                     assert firebaseUser != null;
                     String userid = firebaseUser.getUid();
 
@@ -119,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-                    });
+                    });*/
 
             }
 
@@ -128,7 +119,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Log.i("Kun",e.toString()+e.getCause());
+                Toast.makeText(getApplicationContext(),"Cannot register with this email Id and password"
+                ,Toast.LENGTH_LONG).show();
             }
         });
     }

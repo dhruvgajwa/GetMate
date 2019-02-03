@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/AppTheme.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.RegisterActivity">
@@ -30,13 +31,6 @@
             android:textStyle="bold"/>
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:hint="Username"
-            app:met_floatingLabel="normal"
-            android:id="@+id/username"
-            android:layout_height="wrap_content" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
@@ -51,6 +45,13 @@
             android:hint="Password"
             app:met_floatingLabel="normal"
             android:id="@+id/password"
+            android:layout_height="wrap_content" />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:hint="Confirm Password"
+            app:met_floatingLabel="normal"
+            android:id="@+id/password_confirm"
             android:layout_height="wrap_content" />
         <Button
             android:layout_marginTop="32dp"

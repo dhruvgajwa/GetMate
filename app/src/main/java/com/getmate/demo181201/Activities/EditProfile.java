@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.GradientDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -19,16 +20,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getmate.demo181201.InterestSelection.InterestSelectionActivity;
 import com.getmate.demo181201.MainActivity;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -84,6 +89,7 @@ public class EditProfile extends AppCompatActivity  {
     ArrayList<String> interestB = new ArrayList<>();
     ArrayList<String> interestI = new ArrayList<>();
     ArrayList<String> interestE = new ArrayList<>();
+    ArrayList<String> allParentTags = new ArrayList<>();
     Button pickDate,interestbutton,handleButton,locationbutton;
     private static final int INTEREST_SELECTION = 10;
     private static final int UNIQUE_HANDLE =1;
@@ -110,6 +116,7 @@ public class EditProfile extends AppCompatActivity  {
     private String Tagline;
     private Button verifyEmail;
     private Profile oldUserData ;
+    FlexboxLayout flexboxLayout;
 
     private boolean isHandleUnique = false;
     private boolean fromRegisterActivity = false;
@@ -128,13 +135,15 @@ public class EditProfile extends AppCompatActivity  {
         storageReference = FirebaseStorage.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);//why locale .US?
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         findViewsById();
         checkInternetPermission();
 
         Intent intent = getIntent();
         if (intent.getBooleanExtra("fromRegisterActivity",false)){
             fromRegisterActivity = true;
+            profile.setEmail(intent.getStringExtra("email"));
+            email.setText(intent.getStringExtra("email"));
             Log.i("KaunHu","from Register activity to EditProfile");
         }
         if (intent.getBooleanExtra("fromProfileFragment",false)){
@@ -453,9 +462,9 @@ public class EditProfile extends AppCompatActivity  {
                 interestB = data.getStringArrayListExtra("interestB");
                 interestI = data.getStringArrayListExtra("interestI");
                 interestE = data.getStringArrayListExtra("interestE");
-
+                allParentTags = data.getStringArrayListExtra("AllParentInterests");
                 //use this data
-
+                profile.setAllParentTags(allParentTags);
                 profile.setInterestsB(interestB);
                 profile.setInterestsI(interestI);
                 profile.setInterestsE(interestE);
@@ -469,6 +478,32 @@ public class EditProfile extends AppCompatActivity  {
                     tags.addAll(interestI);
                 }
                 profile.setAllInterests(tags);
+
+
+                flexboxLayout.setVisibility(View.VISIBLE);
+                int  tagsCount =tags.size() ;//... integer number of textviews
+                TextView[] tages= new TextView[tagsCount];//create dynamic textviewsarray
+                LinearLayout.LayoutParams layoutParams = new
+                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                //loop to customize the text view and add it to flex box
+                for (int i = 0; i < tagsCount; i++) {
+                    tages[i] = new TextView(EditProfile.this);
+                    GradientDrawable gD = new GradientDrawable();
+                    int strokeWidth = 5;
+                    int strokeColor = getResources().getColor(R.color.grey);
+
+                    gD.setStroke(strokeWidth, strokeColor);
+                    gD.setCornerRadius(15);
+                    gD.setShape(GradientDrawable.RECTANGLE);
+
+                    tages[i].setBackground(gD);
+                    tages[i].setText(tags.get(i));
+                    layoutParams.setMargins(10, 5, 10, 5);
+                    tages[i].setPadding(17, 15, 17, 15);
+                    flexboxLayout.addView(tages[i], layoutParams);
+                }
 
             }
 
@@ -677,6 +712,7 @@ public class EditProfile extends AppCompatActivity  {
         radioEmployee= findViewById(R.id.radio_employee);
         radioStudent = findViewById(R.id.radio_student);
         verifyEmail = findViewById(R.id.verify_email);
+        flexboxLayout = findViewById(R.id.tagsView_ep);
 
     }
 

@@ -8,7 +8,7 @@
     android:layout_marginBottom="40dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginVertical="8dp"
     android:elevation="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/event_title"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
@@ -45,7 +45,7 @@
         android:text="Splash Art competition"/>
 
         <TextView
-            android:layout_marginLeft="8dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,8 +68,9 @@
             android:text="link"/>
 
         <RelativeLayout
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -87,29 +88,40 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginHorizontal="12dp"
-                android:layout_toLeftOf="@+id/gng_button"
+                android:layout_toLeftOf="@+id/like_btn"
                 />
 
-            <TextView
-                android:layout_centerInParent="true"
-                android:id="@+id/gng_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginHorizontal="12dp"
-                android:layout_toLeftOf="@+id/like_btn"
-                android:layout_marginBottom="1dp"
-                android:text="9+"
-                android:textSize="16dp" />
-            <Button
+
+            <CheckBox
                 android:layout_toLeftOf="@+id/save_btn"
-                android:id="@+id/like_btn"
+                android:id="@+id/dislike_btn"
                 android:layout_marginHorizontal="12dp"
-                android:background="@drawable/heart_icon"
+                android:background="@drawable/dislike_icon"
                 android:alpha="0.8"
                 android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                android:clickable="true"
+                android:button="@null"
+                android:stateListAnimator="@animator/like_animation"
 
-            <Button
+                android:focusable="true"
+                />
+            <CheckBox
+                android:layout_toLeftOf="@+id/dislike_btn"
+                android:id="@+id/like_btn"
+                android:layout_marginHorizontal="12dp"
+                android:background="@drawable/like_icon"
+                android:alpha="0.8"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:clickable="true"
+                android:button="@null"
+                android:stateListAnimator="@animator/like_animation"
+                android:focusable="true"
+                />
+
+            <CheckBox
+                android:checked="false"
                 android:id="@+id/save_btn"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -127,6 +139,12 @@
                 android:layout_height="24dp" />
 
         </RelativeLayout>
+    <TextView
+        android:layout_marginBottom="8dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:text="Dhruv gajwa and 24 others are going"/>
     </LinearLayout>
 
 

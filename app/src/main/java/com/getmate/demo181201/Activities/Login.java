@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -33,10 +32,7 @@ public class Login extends AppCompatActivity {
         email = findViewById(R.id.email_l);
         password = findViewById(R.id.password_l);
         loginBtn = findViewById(R.id.btn_login);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Register");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        progressDialog = new ProgressDialog(Login.this);
 
         FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();

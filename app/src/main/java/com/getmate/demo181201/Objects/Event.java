@@ -23,6 +23,7 @@ public class Event implements Serializable,Parcelable
     private String  Time = null;
     private String creatorFirebaseId= null;
     private String Address =null;
+    private String firebaseId = null;
 
     private String url =null;
     private int savedCount =1;
@@ -30,6 +31,7 @@ public class Event implements Serializable,Parcelable
     private ArrayList<String> goingProfile = null;
     private ArrayList<String> savedBy = null;
     private ArrayList<String> tags = null;
+    private ArrayList<String> allParentTags = null;
 
 
     protected Event(Parcel in) {
@@ -53,7 +55,8 @@ public class Event implements Serializable,Parcelable
         goingProfile = in.createStringArrayList();
         savedBy = in.createStringArrayList();
         tags = in.createStringArrayList();
-    }
+        firebaseId = in.readString();
+        allParentTags = in.createStringArrayList();}
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
@@ -131,6 +134,8 @@ public class Event implements Serializable,Parcelable
         parcel.writeString(creatorEmail);
         parcel.writeString(creatorHandle);
         parcel.writeString(creatorPhoneNo);
+        parcel.writeStringList(allParentTags);
+        parcel.writeString(firebaseId);
     }
 
 
@@ -147,6 +152,7 @@ public class Event implements Serializable,Parcelable
         public Organisers(){
 
         }
+
 
 
         public String getName() {
@@ -174,6 +180,21 @@ public class Event implements Serializable,Parcelable
         }
     }
 
+    public ArrayList<String> getAllParentTags() {
+        return allParentTags;
+    }
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
+    public void setAllParentTags(ArrayList<String> allParentTags) {
+        this.allParentTags = allParentTags;
+    }
 
     public String getCreatorProfilePic() {
         return creatorProfilePic;

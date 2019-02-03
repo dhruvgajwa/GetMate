@@ -7,21 +7,32 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.text.format.DateUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.getmate.demo181201.Activities.ChatActivity;
 import com.getmate.demo181201.Activities.DetailedEvents;
 import com.getmate.demo181201.CustomViews.EventTimelineImageView;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.VolleyClasses.AppController;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -31,6 +42,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 public class EventListAdapter extends BaseAdapter {
     private Context context;
     private Activity activity;
@@ -39,13 +52,14 @@ public class EventListAdapter extends BaseAdapter {
     private View convertView;
     private TextView title;
 
-
+    private CheckBox like, dislike;
     private EventTimelineImageView eventTimelineImageView;
     private TextView description;
     private TextView timeStamp;
     private TextView savedCount;
     private TextView goingCount;
     private Button dtl,map,share;
+    private CheckBox save;
     TextView going;
      ImageLoader  imageLoader = AppController.getInstance().getImageLoader();
 
@@ -81,7 +95,7 @@ public class EventListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         if (layoutInflater==null){
-            layoutInflater= (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            layoutInflater= (LayoutInflater) activity.getSystemService(LAYOUT_INFLATER_SERVICE);
         }
         if(convertView==null)
         {
@@ -100,16 +114,64 @@ public class EventListAdapter extends BaseAdapter {
 
         eventTimelineImageView = convertView.findViewById(R.id.event_image);
         dtl = convertView.findViewById(R.id.dtl_btn);
-        going = convertView.findViewById(R.id.gng_button);
+
         map= convertView.findViewById(R.id.map_btn);
         share = convertView.findViewById(R.id.share_btn);
+        save = convertView.findViewById(R.id.save_btn);
+        like = convertView.findViewById(R.id.like_btn);
+        dislike = convertView.findViewById(R.id.dislike_btn);
+
+
+   like.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+
+               if (!like.isChecked()){
+                   like.setChecked(true);
+                   }
+                   else{
+                   like.setChecked(false);
+
+               }
+
+           }
+       });
+
+       dislike.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               if (!dislike.isChecked()){
+                   dislike.setChecked(true);
+               }
+               else {
+                   dislike.setChecked(false);
+               }
+           }
+       });
 
 
 
 
-        if(event.getImageUrl()!=null){
+       save.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+               if (save.isChecked()){
+                   FirebaseFirestore.getInstance().collection("profiles").
+                           document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update("savedEvents",FieldValue.arrayUnion(event.getFirebaseId()));
+               }
+               else {
+                   FirebaseFirestore.getInstance().collection("profiles").
+                           document(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                           update("savedEvents",FieldValue.arrayRemove(event.getFirebaseId()));
+
+               }
+           }
+       });
+
+
+ if(event.getImageUrl()!=null){
             imageLoader.get(event.getImageUrl(), ImageLoader.getImageListener(eventTimelineImageView,
-                   R.mipmap.badminton , android.R.drawable
+                   R.drawable.event_image_demo , android.R.drawable
                             .ic_dialog_alert));
 
             eventTimelineImageView.setImageUrl(event.getImageUrl(),imageLoader);
@@ -130,8 +192,6 @@ public class EventListAdapter extends BaseAdapter {
             eventTimelineImageView.setVisibility(View.GONE);
         }
 
-
-
         title.setText(event.getTitle());
 
 
@@ -140,8 +200,6 @@ public class EventListAdapter extends BaseAdapter {
                 (Long.parseLong(event.getTime()),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS);
         timeStamp.setText(time);
         description.setText(event.getDescription());
-        //eventTimelineImageView.setImageUrl(event.getUrl());
-        //use Picasso Library here!
 
 
         dtl.setOnClickListener(new View.OnClickListener() {
@@ -164,77 +222,91 @@ public class EventListAdapter extends BaseAdapter {
             }
         });
 
-        going.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //increase the count by one + add the currentUserId in event list + add the eventId in profile data
 
-            }
-        });
 
-        going.setText(String.valueOf(event.getGoingCount())+"+");
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                final String id = event.getFirebaseId();
 
-                int SDK_INT = android.os.Build.VERSION.SDK_INT;
-                if (SDK_INT > 8)
-                {
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                            .permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
+                LayoutInflater inflater = (LayoutInflater)context.
+                        getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = inflater.inflate(R.layout.popup_for_sharing_event, null);
+                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                boolean focusable = true; // lets taps outside the popup also dismiss it
+                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-                    try {
-                        Intent shareIntent;
-                        URL url = new URL(event.getImageUrl());
-                        Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/Share.png";
-                        OutputStream out = null;
-                        File file=new File(path);
-                        try {
-                            out = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                            out.flush();
-                            out.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        path=file.getPath();
-                        Uri bmpUri = Uri.parse("file://"+path);
-                        shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey please check this application "
-                                + "http://cohortso.in/event/MAXFIMvh7CKlNZYZwRnD");
-                        shareIntent.setType("image/png");
-                        context.startActivity(Intent.createChooser(shareIntent,"Share with"));
 
-                    } catch(IOException e) {
-                        System.out.println(e);
+
+                // dismiss the popup window when touched
+                popupView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return true;
                     }
+                });
+
+                Button shareUsingCohortso = popupView.findViewById(R.id.share_using_cohortso);
+                Button shareUsingOtherMedia = popupView.findViewById(R.id.share_using_other_media);
+                shareUsingCohortso.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context,ChatActivity.class);
+                        i.putExtra("text","http://cohortso.in/event/"+id);
+                        i.putExtra("forSharingEvent",true);
+                        context.startActivity(i);
+
+                    }
+                });
+
+                shareUsingOtherMedia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int SDK_INT = Build.VERSION.SDK_INT;
+                        if (SDK_INT > 8)
+                        {
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                                    .permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+
+                            try {
+                                Intent shareIntent;
+                                URL url = new URL(event.getImageUrl());
+                                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                                String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/Share.png";
+                                OutputStream out = null;
+                                File file=new File(path);
+                                try {
+                                    out = new FileOutputStream(file);
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                                    out.flush();
+                                    out.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                path=file.getPath();
+                                Uri bmpUri = Uri.parse("file://"+path);
+                                shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                                shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey please check this application "
+                                        + "http://cohortso.in/event/"+id);
+                                shareIntent.setType("image/png");
+                                context.startActivity(Intent.createChooser(shareIntent,"Share with"));
+
+                            } catch(IOException e) {
+                                System.out.println(e);
+                            }
 
 
-                }
-
-
-
-/*
-                try {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("image/jpeg");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Cohortso");
-                   Uri imageUri = Uri.parse(event.getImageUrl());
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                    String shareMessage= "\nLet me recommend you this application\n\n";
-                    shareMessage = shareMessage + "http://cohortso.in/event/MAXFIMvh7CKlNZYZwRnD";
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    context.startActivity(Intent.createChooser(shareIntent, "share event using"));
-                } catch(Exception e) {
-                    //e.toString();
-                }*/
+                        }
+                    }
+                });
 
             }
         });
@@ -243,8 +315,47 @@ public class EventListAdapter extends BaseAdapter {
 
 
 
+
     public void getDistance(Location location){
         //Double distance = Math.sqrt();
+        }
+
+
+        public void showPopupOnsharingClicked(View view){
+            LayoutInflater inflater = (LayoutInflater)context.
+                    getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.popup_for_sharing_event, null);
+            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            boolean focusable = true; // lets taps outside the popup also dismiss it
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+            // dismiss the popup window when touched
+            popupView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+            });
+
+            Button shareUsingCohortso = popupView.findViewById(R.id.share_using_cohortso);
+            Button shareUsingOtherMedia = popupView.findViewById(R.id.share_using_other_media);
+            shareUsingCohortso.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
+            shareUsingOtherMedia.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
         }
 
 }

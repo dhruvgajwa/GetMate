@@ -3,6 +3,9 @@ package com.getmate.demo181201.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import com.getmate.demo181201.Model.Chat;
 import com.getmate.demo181201.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -59,12 +63,25 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 Chat chat = mChat.get(position);
-holder.show_message.setText(chat.getMessage());
+
+if (chat.getMessage().startsWith("http:")){
+
+    Log.i("MessagingAdapter","link detetcted");
+    holder.show_message.setText(Html.fromHtml("<a href=\"" + chat.getMessage() + "\">"
+            + chat.getMessage() + "</a> "));
+
+    // Making url clickable
+    holder.show_message.setMovementMethod(LinkMovementMethod.getInstance());
+}
+else {
+    holder.show_message.setText(chat.getMessage());
+}
 if (imageUrl.equals("default")){
+
    holder.profile_image.setImageResource(R.mipmap.ic_launcher);
 }
 else {
-    //Display image
+    Picasso.get().load(imageUrl).into(holder.profile_image);
 }
 
 

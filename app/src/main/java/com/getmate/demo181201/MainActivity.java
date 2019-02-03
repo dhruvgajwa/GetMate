@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,7 +17,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +28,7 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.getmate.demo181201.Activities.PaytmGateway;
+import com.getmate.demo181201.Activities.ChatActivity;
 import com.getmate.demo181201.Activities.StartActivity;
 import com.getmate.demo181201.Fragments.FindMate;
 import com.getmate.demo181201.Fragments.MapFragment;
@@ -55,10 +52,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity  implements
         MapFragment.OnFragmentInteractionListener ,
@@ -66,6 +61,7 @@ ProfileFragment.OnFragmentInteractionListener,
         RecentActivityFragment.OnFragmentInteractionListener,SavedItemsFragment.OnFragmentInteractionListener,
         ConnectionsFragment.OnFragmentInteractionListener {
     final Fragment fragment1 =new  TimelineFragment();
+
     final Fragment fragment2 = new FindMate();
     final Fragment fragment3 = new MapFragment();
     final Fragment fragment4 = new ProfileFragment();
@@ -102,6 +98,7 @@ ProfileFragment.OnFragmentInteractionListener,
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //toolbar.setTitle("Shop");
         logout= findViewById(R.id.logout);
+        logout.setVisibility(View.GONE);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         progressDialog = new ProgressDialog(this);
@@ -132,9 +129,6 @@ ProfileFragment.OnFragmentInteractionListener,
             checkUserPermission();
             GetLocationFlag = false;
         }
-
-
-
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,12 +322,19 @@ ProfileFragment.OnFragmentInteractionListener,
 
         if(id==R.id.chat){
             Intent intent = new Intent(MainActivity.this,ChatActivity.class);
+            Gson gson = new Gson();
+            String data = gson.toJson(currentUserProfile);
+            intent.putExtra("data",data);
             startActivity(intent);
         }
 
         if(id==R.id.action_logout){
-        Intent intent = new Intent(MainActivity.this,PaytmGateway.class);
-        startActivity(intent);
+
+
+            mAuth.signOut();
+            startActivity(new Intent(MainActivity.this,StartActivity.class));
+            finish();
+
          }
         return true;
     }
@@ -344,48 +345,52 @@ ProfileFragment.OnFragmentInteractionListener,
     }
 
 
-    public void loadFragment(Fragment fragment) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("events",events);
-        bundle.putParcelable("data",currentUserProfile);
-        fragment.setArguments(bundle);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commitAllowingStateLoss();
-    }
-
-
 
     private void getEventsData(){
-        progressDialog.show();
-        progressDialog.setMessage("Loading events data");
+        Log.i("getEventsData","Started");
+       // progressDialog.setMessage("Loading events data");
         ArrayList<String> tags = new ArrayList<>();
-        tags = currentUserProfile.getAllInterests();
-
+        //tags = currentUserProfile.getAllInterests();
+         tags = currentUserProfile.getAllParentTags();
+        Calendar c = Calendar.getInstance();
+        Long t = c.getTimeInMillis();
 
         for (String tag: tags) {
-
             //find By city and tags
             db.collection("events").whereEqualTo("city",
-                    currentUserProfile.getCity()).whereArrayContains("tags",
+                    currentUserProfile.getCity()).whereArrayContains("allParentTags",
                     tag)
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if(task.isSuccessful()){
-
                         for (QueryDocumentSnapshot querry:task.getResult()) {
                             events.add(querry.toObject(Event.class));
+                            Log.i("getEventsData","success"+task.getResult().size());
+                           //fragment1.eventListAdapter.notifyDataSetChanged();
+                            Bundle bundle =new Bundle();
+                            bundle.putParcelable("currentUserProfile",currentUserProfile);
+                            bundle.putParcelableArrayList("events",events);
+                            fragment4.setArguments(bundle);
+                            fragment3.setArguments(bundle);
+                            fragment2.setArguments(bundle);
+                            fragment1.setArguments(bundle);
+                            fm.beginTransaction().add(R.id.main_container,fragment4,"4").hide(fragment4).commit();
+                            fm.beginTransaction().add(R.id.main_container,fragment3,"3").hide(fragment3).commit();
+                            fm.beginTransaction().add(R.id.main_container,fragment2,"2").hide(fragment2).commit();
+                            fm.beginTransaction().add(R.id.main_container,fragment1,"2").commit();
                         }
+                    }
+                    else {
+                        Log.i("getEventsData","task unsuccessful");
                     }
 
                 }
             });
 
         }
-        progressDialog.dismiss();
-
+        Log.i("getEventsData","ended");
+        //progressDialog.dismiss();
 
     }
 
@@ -402,7 +407,9 @@ ProfileFragment.OnFragmentInteractionListener,
                      String json = gson.toJson(currentUserProfile);
                      Log.i("KaunHUMein",json+"\n"+"now calling demoFunctions");
                      progressDialog.dismiss();
-                     demoFunction();
+                     getEventsData();
+                    //BEckGround b = new BEckGround();
+                    //b.execute();
 
                      // TODO: getEventsData();
 
@@ -452,7 +459,6 @@ ProfileFragment.OnFragmentInteractionListener,
                         fm.beginTransaction().add(R.id.main_container,fragment2,"2").hide(fragment2).commit();
                         fm.beginTransaction().add(R.id.main_container,fragment1,"2").commit();
 
-
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"NOT REACHABLE",Toast.LENGTH_LONG).show();
@@ -467,36 +473,15 @@ ProfileFragment.OnFragmentInteractionListener,
         });
     }
 
-
-
-    public class BEckGround extends AsyncTask<String,Void,String>{
-
+    public class BEckGround extends AsyncTask<Void,Void,Void>{
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected Void doInBackground(Void... voids) {
 
-
-            Geocoder geocoder = new Geocoder(MainActivity.this,Locale.getDefault());
-            try {
-                List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(),
-                        currentLocation.getLongitude(),1);
-                if(addresses.size()>0){
-                    currentCity = addresses.get(0).getLocality();
-
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            getEventsData();
             return null;
         }
-
-
-
     }
-
-
-    
 
 
 }

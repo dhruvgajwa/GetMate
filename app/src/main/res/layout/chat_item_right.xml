@@ -15,6 +15,9 @@
         android:id="@+id/profile_image"
         android:visibility="gone"/>
     <TextView
+        android:linksClickable="true"
+        android:textColorLink="@color/red"
+        android:paddingHorizontal="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/background_right"
@@ -22,7 +25,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textSize="18sp"
-        android:textColor="#fff"
+
         android:padding="8dp"
         android:id="@+id/show_message"/>
 

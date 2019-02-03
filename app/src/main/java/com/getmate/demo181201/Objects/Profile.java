@@ -76,6 +76,7 @@ public class Profile implements Parcelable {
         profilesSwipedMeRight = in.createStringArrayList();
         savedEvents = in.createStringArrayList();
         isStudent = in.readByte()!=0;
+        allParentTags = in.createStringArrayList();
 
     }
 
@@ -98,7 +99,7 @@ public class Profile implements Parcelable {
     public void setAchievements(ArrayList<String> achievements) {
         this.achievements = achievements;
     }
-
+    public ArrayList<String> allParentTags;
     public ArrayList<String> achievements;
     private String name=null;
     private String city = null;
@@ -129,7 +130,8 @@ public class Profile implements Parcelable {
    // private ArrayList<String> connections=null;
     private ArrayList<String> recentActivities=null;
     private ArrayList<String> savedEvents=null;
-    private ArrayList<connections> connections = null;
+    private ArrayList<ConnectionObject> connections = null;
+
 
     public double getLat() {
         return lat;
@@ -184,6 +186,7 @@ public class Profile implements Parcelable {
         parcel.writeStringList(allInterests);
         parcel.writeStringList(recentActivities);
         parcel.writeStringList(savedEvents);
+        parcel.writeStringList(allParentTags);
     }
 
 
@@ -214,43 +217,13 @@ public class Profile implements Parcelable {
         }
     }
 
-    public static class connections{
-        private String name;
-        private String handle;
-        private String profilePic;
-        private String firebaseUI;
 
-        public String getName() {
-            return name;
-        }
+    public ArrayList<String> getAllParentTags() {
+        return allParentTags;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getHandle() {
-            return handle;
-        }
-
-        public void setHandle(String handle) {
-            this.handle = handle;
-        }
-
-        public String getProfilePic() {
-            return profilePic;
-        }
-
-        public void setProfilePic(String profilePic) {
-            this.profilePic = profilePic;
-        }
-
-        public String getFirebaseUI() {
-            return firebaseUI;
-        }
-
-        public void setFirebaseUI(String firebaseUI) {
-            this.firebaseUI = firebaseUI;
-        }
+    public void setAllParentTags(ArrayList<String> allParentTags) {
+        this.allParentTags = allParentTags;
     }
 
     public static Creator<Profile> getCREATOR() {
@@ -449,11 +422,11 @@ public class Profile implements Parcelable {
         this.allInterests = allInterests;
     }
 
-    public ArrayList<Profile.connections> getConnections() {
+    public ArrayList<ConnectionObject> getConnections() {
         return connections;
     }
 
-    public void setConnections(ArrayList<Profile.connections> connections) {
+    public void setConnections(ArrayList<ConnectionObject> connections) {
         this.connections = connections;
     }
 

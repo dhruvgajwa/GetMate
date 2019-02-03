@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.GradientDrawable;
 import android.location.Address;
@@ -22,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -79,6 +79,7 @@ public class editEvent extends AppCompatActivity {
     ArrayList<String> interestB = new ArrayList<>();
     ArrayList<String> interestI = new ArrayList<>();
     ArrayList<String> interestE = new ArrayList<>();
+    ArrayList<String> allParentTags = new ArrayList<>();
     ArrayList<Event.Organisers> organisers = new ArrayList<>();
     private ImageButton imageButton;
 
@@ -114,13 +115,9 @@ public class editEvent extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         boolean isReached = false;
+        currentUserProfile = new Gson().fromJson(getIntent().getStringExtra("currentUserData"),Profile.class);
 
-
-        SharedPreferences mPrefs = editEvent.this.getSharedPreferences("currentUserData",MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = mPrefs.getString("currentUserDataInString",null);
-        currentUserProfile = gson.fromJson(json,Profile.class);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
         for (int i=0;i<3;i++){
@@ -173,23 +170,24 @@ public class editEvent extends AppCompatActivity {
                     //todo: FIREBASE QUERRY HERE
 
                     FirebaseUser currentUser = mAuth.getCurrentUser();
-                    newEvent.setCreatorName(currentUser.getDisplayName());
-                    newEvent.setCreatorFirebaseId(currentUser.getUid());
-                    newEvent.setCreatorProfilePic(currentUser.getPhotoUrl().toString());
-                    newEvent.setCreatorEmail(currentUser.getEmail());
+                    newEvent.setCreatorName(currentUserProfile.getName());
+                    newEvent.setCreatorFirebaseId(currentUserProfile.getFirebase_id());
+                    newEvent.setCreatorProfilePic(currentUserProfile.getProfilePic());
+                    newEvent.setCreatorEmail(currentUserProfile.getEmail());
                     newEvent.setCreatorHandle(currentUserProfile.getHandle());
                     newEvent.setCreatorPhoneNo(currentUserProfile.getPhoneNo());
 
-                    db.collection("events").add(newEvent).
-                            addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                                if (task.isSuccessful()){
-                                    Log.i("KaunH","the generated id of document is" + task.getResult().getId());
-                                    Intent i = new Intent(editEvent.this,MainActivity.class);
-                                    startActivity(i);
 
-                                }
+                    DocumentReference ref = db.collection("events").document();
+                    String myId = ref.getId();
+                    newEvent.setFirebaseId(myId);
+                    ref.set(newEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Intent i = new Intent(editEvent.this,MainActivity.class);
+                                startActivity(i);
+                            }
                         }
                     });
                     Gson gson = new Gson();
@@ -347,11 +345,9 @@ public class editEvent extends AppCompatActivity {
             interestB = data.getStringArrayListExtra("interestB");
             interestI = data.getStringArrayListExtra("interestI");
             interestE = data.getStringArrayListExtra("interestE");
+            allParentTags = data.getStringArrayListExtra("AllParentInterests");
             //use this data
-
-
-
-            if (interestB!=null){
+         if (interestB!=null){
                 tags.addAll(interestB);
 
             }
@@ -363,6 +359,7 @@ public class editEvent extends AppCompatActivity {
                 tags.addAll(interestI);
 
             }
+            newEvent.setAllParentTags(allParentTags);
             newEvent.setTags(tags);
 
             flexboxLayout.setVisibility(View.VISIBLE);
@@ -499,7 +496,9 @@ public class editEvent extends AppCompatActivity {
     }
 
     private void UploadImage(Uri uri){
-        final StorageReference ref = storageReference.child("events/");
+        Calendar c = Calendar.getInstance();
+
+        final StorageReference ref = storageReference.child("events/"+currentUserProfile.getHandle()+c.getTimeInMillis());
         //TODO:change this storageRef
         UploadTask uploadTask = ref.putFile(uri);
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {

@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.getmate.demo181201.InterestSelection.RoundedImageView;
-import com.getmate.demo181201.Objects.Profile;
+import com.getmate.demo181201.Objects.ConnectionObject;
 import com.getmate.demo181201.R;
 import com.squareup.picasso.Picasso;
 
@@ -22,9 +22,7 @@ public class ConnectionsAdapter extends BaseAdapter {
     Context context;
     private View convertView;
     Activity activity;
-    ArrayList<Profile.connections> connections = new ArrayList<>();
-
-
+    ArrayList<ConnectionObject> connections = new ArrayList<>();
 
     RoundedImageView roundedImageView;
     TextView handle;
@@ -32,7 +30,7 @@ public class ConnectionsAdapter extends BaseAdapter {
 
     public ConnectionsAdapter(){}
 
-    public ConnectionsAdapter(Activity activity, ArrayList<Profile.connections> connections){
+    public ConnectionsAdapter(Activity activity, ArrayList<ConnectionObject> connections){
         this.context = activity;
         this.activity = activity;
         this.connections = connections;
@@ -74,14 +72,13 @@ public class ConnectionsAdapter extends BaseAdapter {
         name = convertView.findViewById(R.id.connection_name);
         handle = convertView.findViewById(R.id.connection_handle);
         roundedImageView = convertView.findViewById(R.id.connection_image);
-
-
-        Profile.connections connection = connections.get(i);
+        ConnectionObject connection = connections.get(i);
         name.setText(connection.getName());
         handle.setText(connection.getHandle());
         Picasso.get().load(connection.getProfilePic()).into(roundedImageView);
         //TODO: HERE if clicked on any of this view, The user should be redirected to profile of that that particular user!
         // 1.5.2019
+
         return convertView;
     }
 }

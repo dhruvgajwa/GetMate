@@ -35,8 +35,8 @@ public class TimelineFragment extends Fragment {
     ArrayList<Event> events = new ArrayList<>();
     private Profile currentUserProfile;
     ProgressDialog progressDialog;
-    public static ListView listView ;
-    public static EventListAdapter eventListAdapter;
+    public  ListView listView ;
+    public  EventListAdapter eventListAdapter;
 
     private boolean flag_loading= false;
     private int a =1;
@@ -65,9 +65,6 @@ public class TimelineFragment extends Fragment {
         Log.i("Kaun","OnCreateView called");
         // Inflate the layout for this fragment
 
-
-
-
         View view =  inflater.inflate(R.layout.fragment_timeline, container, false);
         listView = view.findViewById(R.id.frag1_list);
         progressDialog = new ProgressDialog(this.getActivity());
@@ -78,15 +75,13 @@ public class TimelineFragment extends Fragment {
             if (currentUserProfile!=null){
                 //Update UI
             }
-
-
             events = bundle.getParcelableArrayList("events");
             if (events!=null){
                 //Update UI
             }
         }
 
-        demoFunction();
+       // demoFunction();
 
         eventListAdapter = new EventListAdapter(this.getActivity(),events);
         listView.setAdapter(eventListAdapter);

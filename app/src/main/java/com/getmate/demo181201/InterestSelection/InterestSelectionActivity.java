@@ -12,6 +12,8 @@ import com.getmate.demo181201.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class InterestSelectionActivity extends AppCompatActivity {
 
@@ -68,16 +70,22 @@ public class InterestSelectionActivity extends AppCompatActivity {
                  ArrayList<String> ib ;
                 ArrayList<String> ii ;
                 ArrayList<String> ie ;
+                ArrayList<String> allParentsInterestName;
                 ib = data.get("interestB");
                 ii = data.get("interestI");
                 ie = data.get("interestE");
-                Log.i("InterestSelection",ib.toString()+ii.toString()+ie.toString());
+                allParentsInterestName = data.get("AllParentInterests");
+                Set<String> p = new HashSet<>(allParentsInterestName);
+                allParentsInterestName.clear();
+                allParentsInterestName.addAll(p);
+                Log.i("InterestSelection",ib.toString()+ii.toString()+ie.toString()+allParentsInterestName.toString());
 
                 if(fromEditProfile){
                     Intent i = new Intent();
                     i.putStringArrayListExtra("interestB",ib);
                     i.putStringArrayListExtra("interestI",ii);
                     i.putStringArrayListExtra("interestE",ie);
+                    i.putStringArrayListExtra("AllParentInterests",allParentsInterestName);
                     setResult(RESULT_OK,i);
                     finish();
                 }
@@ -87,6 +95,7 @@ public class InterestSelectionActivity extends AppCompatActivity {
                     i.putStringArrayListExtra("interestB",ib);
                     i.putStringArrayListExtra("interestI",ii);
                     i.putStringArrayListExtra("interestE",ie);
+                    i.putStringArrayListExtra("AllParentInterests",allParentsInterestName);
                     setResult(RESULT_OK,i);
                     Log.d("interest",ib.toString()+ie.toString()+ii.toString());
                     finish();

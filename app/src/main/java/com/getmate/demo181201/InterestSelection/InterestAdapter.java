@@ -39,6 +39,7 @@ public class InterestAdapter extends BaseExpandableListAdapter {
     ArrayList<String> interestB = new ArrayList<>();
     ArrayList<String> interestI = new ArrayList<>();
     ArrayList<String> interestE = new ArrayList<>();
+    ArrayList<String> parentInterestList = new ArrayList<>();
 
 
     ArrayList<ChildInterest> selected_Interest_List = new ArrayList<ChildInterest>();
@@ -218,18 +219,18 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     Constant.pstate =3;
-
-
                     interestArrayList.get(groupPosition).setLevel(EXPERT_LEVEL);
                     interestArrayList.get(groupPosition).setSelected(true);
                     interestArrayList.get(groupPosition).setState(true);
                     holder.checkBox.setChecked(true);
                     ParentInterest p = interestArrayList.get(groupPosition);
+                    parentInterestList.add(p.getName());
                     ChildInterest i = new ChildInterest(p.getName(),p.getisState(),p.getImageId());
                     i.setLevel(p.getLevel());
                     i.setGetParentPos(groupPosition);
                     i.setGetChildPos(-1);
                     SELECT_INTERESTS.add(i);
+
                     interestE.add(interestArrayList.get(groupPosition).getName());
                     //this SELECT_INTEREST is the final list of interest to be passed to [profile
                     selected_Interest_List.add(i);
@@ -262,6 +263,7 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                     interestArrayList.get(groupPosition).setState(true);
                     holder.checkBox.setChecked(true);
                     ParentInterest p = interestArrayList.get(groupPosition);
+                    parentInterestList.add(p.getName());
                     ChildInterest i = new ChildInterest(p.getName(),p.getisState(),p.getImageId());
                     i.setLevel(p.getLevel());
                     i.setGetParentPos(groupPosition);
@@ -297,6 +299,7 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                     interestArrayList.get(groupPosition).setState(true);
                     holder.checkBox.setChecked(true);
                     ParentInterest p = interestArrayList.get(groupPosition);
+                    parentInterestList.add(p.getName());
                     ChildInterest i = new ChildInterest(p.getName(),p.getisState(),p.getImageId());
                     i.setLevel(p.getLevel());
                     i.setGetParentPos(groupPosition);
@@ -365,6 +368,7 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                         q.setGetChildPos(-1);
 
                         removeInterest(name);
+                        parentInterestList.remove(name);
 
                         for(ChildInterest toberemoved: selected_Interest_List){
                             if(toberemoved.getName().equals(q.getName())){
@@ -548,7 +552,7 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                 interestArrayList.get(groupPosition).childInterests.get(childPosition).setGetChildPos(childPosition);
                 holder.checkBox.setChecked(true);
                 interestE.add(interestArrayList.get(groupPosition).childInterests.get(childPosition).getName());
-
+                parentInterestList.add(interestArrayList.get(groupPosition).getName());
 
                 SELECT_INTERESTS.add(interestArrayList.get(groupPosition).childInterests.get(childPosition));   //this SELECT_INTEREST is the final list of interest to be passed to [profile
                 selected_Interest_List.add(interestArrayList.get(groupPosition).childInterests.get(childPosition));
@@ -581,18 +585,13 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                 interestArrayList.get(groupPosition).childInterests.get(childPosition).setGetParentPos(groupPosition);
                 interestArrayList.get(groupPosition).childInterests.get(childPosition).setGetChildPos(childPosition);
                 holder.checkBox.setChecked(true);
-
-
+                parentInterestList.add(interestArrayList.get(groupPosition).getName());
                 interestB.add(interestArrayList.get(groupPosition).childInterests.get(childPosition).getName());
                 SELECT_INTERESTS.add(interestArrayList.get(groupPosition).childInterests.get(childPosition));   //this SELECT_INTEREST is the final list of interest to be passed to [profile
                 selected_Interest_List.add(interestArrayList.get(groupPosition).childInterests.get(childPosition));
                 Toast.makeText(context,"clicked on beginner",Toast.LENGTH_SHORT).show();
                 holder.RadioLinLay.setClickable(false);
                 holder.RadioLinLay.setEnabled(false);
-                //holder.childLinLay.setClickable(false);
-                //holder.childLinLay.setEnabled(false);
-                //holder.checkBox.setClickable(false);
-                // holder.checkBox.setEnabled(false);
                 holder.radioGroup.setClickable(false);
                 holder.radioGroup.setEnabled(false);
                 holder.intermediate.setClickable(false);
@@ -615,6 +614,7 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                 interestArrayList.get(groupPosition).childInterests.get(childPosition).setGetChildPos(childPosition);
                 holder.checkBox.setChecked(true);
                 interestI.add(interestArrayList.get(groupPosition).childInterests.get(childPosition).getName());
+                parentInterestList.add(interestArrayList.get(groupPosition).getName());
 
 
                 SELECT_INTERESTS.add(interestArrayList.get(groupPosition).childInterests.get(childPosition));   //this SELECT_INTEREST is the final list of interest to be passed to [profile
@@ -622,10 +622,6 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                 Toast.makeText(context,"clicked on intermediate",Toast.LENGTH_SHORT).show();
                 holder.RadioLinLay.setClickable(false);
                 holder.RadioLinLay.setEnabled(false);
-                //holder.childLinLay.setClickable(false);
-                //holder.childLinLay.setEnabled(false);
-                //holder.checkBox.setClickable(false);
-                // holder.checkBox.setEnabled(false);
                 holder.radioGroup.setClickable(false);
                 holder.radioGroup.setEnabled(false);
                 holder.intermediate.setClickable(false);
@@ -672,7 +668,7 @@ public class InterestAdapter extends BaseExpandableListAdapter {
                     holder.beginner.setClickable(true);
                     interestArrayList.get(groupPosition).childInterests.get(childPosition).setSelected(false);
                     interestArrayList.get(groupPosition).childInterests.get(childPosition).setLevel(NONE);
-
+                    parentInterestList.remove(interestArrayList.get(groupPosition).getName());
                     for(ChildInterest toberemoved: selected_Interest_List){
                          if(toberemoved ==interestArrayList.get(groupPosition).childInterests.get(childPosition)){
                              selected_Interest_List.remove(toberemoved);
@@ -705,6 +701,10 @@ public class InterestAdapter extends BaseExpandableListAdapter {
         return rowView;
     }
 
+    private void removeInterestFromParentList(String name) {
+
+    }
+
 
     private void removeInterest(String name) {
         for (String toberemod:interestE) {
@@ -729,11 +729,13 @@ public class InterestAdapter extends BaseExpandableListAdapter {
 
 
     }
+
     public HashMap<String,ArrayList<String>> getData(){
         HashMap<String,ArrayList<String>> data = new HashMap<>();
         data.put("interestB",interestB);
         data.put("interestI",interestI);
         data.put("interestE",interestE);
+        data.put("AllParentInterests",parentInterestList);
         return data;
     }
 

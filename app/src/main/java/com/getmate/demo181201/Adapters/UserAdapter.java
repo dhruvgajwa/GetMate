@@ -10,25 +10,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.getmate.demo181201.MessageActivity;
+import com.getmate.demo181201.Activities.MessageActivity;
 import com.getmate.demo181201.Model.User;
 import com.getmate.demo181201.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private Context mContext;
         private List<User> mUsers;
+        private String messageData = null;
 
 
         public UserAdapter(Context context, List<User> users){
             this.mContext = context;
             this.mUsers = users;
         }
-
-
-
-
+    public UserAdapter(Context context, List<User> users,String messageData){
+        this.mContext = context;
+        this.mUsers = users;
+        this.messageData = messageData;
+    }
 
 
     @NonNull
@@ -38,8 +41,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return new UserAdapter.ViewHolder(view);
 
     }
-
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final User user = mUsers.get(position);
@@ -48,15 +49,33 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.profile_image.setImageResource(R.mipmap.ic_launcher);
     }
     else {
-        //Load Profile Image here
+        Picasso.get().load(user.getImageUrl()).into(holder.profile_image);
     }
 
     holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext,MessageActivity.class);
-            intent.putExtra("userid",user.getId());
-            mContext.startActivity(intent);
+
+            if (messageData!=null){
+                Intent intent = new Intent(mContext,MessageActivity.class);
+                intent.putExtra("userid",user.getId());
+                intent.putExtra("handle",user.getUsername());
+                intent.putExtra("profilePic",user.getImageUrl());
+                intent.putExtra("messgaeData",messageData);
+                intent.putExtra("forSharingEvent",true);
+                mContext.startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(mContext,MessageActivity.class);
+                intent.putExtra("userid",user.getId());
+                intent.putExtra("handle",user.getUsername());
+                intent.putExtra("profilePic",user.getImageUrl());
+                mContext.startActivity(intent);
+            }
+
+
+
+
         }
     });
 
@@ -77,7 +96,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             username = itemView.findViewById(R.id.user_name);
             profile_image = itemView.findViewById(R.id.profile_image);
 
