@@ -38,17 +38,26 @@ public class Paytm {
     String EMAIL;
 
 
-    public Paytm(String MID, String CHANNEL_ID, String TXN_AMOUNT, String WEBSITE, String CALLBACK_URL, String INDUSTRY_TYPE_ID, String MOBILE_NO, String EMAIL) {
-        this.MID = Constants.M_ID;
-        this.ORDER_ID = Constants.ORDER_ID;
-        this.CUST_ID = Constants.CUST_ID;
-        this.CHANNEL_ID = Constants.CHANNEL_ID;
-        this.TXN_AMOUNT = Constants.Transection;
-        this.WEBSITE = Constants.WEBSITE;
-        this.CALLBACK_URL = Constants.CALLBACK_URL;
-        this.INDUSTRY_TYPE_ID = Constants.INDUSTRY_TYPE_ID;
-        this.MOBILE_NO = Constants.MOBILE_NO;
-        this.EMAIL = Constants.EMAIL;
+    public Paytm(String MID,
+                 String CHANNEL_ID,
+                 String CUST_ID,
+                 String ORDER_ID,
+                 String TXN_AMOUNT,
+                 String WEBSITE,
+                 String CALLBACK_URL,
+                 String INDUSTRY_TYPE_ID,
+                 String MOBILE_NO,
+                 String EMAIL) {
+        this.MID = MID;
+        this.ORDER_ID = ORDER_ID;
+        this.CUST_ID = CUST_ID;
+        this.CHANNEL_ID =CHANNEL_ID;
+        this.TXN_AMOUNT = TXN_AMOUNT;
+        this.WEBSITE = WEBSITE;
+        this.CALLBACK_URL = CALLBACK_URL;
+        this.INDUSTRY_TYPE_ID = INDUSTRY_TYPE_ID;
+        this.MOBILE_NO = MOBILE_NO;
+        this.EMAIL = EMAIL;
         }
 
     public String getMID() {

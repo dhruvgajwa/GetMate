@@ -10,6 +10,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -87,7 +89,14 @@ dependencies {
         transitive = true;
     }
     implementation 'com.google.android:flexbox:0.3.2'
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
 
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+
+    // Shimmer for placeholder animation
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 }
 
 //NOTE: Create project on Firebase. Add google-services.json in the test app to this plugin to function

@@ -1,4 +1,4 @@
-package com.getmate.demo181201;
+package com.getmate.demo181201.Activities;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,8 +27,8 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.getmate.demo181201.Activities.ChatActivity;
-import com.getmate.demo181201.Activities.StartActivity;
+import com.facebook.shimmer.ShimmerFrameLayout;
+import com.getmate.demo181201.CurrentUserData;
 import com.getmate.demo181201.Fragments.FindMate;
 import com.getmate.demo181201.Fragments.MapFragment;
 import com.getmate.demo181201.Fragments.ProfileFragment;
@@ -39,6 +38,7 @@ import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.ProfileFragments.ConnectionsFragment;
 import com.getmate.demo181201.ProfileFragments.RecentActivityFragment;
 import com.getmate.demo181201.ProfileFragments.SavedItemsFragment;
+import com.getmate.demo181201.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,7 +57,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity  implements
         MapFragment.OnFragmentInteractionListener ,
-ProfileFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener,
         RecentActivityFragment.OnFragmentInteractionListener,SavedItemsFragment.OnFragmentInteractionListener,
         ConnectionsFragment.OnFragmentInteractionListener {
     final Fragment fragment1 =new  TimelineFragment();
@@ -83,22 +83,26 @@ ProfileFragment.OnFragmentInteractionListener,
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
     private ArrayList<Event> events = new ArrayList<>();
-    private FloatingActionButton logout;
+
 
     private boolean GetLocationFlag = true;
+    private ShimmerFrameLayout mShimmerViewContainer;
 
-
+    TextView appName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        appName= findViewById(R.id.app_name);
+        appName.setText("cohortso");
 
+        //placeholder animation
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //toolbar.setTitle("Shop");
-        logout= findViewById(R.id.logout);
-        logout.setVisibility(View.GONE);
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         progressDialog = new ProgressDialog(this);
@@ -123,24 +127,14 @@ ProfileFragment.OnFragmentInteractionListener,
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Cohortso");
-
+        getSupportActionBar().setTitle("");
         if (GetLocationFlag){
             checkUserPermission();
             GetLocationFlag = false;
         }
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                startActivity(new Intent(MainActivity.this,StartActivity.class));
-                finish();
-            }
-        });
-
-
-
+        else {
+            getProfileData(currentUser.getUid());
+        }
 
     }
 
@@ -154,18 +148,22 @@ ProfileFragment.OnFragmentInteractionListener,
                 case R.id.navigation_shop:
                     fm.beginTransaction().hide(active).show(fragment1).commit();
                     active = fragment1;
+
                     return true;
                 case R.id.navigation_gifts:
                     fm.beginTransaction().hide(active).show(fragment2).commit();
                     active = fragment2;
+                    appName.setText("FindMate");
                     return true;
 
                 case R.id.navigation_cart:
                     fm.beginTransaction().hide(active).show(fragment3).commit();
                     active = fragment3;
+                    appName.setText("Map");
                     return true;
                 case R.id.navigation_profile:
                     fm.beginTransaction().hide(active).show(fragment4).commit();
+                    appName.setText("Profile");
                     active = fragment4;
 
 
@@ -293,7 +291,7 @@ ProfileFragment.OnFragmentInteractionListener,
 
                 case REQUEST_FOR_INTERNET_PERMISSION:{
                     if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-
+                        getLocation();
                     }
                     else {
                         Toast.makeText(this, "Internet permission is denied", Toast.LENGTH_LONG).show();
@@ -336,6 +334,15 @@ ProfileFragment.OnFragmentInteractionListener,
             finish();
 
          }
+         if (id==R.id.guest_list){
+            Intent intent = new Intent(MainActivity.this,GuestListActivity.class);
+            startActivity(intent);
+
+         }
+
+         if (id==R.id.my_tickets){
+
+         }
         return true;
     }
 
@@ -360,6 +367,8 @@ ProfileFragment.OnFragmentInteractionListener,
             db.collection("events").whereEqualTo("city",
                     currentUserProfile.getCity()).whereArrayContains("allParentTags",
                     tag)
+                    //TODO: add this part later when all the events are pre created
+                    //.whereGreaterThan("timestamp",Calendar.getInstance().getTimeInMillis())
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -375,6 +384,10 @@ ProfileFragment.OnFragmentInteractionListener,
                             fragment3.setArguments(bundle);
                             fragment2.setArguments(bundle);
                             fragment1.setArguments(bundle);
+
+                            // stop animating Shimmer and hide the layout
+                            mShimmerViewContainer.stopShimmerAnimation();
+                            mShimmerViewContainer.setVisibility(View.GONE);
                             fm.beginTransaction().add(R.id.main_container,fragment4,"4").hide(fragment4).commit();
                             fm.beginTransaction().add(R.id.main_container,fragment3,"3").hide(fragment3).commit();
                             fm.beginTransaction().add(R.id.main_container,fragment2,"2").hide(fragment2).commit();
@@ -407,7 +420,8 @@ ProfileFragment.OnFragmentInteractionListener,
                      String json = gson.toJson(currentUserProfile);
                      Log.i("KaunHUMein",json+"\n"+"now calling demoFunctions");
                      progressDialog.dismiss();
-                     getEventsData();
+                     CurrentUserData.getInstance().setCurrent(currentUserProfile);
+                      getEventsData();
                     //BEckGround b = new BEckGround();
                     //b.execute();
 
@@ -481,6 +495,19 @@ ProfileFragment.OnFragmentInteractionListener,
             getEventsData();
             return null;
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 
 

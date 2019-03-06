@@ -13,7 +13,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.getmate.demo181201.EventListAdapter;
+import com.getmate.demo181201.Adapters.EventListAdapter;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
@@ -78,6 +78,8 @@ public class TimelineFragment extends Fragment {
             events = bundle.getParcelableArrayList("events");
             if (events!=null){
                 //Update UI
+            for (int i=0;i<3;i++){}
+            events.addAll(events);
             }
         }
 

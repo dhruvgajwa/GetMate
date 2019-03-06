@@ -47,6 +47,7 @@ import java.util.ArrayList;
 //TODO: ADD ALL privacy related data here
 public class Profile implements Parcelable {
     protected Profile(Parcel in) {
+        createdAt = in.readString();
         achievements = in.createStringArrayList();
         name = in.readString();
         city = in.readString();
@@ -62,6 +63,7 @@ public class Profile implements Parcelable {
         lat = in.readDouble();
         lon = in.readDouble();
         tagline = in.readString();
+        createdEvents = in.createStringArrayList();
         sector = in.readString();
         sclComp = in.readString();
         schools = in.createStringArrayList();
@@ -99,8 +101,13 @@ public class Profile implements Parcelable {
     public void setAchievements(ArrayList<String> achievements) {
         this.achievements = achievements;
     }
+
+    ArrayList<Ticket> myTickets = new ArrayList<>();
+
+    public String createdAt=null;
     public ArrayList<String> allParentTags;
     public ArrayList<String> achievements;
+    public ArrayList<String> createdEvents;
     private String name=null;
     private String city = null;
     private String firebase_id=null;
@@ -130,7 +137,7 @@ public class Profile implements Parcelable {
    // private ArrayList<String> connections=null;
     private ArrayList<String> recentActivities=null;
     private ArrayList<String> savedEvents=null;
-    private ArrayList<ConnectionObject> connections = null;
+    private ArrayList<ConnectionObject> connections = new ArrayList<>();
 
 
     public double getLat() {
@@ -158,13 +165,14 @@ public class Profile implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeStringList(achievements);
         parcel.writeString(name);
-
+        parcel.writeString(createdAt);
         parcel.writeString(city);
         parcel.writeString(firebase_id);
         parcel.writeString(gender);
         parcel.writeString(DOB);
         parcel.writeString(handle);
         parcel.writeString(profilePic);
+        parcel.writeStringList(createdEvents);
         parcel.writeString(email);
         parcel.writeString(bio);
         parcel.writeString(phoneNo);
@@ -226,6 +234,14 @@ public class Profile implements Parcelable {
         this.allParentTags = allParentTags;
     }
 
+    public ArrayList<Ticket> getMyTickets() {
+        return myTickets;
+    }
+
+    public void setMyTickets(ArrayList<Ticket> myTickets) {
+        this.myTickets = myTickets;
+    }
+
     public static Creator<Profile> getCREATOR() {
         return CREATOR;
     }
@@ -242,6 +258,13 @@ public class Profile implements Parcelable {
         return tagline;
     }
 
+    public ArrayList<String> getCreatedEvents() {
+        return createdEvents;
+    }
+
+    public void setCreatedEvents(ArrayList<String> createdEvents) {
+        this.createdEvents = createdEvents;
+    }
 
     public void setTagline(String tagline) {
         this.tagline = tagline;
@@ -282,6 +305,14 @@ public class Profile implements Parcelable {
 
     public void setName(String firstName) {
         this.name = firstName;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getAddress() {

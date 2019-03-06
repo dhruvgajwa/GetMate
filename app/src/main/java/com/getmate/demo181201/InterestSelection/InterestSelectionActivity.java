@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
+import com.getmate.demo181201.Activities.getEventLocation;
 import com.getmate.demo181201.R;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class InterestSelectionActivity extends AppCompatActivity {
 
     private boolean fromEditProfile = false;
 
+
+    private boolean isFromDateActivity = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +41,9 @@ public class InterestSelectionActivity extends AppCompatActivity {
             fromEditProfile =true;
             }
 
+      isFromDateActivity = intent.getBooleanExtra("fromDateActivity",false);
 
-
-        expandableListView = (ExpandableListView)findViewById(R.id.exp_listView);
+      expandableListView = (ExpandableListView)findViewById(R.id.exp_listView);
         allInterestList = getData();
         interestAdapter = new InterestAdapter(this,allInterestList);
         expandableListView.setAdapter(interestAdapter);
@@ -52,13 +56,6 @@ public class InterestSelectionActivity extends AppCompatActivity {
                 lastExpandedPos = groupPosition;
             }
         });
-
-
-
-
-
-
-
 
         DONE = (Button)findViewById(R.id.DONE);
         DONE.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +96,28 @@ public class InterestSelectionActivity extends AppCompatActivity {
                     setResult(RESULT_OK,i);
                     Log.d("interest",ib.toString()+ie.toString()+ii.toString());
                     finish();
+                }
+                if (isFromDateActivity){
+
+
+
+                    Log.i("Dhruv","B5"+getIntent().getStringExtra("description")+
+                            getIntent().getStringExtra("title")+"\n"+String.valueOf(getIntent().
+                            getLongExtra("from",0))+String.valueOf(getIntent().getLongExtra("to",0)));
+
+
+                    Intent i = new Intent(InterestSelectionActivity.this,getEventLocation.class);
+                    i.putExtra("isFromISA",true);
+                    i.putExtra("description",getIntent().getStringExtra("description"));
+                    i.putExtra("title",getIntent().getStringExtra("title"));
+                    i.putExtra("from",getIntent().getLongExtra("from",0));
+                    i.putExtra("to",getIntent().getLongExtra("to",0));
+                    i.putStringArrayListExtra("interestB",ib);
+                    i.putStringArrayListExtra("interestI",ii);
+                    i.putStringArrayListExtra("interestE",ie);
+                    i.putStringArrayListExtra("AllParentInterests",allParentsInterestName);
+                    Log.i("Dhruv","B6"+ib.toString()+ie.toString()+ii.toString());
+                    startActivity(i);
                 }
 
 

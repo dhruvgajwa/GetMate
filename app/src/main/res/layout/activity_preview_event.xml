@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".createEvent.PreviewEventActivity">
+
+    <RelativeLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        >
+
+        <Button
+            android:layout_toLeftOf="@+id/done"
+            android:id="@+id/save_draft"
+            android:layout_width="24dp"
+            android:layout_centerInParent="true"
+            android:layout_height="24dp"
+            android:background="@drawable/save_icon_outlined"
+            />
+        <Button
+            android:textColor="@color/basil_orange"
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Done"
+            android:layout_alignParentRight="true"
+            android:background="@null"/>
+        <TextView
+            android:layout_marginLeft="24dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Preview"
+            android:textSize="20dp"
+           android:textColor="@color/black"
+            android:alpha="0.7"
+            android:textStyle="bold"
+            />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_below="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.getmate.demo181201.CustomViews.EventTimelineImageView
+                android:id="@+id/event_poster_sa"
+                android:layout_width="match_parent"
+                android:background="@drawable/event_image_demo"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+
+                android:id="@+id/title_sa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Cycling Ride to Mahabalipuram"
+                android:textColor="@color/basil_orange"
+                android:textSize="32dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/going_count"
+                android:textSize="12dp"
+                android:text="9 going"
+                android:textStyle="bold"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+            <RelativeLayout
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/loc1"
+                    android:background="@drawable/map_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+                <TextView
+                    android:id="@+id/venue_sa"
+                    android:textSize="16dp"
+                    android:layout_toRightOf="@+id/loc1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="Gajendra Circle, IIT Madras, Chennai Pin code - 600036, Tamil Nadu"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/from_icon"
+
+                    android:background="@drawable/calendar_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+                <TextView
+                    android:id="@+id/from_text"
+                    android:textSize="16dp"
+                    android:layout_toRightOf="@+id/from_icon"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="Monay, January 21
+11:00 AM  2 Hours"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/to_icon"
+
+                    android:background="@drawable/calendar_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+                <TextView
+                    android:id="@+id/to_text"
+                    android:textSize="16dp"
+                    android:layout_toRightOf="@+id/to_icon"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="Monay, January 21
+11:00 AM  2 Hours"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/loc3"
+
+                    android:background="@drawable/ticket_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+                <TextView
+                    android:textSize="16dp"
+                    android:layout_toRightOf="@+id/loc3"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="Free
+ on EventHorts"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/link_rl"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/loc4"
+
+                    android:background="@drawable/link_icon_orange"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+                <TextView
+                    android:id="@+id/link_text"
+                    android:textSize="16dp"
+                    android:layout_toRightOf="@+id/loc4"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    android:text="https://www.youtube.com/watch?v=6FURuLYrR_Q"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:id="@+id/description_sa"
+                android:layout_marginTop="24dp"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:text="Material design is an adaptable system—backed by open-source code—guiding you in the principles and best practices of contemporary UI. Material helps teams streamline the designer-developer collaboration, reduce complexity, and enable fidelity through reusable components, patterns, and code libraries. All while adapting easily to your brand, platform, and users’ needs."/>
+
+
+
+
+
+            <LinearLayout
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <com.getmate.demo181201.InterestSelection.RoundedImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@mipmap/sports"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="4dip"
+                    android:layout_marginBottom="4dip"
+                    android:id="@+id/creator_prfl_pic_sa"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:text="Random___Nerd"
+                        android:id="@+id/creator_handle_sa"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:text="Dhruv Gajwa"
+                        android:id="@+id/creator_name_sa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/creator_email_sa"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="dhruvgajwa008@gmail.com" />
+                <Button
+                    android:id="@+id/creator_email_de"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/emaill"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:id="@+id/creator_phone_sa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="7092541851"
+                    android:gravity="center_vertical"
+                    />
+                <Button
+                    android:id="@+id/creator_phone_de"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/phone"/>
+
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_marginVertical="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:id="@+id/organiserLinLay1"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="10"
+                android:layout_height="wrap_content">
+
+
+                <ImageButton
+                    android:layout_gravity="center"
+                    android:layout_width="32dp"
+                    android:background="@drawable/people"
+                    android:layout_height="32dp" />
+                <LinearLayout
+                    android:layout_weight="9"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp">
+                    <TextView
+                        android:id="@+id/org1Name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dhruv Gajwa"/>
+                    <TextView
+                        android:id="@+id/org1Phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7092541851"/>
+                    <TextView
+                        android:id="@+id/org1Email"
+                        android:layout_width="wrap_content"
+                        android:text="dhruvgajwa008@gmail.com"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <View
+                android:visibility="gone"
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="10dp"
+                android:background="@color/darkgrey"/>
+
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/organiserLinLay2"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="10"
+                android:layout_height="wrap_content">
+
+
+                <ImageButton
+
+                    android:layout_width="40dp"
+                    android:background="@drawable/people"
+                    android:layout_height="40dp" />
+                <LinearLayout
+                    android:layout_weight="9"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp">
+                    <TextView
+                        android:id="@+id/org2Name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dhruv Gajwa"/>
+                    <TextView
+                        android:id="@+id/org2Phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7092541851"/>
+                    <TextView
+                        android:id="@+id/org2Email"
+                        android:text="getmateiit@gmail.com"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <View
+                android:visibility="gone"
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="10dp"
+                android:background="@color/darkgrey"/>
+
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/organiserLinLay3"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="10"
+                android:layout_height="wrap_content">
+
+
+                <ImageButton
+
+                    android:layout_width="40dp"
+                    android:background="@drawable/people"
+                    android:layout_height="40dp" />
+                <LinearLayout
+                    android:layout_weight="9"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp">
+                    <TextView
+                        android:id="@+id/org3Name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dhruv Gajwa"/>
+                    <TextView
+                        android:id="@+id/org3Phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7092541851"/>
+                    <TextView
+                        android:id="@+id/org3Email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="dhruv@gmial.com"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>

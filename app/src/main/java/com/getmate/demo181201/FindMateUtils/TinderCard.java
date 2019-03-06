@@ -2,6 +2,7 @@ package com.getmate.demo181201.FindMateUtils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.getmate.demo181201.Activities.ProfileActivity;
 import com.getmate.demo181201.Model.User;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.Resolve;
@@ -133,21 +136,30 @@ public class TinderCard {
         }
 
 
-        for (int i = 0; i < toBeBlack.size(); i++)   {
-            tages2[i] = new TextView(mContext);
-            GradientDrawable gD2 = new GradientDrawable();
-            int strokeWidth2 = 2;
-            int strokeColor2 = mContext.getResources().getColor(R.color.black);
-            gD2.setStroke(strokeWidth2, strokeColor2);
-            gD2.setCornerRadius(50);
-            gD2.setShape(GradientDrawable.RECTANGLE);
-            tages2[i].setBackground(gD2);
-            tages2[i].setText(recommended.getAllInterests().get(i));
-            layoutParams.setMargins(24, 8, 24, 8);
-            tages2[i].setPadding(24, 15, 24, 15);
-            tagsView.addView(tages2[i], layoutParams);
-        }
+            for (int i = 0; i < toBeBlack.size(); i++)   {
+                tages2[i] = new TextView(mContext);
+                GradientDrawable gD2 = new GradientDrawable();
+                int strokeWidth2 = 2;
+                int strokeColor2 = mContext.getResources().getColor(R.color.black);
+                gD2.setStroke(strokeWidth2, strokeColor2);
+                gD2.setCornerRadius(50);
+                gD2.setShape(GradientDrawable.RECTANGLE);
+                tages2[i].setBackground(gD2);
+                tages2[i].setText(recommended.getAllInterests().get(i));
+                layoutParams.setMargins(24, 8, 24, 8);
+                tages2[i].setPadding(24, 15, 24, 15);
+                tagsView.addView(tages2[i], layoutParams);
+            }
         Log.i("KaunHuMin", "OnResolvedCalled");
+
+        handle.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                Intent i = new Intent(mContext,ProfileActivity.class);
+                i.putExtra("profileString",new Gson().toJson(recommended));
+                mContext.startActivity(i);
+            }
+        });
     }
 
     @SwipeOut

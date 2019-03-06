@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Activities.MainActivity">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,11 +20,12 @@
             android:layout_height="match_parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:id="@+id/profileImage"/>
             <TextView
                 android:text="USerName"
+                android:textSize="16dp"
                 android:id="@+id/userName_ma"
                 android:textStyle="bold"
                 android:layout_marginStart="25dp"
@@ -43,7 +44,6 @@
             android:layout_width="match_parent"
             app:tabTextColor="#fff"
             app:tabIndicatorColor="#fff"
-
             android:layout_height="wrap_content"/>
 
     </android.support.design.widget.AppBarLayout>

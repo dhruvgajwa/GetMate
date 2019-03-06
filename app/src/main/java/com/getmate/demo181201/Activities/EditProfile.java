@@ -30,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getmate.demo181201.InterestSelection.InterestSelectionActivity;
-import com.getmate.demo181201.MainActivity;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
 import com.google.android.flexbox.FlexboxLayout;
@@ -356,6 +355,7 @@ public class EditProfile extends AppCompatActivity  {
                 if (fromRegisterActivity){
                     profile.setLat(currentLocation.getLatitude());
                     profile.setLon(currentLocation.getLongitude());
+                    profile.setCreatedAt(String.valueOf(Calendar.getInstance().getTimeInMillis()));
                     }
                 profile.setSclComp(scl1.getText().toString());
                 profile.setSector(scl2.getText().toString());

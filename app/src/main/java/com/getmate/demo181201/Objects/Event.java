@@ -7,7 +7,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Event implements Serializable,Parcelable
-{
+{    private double ticketPrice=0.00;
+     private double convenienceFees= 0.00;
+     private Long timestamp =Long.valueOf(0);
     private String title = null;
     private String creatorName = null;
     private String imageUrl = null;
@@ -24,7 +26,6 @@ public class Event implements Serializable,Parcelable
     private String creatorFirebaseId= null;
     private String Address =null;
     private String firebaseId = null;
-
     private String url =null;
     private int savedCount =1;
     private int goingCount = 1;
@@ -32,9 +33,16 @@ public class Event implements Serializable,Parcelable
     private ArrayList<String> savedBy = null;
     private ArrayList<String> tags = null;
     private ArrayList<String> allParentTags = null;
-
+    private  Long from=Long.valueOf(0);
+    private Long to =Long.valueOf(0);
+    private ArrayList<ConnectionObject> goingProfiles = new ArrayList<>();
 
     protected Event(Parcel in) {
+        to = in.readLong();
+        from = in.readLong();
+        timestamp = in.readLong();
+        convenienceFees = in.readDouble();
+        ticketPrice = in.readDouble();
         creatorEmail = in.readString();
         creatorHandle = in.readString();
         creatorPhoneNo = in.readString();
@@ -99,6 +107,14 @@ public class Event implements Serializable,Parcelable
         this.lat = lat;
     }
 
+    public ArrayList<ConnectionObject> getGoingProfiles() {
+        return goingProfiles;
+    }
+
+    public void setGoingProfiles(ArrayList<ConnectionObject> goingProfiles) {
+        this.goingProfiles = goingProfiles;
+    }
+
     public double getLon() {
         return lon;
     }
@@ -114,6 +130,11 @@ public class Event implements Serializable,Parcelable
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(to);
+        parcel.writeLong(from);
+        parcel.writeLong(timestamp);
+        parcel.writeDouble(convenienceFees);
+        parcel.writeDouble(ticketPrice);
         parcel.writeString(title);
         parcel.writeString(creatorName);
         parcel.writeString(imageUrl);
@@ -180,6 +201,15 @@ public class Event implements Serializable,Parcelable
         }
     }
 
+
+    public double getConvenienceFees() {
+        return convenienceFees;
+    }
+
+    public void setConvenienceFees(double convenienceFees) {
+        this.convenienceFees = convenienceFees;
+    }
+
     public ArrayList<String> getAllParentTags() {
         return allParentTags;
     }
@@ -220,6 +250,14 @@ public class Event implements Serializable,Parcelable
         this.creatorName = creatorName;
     }
 
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(double ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -250,6 +288,22 @@ public class Event implements Serializable,Parcelable
 
     public void setCreatorFirebaseId(String creatorFirebaseId) {
         this.creatorFirebaseId = creatorFirebaseId;
+    }
+
+    public Long getFrom() {
+        return from;
+    }
+
+    public void setFrom(Long from) {
+        this.from = from;
+    }
+
+    public Long getTo() {
+        return to;
+    }
+
+    public void setTo(Long to) {
+        this.to = to;
     }
 
     public String getCreatorHandle() {
@@ -320,6 +374,14 @@ public class Event implements Serializable,Parcelable
 
     public void setGoingProfile(ArrayList<String> goingProfile) {
         this.goingProfile = goingProfile;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public ArrayList<String> getSavedBy() {

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".createEvent.AddImageActivity">
+    <TextView
+        android:id="@+id/text_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textSize="24dp"
+        android:layout_marginHorizontal="24dp"
+        android:textColor="@color/black"
+        android:alpha="0.7"
+        android:textStyle="bold"
+        android:text="Event Poster  !"/>
+    <FrameLayout
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/text_ad"
+        android:layout_width="match_parent"
+        android:layout_height="172dp">
+
+        <ImageButton
+            android:id="@+id/add_image_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="24dp"
+            android:background="@drawable/edit_text_background"
+            android:text="Add Image Here"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/add_image_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:text="Click To Add Image Here"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+    </FrameLayout>
+    <RelativeLayout
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="20dp"
+        >
+
+        <Button
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:background="@color/grey_300"
+            android:padding="16dp"
+            android:text="previous"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/edit_text_background"
+            android:padding="16dp"
+            android:text="next"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

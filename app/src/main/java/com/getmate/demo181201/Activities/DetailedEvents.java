@@ -41,7 +41,7 @@ public class DetailedEvents extends AppCompatActivity {
     RoundedImageView creatorProfilePic;
     Button link,date,going,buyTicket;
     TextView link1,date1,going1;
-
+    Button cEmail,cPhone;
     LinearLayout org1,org2,org3;
     Event event = new Event();
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
@@ -86,11 +86,48 @@ public class DetailedEvents extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(DetailedEvents.this,PaytmGateway.class);
+                Gson gson = new Gson();
+                String data = gson.toJson(event);
+                i.putExtra("data",data);
+
                 startActivity(i);
             }
         });
 
+        cEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent email = new Intent(Intent.ACTION_SEND);
+                String creatorsEmail = "cratorEmail@mail.com";
+                if (!event.getCreatorEmail().isEmpty()){
+                   creatorsEmail = event.getCreatorEmail();
+                }
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{ creatorsEmail});
+                email.putExtra(Intent.EXTRA_SUBJECT, event.getTitle());
+                email.putExtra(Intent.EXTRA_TEXT, "write your querry here?");
+
+                //need this to prompts email client only
+                email.setType("message/rfc822");
+
+                startActivity(Intent.createChooser(email, "Choose an Email client :"));
+            }
+        });
+
+        cPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String posted_by = event.getCreatorPhoneNo();
+                String uri = "tel:" + posted_by.trim() ;
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse(uri));
+                startActivity(intent);
+            }
+        });
+
+
+
     }
+
 
     private void handleIntent(Intent intent) {
         Log.i("Kaun","handleIntentCalled");
@@ -168,6 +205,9 @@ public class DetailedEvents extends AppCompatActivity {
         org2 = findViewById(R.id.organiserLinLay2);
         org3 = findViewById(R.id.organiserLinLay3);
         buyTicket = findViewById(R.id.buy_ticket);
+        cEmail = findViewById(R.id.creator_email_de);
+        cPhone = findViewById(R.id.creator_phone_de);
+
     }
 
 
@@ -250,7 +290,8 @@ public class DetailedEvents extends AppCompatActivity {
                 }
             });
         } else {
-            eventTimelineImageView.setVisibility(View.GONE);
+            eventTimelineImageView.setImageResource(R.mipmap.event_placeholder);
+            eventTimelineImageView.setVisibility(View.VISIBLE);
         }
 
     }

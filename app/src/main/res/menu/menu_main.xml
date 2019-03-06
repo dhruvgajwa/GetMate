@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context = ".MainActivity"
+    tools:context = ".Activities.MainActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:title="Logout"
         app:showAsAction="never"
@@ -12,6 +12,16 @@
         android:icon="@drawable/messages_icon"
         android:id="@+id/chat"
         android:title="messgges"
+        />
+    <item
+        app:showAsAction="never"
+        android:id="@+id/guest_list"
+        android:title="guest List"
+        />
+    <item
+        app:showAsAction="never"
+        android:id="@+id/my_tickets"
+        android:title="My Tickets"
         />
 
 </menu>

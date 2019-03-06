@@ -14,12 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.getmate.demo181201.Activities.EditProfile;
 import com.getmate.demo181201.Activities.FullScreenImageView;
-import com.getmate.demo181201.Activities.editEvent;
-import com.getmate.demo181201.Objects.Profile;
-import com.getmate.demo181201.R;
+import com.getmate.demo181201.Activities.Settings;
+import com.getmate.demo181201.Activities.TicketActivity;
 import com.getmate.demo181201.Adapters.ViewPagerAdapter;
+import com.getmate.demo181201.Objects.Profile;
+import com.getmate.demo181201.Objects.Ticket;
+import com.getmate.demo181201.R;
+import com.getmate.demo181201.createEvent.getEventTitle;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -42,6 +47,7 @@ public class ProfileFragment extends Fragment {
     Button createEventButton;
     Context context;
     Button editProfile;
+    Button tickets;
    boolean isImageFitToScreen = false;
 
 
@@ -126,9 +132,31 @@ public class ProfileFragment extends Fragment {
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,editEvent.class);
+                Intent intent = new Intent(context,getEventTitle.class);
                 intent.putExtra("currentUserData",new Gson().toJson(currentUserProfile));
                 startActivity(intent);
+
+            }
+        });
+
+        tickets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FirebaseFirestore.getInstance().collection("tickets").
+                        document("16mJBlTfOphZcBZUV7gz").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Ticket ticket = documentSnapshot.toObject(Ticket.class);
+                        Intent i = new Intent(getActivity(),TicketActivity.class);
+                        Gson gson = new Gson();
+                        String s = gson.toJson(ticket);
+                        i.putExtra("ticket",s);
+                        startActivity(i);
+                    }
+                });
+
+
 
             }
         });
@@ -142,17 +170,6 @@ public class ProfileFragment extends Fragment {
                 i.putExtra("imageLink",currentUserProfile.getProfilePic());
                 startActivity(i);
 
-
-/*
-                if(isImageFitToScreen) {
-                    isImageFitToScreen=false;
-                    profilePic.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
-                  //  profilePic.setAdjustViewBounds(true);
-                }else{
-                    isImageFitToScreen=true;
-                    profilePic.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-                    profilePic.setScaleType(CircleImageView.ScaleType.CENTER_CROP);
-                }*/
             }
         });
 
@@ -160,7 +177,9 @@ public class ProfileFragment extends Fragment {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(),EditProfile.class);
+
+
+                Intent i = new Intent(getActivity(),Settings.class);
                 i.putExtra("fromProfileFragment",true);
                 Gson gson = new Gson();
                 String profileStringData = gson.toJson(currentUserProfile);
@@ -221,6 +240,7 @@ public class ProfileFragment extends Fragment {
         age = view1.findViewById(R.id.tvAge);
         name = view.findViewById(R.id.tvName);
         handle = view.findViewById(R.id.handle);
+        tickets = view.findViewById(R.id.ticket);
         work = view.findViewById(R.id.tvTitle);
        // school = view.findViewById(R.id.tvEducation);
         email = view.findViewById(R.id.tvEmail);

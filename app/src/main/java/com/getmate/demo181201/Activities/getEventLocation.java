@@ -1,4 +1,4 @@
-package com.getmate.demo181201;
+package com.getmate.demo181201.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.getmate.demo181201.R;
+import com.getmate.demo181201.createEvent.GetVenueActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,44 +22,64 @@ public class getEventLocation extends FragmentActivity implements OnMapReadyCall
     private GoogleMap mMap;
     LatLng lng;
 
+    Boolean isFromISA = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_event_location);
+        Log.i("Dhruv","B12");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        Log.i("Dhruv","B7");
 
         FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab_done);
+
+        isFromISA = getIntent().getBooleanExtra("isFromISA",false);
+        Log.i("Dhruv","B8");
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("Kaun","location is"+lng.latitude+lng.longitude);
                 Log.d("TAG","fab clicked");
-                Intent intent = new Intent();
-                intent.putExtra("lat",lng.latitude);
-                intent.putExtra("lon",lng.longitude);
-                setResult(Activity.RESULT_OK,intent);
-                finish();
+
+
+                if (isFromISA){
+                    Intent i = new Intent(getEventLocation.this,GetVenueActivity.class);
+                    Log.i("Dhruv","B9");
+
+                    i.putExtra("description",getIntent().getStringExtra("description"));
+                    i.putExtra("title",getIntent().getStringExtra("title"));
+                    i.putExtra("from",getIntent().getLongExtra("from",0));
+                    i.putExtra("to",getIntent().getLongExtra("to",0));
+                    i.putStringArrayListExtra("interestB",getIntent().getStringArrayListExtra("interestB"));
+                    i.putStringArrayListExtra("interestI",getIntent().getStringArrayListExtra("interestI"));
+                    i.putStringArrayListExtra("interestE",getIntent().getStringArrayListExtra("interestE"));
+                    i.putStringArrayListExtra("AllParentInterests",getIntent().
+                            getStringArrayListExtra("AllParentInterests"));
+                    i.putExtra("lat",lng.latitude);
+                    i.putExtra("lon",lng.longitude);
+                    startActivity(i);
+                }
+                else {
+                    Log.i("Dhruv","B10");
+
+                    Intent intent = new Intent();
+                    intent.putExtra("lat",lng.latitude);
+                    intent.putExtra("lon",lng.longitude);
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
+                }
             }
         });
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Log.i("Dhruv","B11");
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(13.0827, 80.2707);

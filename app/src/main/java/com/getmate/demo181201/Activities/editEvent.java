@@ -28,16 +28,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.getmate.demo181201.InterestSelection.InterestSelectionActivity;
-import com.getmate.demo181201.MainActivity;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
-import com.getmate.demo181201.getEventLocation;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
@@ -101,8 +100,8 @@ public class editEvent extends AppCompatActivity {
     FirebaseAuth mAuth;
     StorageReference storageReference;
     Profile currentUserProfile;
-
-
+    TextView addImageText;
+    ScrollView scrollView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,15 +133,21 @@ public class editEvent extends AppCompatActivity {
             linearLayouts[i].addView(nameOrgs[i]);
             linearLayouts[i].addView(emailOrgs[i]);
             linearLayouts[i].addView(phoneOrgs[i]);
+            linearLayouts[i].setBackground(getResources().getDrawable(R.drawable.profile_background));
+            linearLayouts[i].setPadding(8,8,8,8);
+
             }
 
            mainLin.addView(linearLayouts[0]);
+
 
         orgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (flag<3){
                     mainLin.addView(linearLayouts[flag]);
+                   scrollView = findViewById(R.id.scroll_ee);
+                    scrollView.setScrollY(scrollView.getMaxScrollAmount());
                     flag++;
                 }
                 else {
@@ -175,9 +180,8 @@ public class editEvent extends AppCompatActivity {
                     newEvent.setCreatorProfilePic(currentUserProfile.getProfilePic());
                     newEvent.setCreatorEmail(currentUserProfile.getEmail());
                     newEvent.setCreatorHandle(currentUserProfile.getHandle());
+                    newEvent.setTimestamp(Calendar.getInstance().getTimeInMillis());
                     newEvent.setCreatorPhoneNo(currentUserProfile.getPhoneNo());
-
-
                     DocumentReference ref = db.collection("events").document();
                     String myId = ref.getId();
                     newEvent.setFirebaseId(myId);
@@ -257,6 +261,7 @@ public class editEvent extends AppCompatActivity {
                         },mYear,mMonth,mDay);
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis());
                 dpd.show();
+                date_button.setBackgroundColor(getResources().getColor(R.color.image_color));
             }
         });
 
@@ -279,6 +284,7 @@ public class editEvent extends AppCompatActivity {
                     }
                 },mHour,mMinute,true);
                 timePickerDialog.show();
+                time_button.setBackgroundColor(getResources().getColor(R.color.image_color));
             }
         });
 
@@ -298,6 +304,7 @@ public class editEvent extends AppCompatActivity {
         done=findViewById(R.id.done_ee);
         imageButton = findViewById(R.id.add_image_button);
         flexboxLayout = findViewById(R.id.tagsView);
+        addImageText = findViewById(R.id.add_image_text);
     }
 
 
@@ -387,7 +394,7 @@ public class editEvent extends AppCompatActivity {
                 flexboxLayout.addView(tages[i], layoutParams);
             }
 
-
+        interest_button.setBackgroundColor(getResources().getColor(R.color.image_color));
 
 
 
@@ -400,7 +407,7 @@ public class editEvent extends AppCompatActivity {
                 Log.i("KaunHa"," lol"+lng.latitude+lng.longitude);
                 newEvent.setLat(lng.latitude);
                 newEvent.setLon(lng.longitude);
-
+                map_button.setBackgroundColor(getResources().getColor(R.color.image_color));
                 Geocoder geocoder = new Geocoder(editEvent.this,Locale.getDefault());
                 try {
                     List<Address> addresses = geocoder.getFromLocation(lng.latitude,
@@ -450,6 +457,7 @@ public class editEvent extends AppCompatActivity {
                          Uri compressedFileUri = Uri.fromFile(compressedFile);
                         UploadImage(compressedFileUri);
                         imageButton.setImageURI(compressedFileUri);
+                        addImageText.setVisibility(View.GONE);
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.e("EditProfile","image compression error",e.getCause());

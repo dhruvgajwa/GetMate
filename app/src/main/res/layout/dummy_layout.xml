@@ -3,12 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
+    <LinearLayout
+        android:id="@+id/organiserLinLay1"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_height="wrap_content">
 
-        android:scaleType="centerCrop"
 
-        />
+        <ImageButton
+
+            android:layout_width="40dp"
+            android:background="@drawable/people"
+            android:layout_height="40dp" />
+        <LinearLayout
+            android:layout_weight="9"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp">
+            <TextView
+                android:id="@+id/org1Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dhruv Gajwa"/>
+            <TextView
+                android:id="@+id/org1Phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7092541851"/>
+            <TextView
+                android:id="@+id/org1Email"
+                android:layout_width="wrap_content"
+                android:text="dhruvgajwa008@gmail.com"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

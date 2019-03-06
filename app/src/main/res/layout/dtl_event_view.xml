@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -19,6 +19,140 @@
                 android:background="@drawable/event_image_demo"
                 android:layout_height="wrap_content"
                 />
+            <TextView
+
+                android:id="@+id/title_sa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Cycling Ride to Mahabalipuram"
+                android:textColor="@color/basil_orange"
+                android:textSize="32dp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="8dp"
+
+                android:layout_marginHorizontal="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+
+                <CheckBox
+
+
+                    android:layout_marginLeft="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/like_btn"
+                    android:background="@drawable/like_icon"
+                    android:alpha="0.8"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:clickable="true"
+                    android:button="@null"
+                    android:stateListAnimator="@animator/like_animation"
+                    android:focusable="true"
+                    android:layout_centerVertical="true"
+                    />
+
+                <CheckBox
+                    android:layout_marginLeft="32dp"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:layout_toRightOf="@+id/like_btn"
+                    android:id="@+id/dislike_btn"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/dislike_icon"
+                    android:alpha="0.8"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:clickable="true"
+                    android:button="@null"
+                    android:stateListAnimator="@animator/like_animation"
+
+                    android:focusable="true"
+                    />
+
+
+                <CheckBox
+                    android:button="@drawable/save_icon_background"
+                    android:layout_centerVertical="true"
+                    android:checked="false"
+                    android:id="@+id/save_btn"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginRight="28dp"
+                    android:layout_toLeftOf="@+id/share_btn"
+
+                    />
+                <Button
+
+                    android:layout_centerVertical="true"
+                    android:id="@+id/share_btn"
+                    android:layout_marginRight="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/share_icon"
+                    android:alpha="0.6"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:text="36K"
+                    android:layout_marginLeft="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/like_btn_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:text="36K"
+                    android:layout_marginLeft="32dp"
+                    android:layout_toRightOf="@+id/like_btn_text"
+                    android:id="@+id/dislike_btn_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    />
+
+
+                <TextView
+                    android:layout_marginRight="28dp"
+                    android:layout_toLeftOf="@+id/share_btn_text"
+                    android:text="save"
+                    android:layout_marginLeft="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    />
+                <TextView
+                    android:text="share"
+                    android:layout_marginRight="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/share_btn_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/going_count"
@@ -26,22 +160,12 @@
                 android:text="9 going"
                 android:textStyle="bold"
                 android:layout_gravity="right"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/title_sa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif-smallcaps"
-                android:text="Cycling Ride to Mahabalipuram"
-                android:textColor="@color/basil_orange"
-                android:textSize="32dp"
-                android:textStyle="bold" />
+
 
             <RelativeLayout
                 android:layout_marginHorizontal="20dp"
@@ -145,7 +269,7 @@
             <TextView
                 android:id="@+id/description_sa"
                 android:layout_marginTop="24dp"
-                android:textSize="12dp"
+                android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -196,35 +320,53 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageButton
-                    android:layout_width="28dp"
-                    android:src="@drawable/emaill"
-                    android:id="@+id/email_icon"
-                    android:layout_height="28dp" />
+
                 <TextView
-                    android:layout_toRightOf="@+id/email_icon"
+                    android:layout_alignParentLeft="true"
                     android:id="@+id/creator_email_sa"
-                    android:layout_marginHorizontal="20dp"
                     android:layout_centerInParent="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="dhruvgajwa008@gmail.com" />
+                <Button
+                    android:id="@+id/creator_email_de"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/emaill"/>
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/creator_phone_sa"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/phone"
-                android:text="7092541851"
-                android:drawablePadding="20dp"
+
+            <RelativeLayout
+                android:layout_marginTop="12dp"
                 android:layout_marginHorizontal="20dp"
-                android:gravity="center_vertical"
-               />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:id="@+id/creator_phone_sa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="7092541851"
+                    android:gravity="center_vertical"
+                    />
+                <Button
+                    android:id="@+id/creator_phone_de"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/phone"/>
+
+            </RelativeLayout>
+
+
+
             <LinearLayout
-                android:visibility="gone"
+                android:layout_marginVertical="16dp"
+                android:layout_marginHorizontal="20dp"
                 android:id="@+id/organiserLinLay1"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
@@ -234,12 +376,11 @@
 
 
                 <ImageButton
-
-                    android:layout_width="40dp"
+                    android:layout_gravity="center"
+                    android:layout_width="32dp"
                     android:background="@drawable/people"
-                    android:layout_height="40dp" />
+                    android:layout_height="32dp" />
                 <LinearLayout
-
                     android:layout_weight="9"
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical"

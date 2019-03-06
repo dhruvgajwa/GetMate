@@ -3,28 +3,38 @@
   make it again as per need
  -->
 
-<android.support.v7.widget.CardView
-    android:background="@color/feed_bg"
+<android.support.v7.widget.CardView android:background="@color/feed_bg"
     android:layout_marginBottom="40dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="8dp"
     android:elevation="10dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
 <LinearLayout
+    android:layout_marginBottom="12dp"
+    android:id="@+id/lin_lay_card_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.getmate.demo181201.CustomViews.EventTimelineImageView
+    <android.support.v7.widget.CardView
+        app:cardCornerRadius="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:scaleType="centerCrop"
         android:id="@+id/event_image"
         android:layout_width="match_parent"
-        android:background="@drawable/event_image_demo"
-        android:layout_height="344dp"
+        android:layout_height="wrap_content"
         />
+    </android.support.v7.widget.CardView>
     <TextView
         android:id="@+id/timestamp"
         android:layout_width="wrap_content"
@@ -32,7 +42,7 @@
         android:layout_gravity="right"
         android:text="timestamp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"/>
+        />
 
     <TextView
         android:id="@+id/event_title"
@@ -68,6 +78,8 @@
             android:text="link"/>
 
         <RelativeLayout
+
+            android:layout_gravity="center_vertical"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:layout_marginHorizontal="16dp"
@@ -76,30 +88,36 @@
             android:padding="5dp"
             android:orientation="horizontal">
             <Button
+
+                android:visibility="gone"
                 android:background="@drawable/info_icon"
                 android:id="@+id/dtl_btn"
                 android:alpha="0.8"
-                android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
             <Button
+                android:visibility="gone"
+                android:layout_centerVertical="true"
                 android:id="@+id/map_btn"
-                android:background="@drawable/map_icon_timeline"
-                android:alpha="0.7"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginHorizontal="12dp"
+                android:background="@drawable/map_btn_outlined"
+                android:alpha="0.8"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@+id/like_btn"
                 />
 
 
             <CheckBox
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
                 android:layout_toLeftOf="@+id/save_btn"
                 android:id="@+id/dislike_btn"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/dislike_icon"
                 android:alpha="0.8"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:clickable="true"
                 android:button="@null"
                 android:stateListAnimator="@animator/like_animation"
@@ -109,42 +127,42 @@
             <CheckBox
                 android:layout_toLeftOf="@+id/dislike_btn"
                 android:id="@+id/like_btn"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/like_icon"
                 android:alpha="0.8"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:clickable="true"
                 android:button="@null"
                 android:stateListAnimator="@animator/like_animation"
                 android:focusable="true"
+                android:layout_centerVertical="true"
                 />
 
             <CheckBox
+                android:button="@drawable/save_icon_background"
+                android:layout_centerVertical="true"
                 android:checked="false"
                 android:id="@+id/save_btn"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginHorizontal="12dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="12dp"
                 android:layout_toLeftOf="@+id/share_btn"
-                android:alpha="0.8"
-                android:background="@drawable/save_icon" />
+                android:stateListAnimator="@animator/like_animation"
+
+                />
             <Button
+                android:layout_centerVertical="true"
                 android:id="@+id/share_btn"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginRight="8dp"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/share_icon"
                 android:alpha="0.6"
-                android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
 
         </RelativeLayout>
-    <TextView
-        android:layout_marginBottom="8dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:text="Dhruv gajwa and 24 others are going"/>
+
     </LinearLayout>
 
 

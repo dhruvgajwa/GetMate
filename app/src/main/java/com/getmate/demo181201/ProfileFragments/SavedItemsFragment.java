@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.getmate.demo181201.Adapters.SavedEventsListAdapter;
-import com.getmate.demo181201.EventListAdapter;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.R;
 import com.google.android.gms.tasks.OnCompleteListener;

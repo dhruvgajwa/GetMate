@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Settings">
+
+    <ScrollView
+        android:layout_marginHorizontal="8dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:padding="8dp"
+           android:text="Account Settings"
+           android:textStyle="bold"
+           android:textColor="@color/bold_heading"/>
+
+    <android.support.v7.widget.CardView
+        android:background="@color/white"
+        android:layout_marginHorizontal="8dp"
+        app:cardCornerRadius="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:padding="8dp"
+       android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TextView
+            android:padding="8dp"
+            android:textColor="@color/bold_heading"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:gravity="end"
+            android:text="Edit Profile" />
+
+        <Button
+
+            android:id="@+id/edit_profile_s"
+            android:background="@drawable/edit_profile"
+            android:layout_alignParentEnd="true"
+            android:layout_width="24dp"
+            android:elevation="40dp"
+            android:layout_height="24dp" />
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.CardView
+        android:background="@color/white"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="8dp"
+            android:textColor="@color/bold_heading"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Show me on FindMate "/>
+        <Switch
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/basil_orange"
+            android:layout_alignParentRight="true"
+            android:id="@+id/show_me_on_findmate_s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Contact Me"
+            android:textStyle="bold"
+            android:textColor="@color/bold_heading"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/help_and_support"
+            android:background="@color/white"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:padding="8dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Help And Support"
+                    android:textStyle="bold"
+                    android:textColor="@color/bold_heading"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Legal"
+            android:textStyle="bold"
+            android:textColor="@color/bold_heading"/>
+
+
+        <android.support.v7.widget.CardView
+            android:background="@color/white"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/privacy_policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Privacy Policy"
+
+                    android:textColor="@color/bold_heading"/>
+                <TextView
+                    android:id="@+id/terms_and_condition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Terms and Conditions"
+
+                    android:textColor="@color/bold_heading"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Join me in making Cohortso better"
+            android:textStyle="bold"
+            android:textColor="@color/bold_heading"/>
+        <android.support.v7.widget.CardView
+            android:background="@color/white"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/work_with_cohortso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textStyle="bold"
+                    android:text="Apply to work with Cohortso"
+                    android:textColor="@color/basil_orange"/>
+                <View
+                    android:background="@color/grey_300"
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
+                    />
+                <TextView
+                    android:id="@+id/report_a_bug"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Report a bug"
+                    android:textColor="@color/bold_heading"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+
+            android:background="@color/white"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:padding="8dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/logout_s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textSize="16dp"
+                    android:text="Logout"
+                     android:textColor="@color/bold_heading"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <ImageView
+            android:layout_marginTop="12dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_gravity="center"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+        <TextView
+            android:textColor="@color/bold_heading"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Version 1.01"/>
+        <TextView
+            android:textColor="@color/bold_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="(A Dhruv Gajwa's production)"/>
+
+        <android.support.v7.widget.CardView
+            android:background="@color/white"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:padding="8dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/delete_account_s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Delete Account"
+
+                    android:textColor="@color/basil_orange"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,6 +1,7 @@
-package com.getmate.demo181201;
+package com.getmate.demo181201.Adapters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,20 +21,20 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.getmate.demo181201.Activities.ChatActivity;
 import com.getmate.demo181201.Activities.DetailedEvents;
-import com.getmate.demo181201.CustomViews.EventTimelineImageView;
 import com.getmate.demo181201.Objects.Event;
-import com.getmate.demo181201.VolleyClasses.AppController;
+import com.getmate.demo181201.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,7 +54,7 @@ public class EventListAdapter extends BaseAdapter {
     private TextView title;
 
     private CheckBox like, dislike;
-    private EventTimelineImageView eventTimelineImageView;
+    private ImageView eventTimelineImageView;
     private TextView description;
     private TextView timeStamp;
     private TextView savedCount;
@@ -61,7 +62,7 @@ public class EventListAdapter extends BaseAdapter {
     private Button dtl,map,share;
     private CheckBox save;
     TextView going;
-     ImageLoader  imageLoader = AppController.getInstance().getImageLoader();
+     //ImageLoader  imageLoader = AppController.getInstance().getImageLoader();
 
     public EventListAdapter( Context context){
         this.context= context;
@@ -102,9 +103,9 @@ public class EventListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.card_view,null);
             }
 
-        if(imageLoader==null){
+       /* if(imageLoader==null){
             imageLoader=AppController.getInstance().getImageLoader();
-        }
+        }*/
         final Event event = events.get(i);
 
 
@@ -122,7 +123,7 @@ public class EventListAdapter extends BaseAdapter {
         dislike = convertView.findViewById(R.id.dislike_btn);
 
 
-   like.setOnClickListener(new View.OnClickListener() {
+      like.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
 
@@ -169,8 +170,8 @@ public class EventListAdapter extends BaseAdapter {
        });
 
 
- if(event.getImageUrl()!=null){
-            imageLoader.get(event.getImageUrl(), ImageLoader.getImageListener(eventTimelineImageView,
+      if(event.getImageUrl()!=null){
+            /*imageLoader.get(event.getImageUrl(), ImageLoader.getImageListener(eventTimelineImageView,
                    R.drawable.event_image_demo , android.R.drawable
                             .ic_dialog_alert));
 
@@ -186,7 +187,8 @@ public class EventListAdapter extends BaseAdapter {
                 public void onSuccess() {
 
                 }
-            });
+            });*/
+          Picasso.get().load(event.getImageUrl()).into(eventTimelineImageView);
         }
         else {
             eventTimelineImageView.setVisibility(View.GONE);
@@ -194,15 +196,13 @@ public class EventListAdapter extends BaseAdapter {
 
         title.setText(event.getTitle());
 
-
-
         CharSequence time = DateUtils.getRelativeTimeSpanString
                 (Long.parseLong(event.getTime()),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS);
         timeStamp.setText(time);
         description.setText(event.getDescription());
 
 
-        dtl.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //To scroll activity
@@ -228,21 +228,24 @@ public class EventListAdapter extends BaseAdapter {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog progressDialog = new ProgressDialog(context);
 
                 final String id = event.getFirebaseId();
 
                 LayoutInflater inflater = (LayoutInflater)context.
                         getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupView = inflater.inflate(R.layout.popup_for_sharing_event, null);
-                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                final float scale =context.getResources().getDisplayMetrics().density;
+                int pixels = (int) (340 * scale + 0.5f);
+                int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                int height = LinearLayout.LayoutParams.MATCH_PARENT;
                 boolean focusable = true; // lets taps outside the popup also dismiss it
                 final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                popupWindow.setAnimationStyle(R.style.Animation);
+                popupView.setLayoutParams(new LinearLayout.LayoutParams(pixels,pixels));
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-
-
-                // dismiss the popup window when touched
+ // dismiss the popup window when touched
                 popupView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -267,6 +270,9 @@ public class EventListAdapter extends BaseAdapter {
                 shareUsingOtherMedia.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        progressDialog.show();
+                        progressDialog.setMessage("Loading.....Please wait");
                         int SDK_INT = Build.VERSION.SDK_INT;
                         if (SDK_INT > 8)
                         {
@@ -297,6 +303,7 @@ public class EventListAdapter extends BaseAdapter {
                                 shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey please check this application "
                                         + "http://cohortso.in/event/"+id);
                                 shareIntent.setType("image/png");
+                                progressDialog.dismiss();
                                 context.startActivity(Intent.createChooser(shareIntent,"Share with"));
 
                             } catch(IOException e) {

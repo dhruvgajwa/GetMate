@@ -131,6 +131,11 @@ public class FindMate extends Fragment {
 
 
 
+
+
+
+
+
         view.findViewById(R.id.rejectBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

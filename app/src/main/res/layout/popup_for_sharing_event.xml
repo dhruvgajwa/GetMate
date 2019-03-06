@@ -5,8 +5,8 @@
     android:layout_gravity="center"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="340dp"
+    android:layout_height="400dp">
     <TextView
         android:layout_marginTop="24dp"
         android:layout_marginBottom="40dp"
@@ -23,9 +23,16 @@
         android:textStyle="bold"
         android:textAllCaps="false"
         android:textSize="20dp"
+        android:elevation="10dp"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:text="Cohortso"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="or"
+        android:textSize="20dp"
+        android:layout_marginTop="16dp"/>
     <Button
         android:layout_margin="16dp"
         android:id="@+id/share_using_other_media"
@@ -34,7 +41,7 @@
         android:layout_marginTop="24dp"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         android:textAllCaps="false"
         android:textColor="#0277bd"
         android:textSize="20dp"

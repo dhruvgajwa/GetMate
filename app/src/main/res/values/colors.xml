@@ -26,7 +26,7 @@
     <color name="bg_login">#b72f20</color>
     <color name="lightframe">#eb562e</color>
     <color name="whitgrey">#EBECEF</color>
-
+    <color name="bold_heading">#444444</color>
     <color name="grey">#DADBDF</color>
     <color name="darkgrey">#666666</color>
     <color name="greymid">#D3D3D3</color>
@@ -56,4 +56,9 @@
     <color name="lightorange">#F3BA73</color>
     <color name="red">#E7502B</color>
     <color name="light_cool">#eedd82</color>
+    <color name="placeholder_bg">#dddddd</color>
+    <color name="item_name">#0c0c0c</color>
+    <color name="description">#1a1a1a</color>
+    <color name="chef">#777</color>
+
 </resources>

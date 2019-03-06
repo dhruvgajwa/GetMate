@@ -68,6 +68,8 @@ public class SavedEventsListAdapter extends BaseAdapter {
         date.setText(time);
         Picasso.get().load(event.getImageUrl()).into(eventTimelineImageView);
 
+
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

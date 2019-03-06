@@ -19,10 +19,11 @@
             android:layout_height="match_parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:id="@+id/profileImage"/>
             <TextView
+                android:textSize="16dp"
                 android:text="USerName"
                 android:id="@+id/userName_ma"
                 android:textStyle="bold"
@@ -48,10 +49,12 @@
         android:id="@+id/message_send_view"
         android:layout_width="match_parent"
         android:padding="5dp"
-        android:background="#fEfEfE"
+        android:background="#FDFDFD"
+
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content">
         <EditText
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"

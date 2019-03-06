@@ -2,15 +2,24 @@ package com.getmate.demo181201.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.getmate.demo181201.Activities.ProfileActivity;
 import com.getmate.demo181201.InterestSelection.RoundedImageView;
 import com.getmate.demo181201.Objects.ConnectionObject;
+import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -78,6 +87,28 @@ public class ConnectionsAdapter extends BaseAdapter {
         Picasso.get().load(connection.getProfilePic()).into(roundedImageView);
         //TODO: HERE if clicked on any of this view, The user should be redirected to profile of that that particular user!
         // 1.5.2019
+
+        handle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseFirestore.getInstance().collection("profiles").
+                        document(connection.getFirebaseUI()).get().addOnCompleteListener(
+                        new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                Intent intent = new Intent(context,ProfileActivity.class);
+                                Profile p = task.getResult().toObject(Profile.class);
+                                Gson gson = new Gson();
+                                String ps = gson.toJson(p);
+                                intent.putExtra("profileString",ps);
+                                context.startActivity(intent);
+                            }
+                        }
+                );
+            }
+        });
+
+
 
         return convertView;
     }

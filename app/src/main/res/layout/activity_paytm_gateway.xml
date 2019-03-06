@@ -1,73 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:background="@color/white"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
+
     tools:context=".Activities.PaytmGateway">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="90dp"
-        android:background="@drawable/edit_profile"
-        android:padding="4dp" />
+    <LinearLayout
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="#424242"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Review Your Order :"/>
+        <TextView
+            android:id="@+id/title_pga"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cycling Ride to mahabalipuram"/>
+        <TextView
+            android:id="@+id/address_pga"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Taramani Gate, IIT Madras, Chennai 600036"/>
+        <TextView
+            android:id="@+id/time_pga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Jan 23 2019 at 6:00 pm(IST)" />
+        <TextView
+            android:id="@+id/creator_pga"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="by: Random_nerd"/>
+        <LinearLayout
+
+          android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="no. of tickets" />
+
+
+            <LinearLayout
+               android:layout_gravity="end"
+                android:layout_marginLeft="24dp"
+                android:background="@drawable/profile_background"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/remove_one_ticket_pga"
+                    android:textSize="22dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:text="-"
+                    android:background="@null"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp" />
+                <Button
+                    android:id="@+id/no_of_tickets_pga"
+                    android:clickable="false"
+                    android:text="1"
+                    android:textSize="22dp"
+                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:layout_gravity="center"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp" />
+                <Button
+                    android:id="@+id/add_one_ticket_pga"
+                    android:textSize="22dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:text="+"
+                    android:background="#FCE3DC"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:background="@color/bold_heading"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+<LinearLayout
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/payment_sun_linlay"
+    >
 
     <TextView
-        android:id="@+id/textViewTitle"
+        android:id="@+id/revieworder"
+        android:textColor="#424242"
+        android:textStyle="bold"
+        android:textSize="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/imageView"
-        android:text="Apple MacBook Air Core i5 5th Gen - (8 GB/128 GB SSD/Mac OS Sierra)"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000000" />
+        android:text="Review Your Order :"/>
+    <RelativeLayout
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#424242"
+            android:id="@+id/tickets_subtotal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tickets Subtotal"/>
+        <TextView
+            android:id="@+id/tickets_subtotal"
+            android:textColor="#9E9E9E"
+            android:textSize="12dp"
+            android:layout_below="@+id/tickets_subtotal_text"
+             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rs. 164 X 2 Ticket"/>
 
-    <TextView
-        android:id="@+id/textViewShortDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewTitle"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/imageView"
-        android:text="13.3 Inch, 256 GB"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+        <TextView
+            android:id="@+id/price_of_tickets_only"
+            android:textColor="#424242"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rs. 328.00"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#424242"
+            android:id="@+id/taxes_fees_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Taxes And Fees "/>
+        <TextView
+            android:id="@+id/convenience_text"
+            android:textColor="#9E9E9E"
+            android:textSize="12dp"
+            android:layout_below="@+id/taxes_fees_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Convenience Fee and Taxes"/>
 
-    <TextView
-        android:id="@+id/textViewRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewShortDesc"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/imageView"
-        android:background="@color/colorPrimary"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:text="4.7"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/price_of_convenience_fees"
+            android:textColor="#424242"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rs. 38.00"/>
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/textViewPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewRating"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/imageView"
-        android:text="10.00"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textStyle="bold" />
+
+</LinearLayout>
+
+
+
+    <View
+        android:background="@color/bold_heading"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+
+    <RelativeLayout
+        android:padding="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#424242"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total : "/>
+
+
+        <TextView
+            android:id="@+id/total_fees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Rs. 360.00"
+            android:textColor="#424242" />
+    </RelativeLayout>
 
     <Button
+        android:layout_marginTop="12dp"
+        android:textSize="20dp"
         android:id="@+id/buttonBuy"
+        android:textAllCaps="false"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/white"
         android:layout_toRightOf="@id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewPrice"
-        android:text="Buy" />
+        android:background="@color/basil_orange"
+        android:text="Click to Pay Rs. 360.00" />
+    <Button
+        android:visibility="gone"
+        android:layout_marginTop="12dp"
+        android:textSize="20dp"
+        android:id="@+id/downlaod_ticket"
+        android:textAllCaps="false"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basil_orange"
+        android:text="Download Ticket" />
 
-</RelativeLayout>
+</LinearLayout>
