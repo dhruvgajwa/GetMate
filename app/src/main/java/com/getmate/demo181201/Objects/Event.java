@@ -40,8 +40,8 @@ public class Event implements Serializable,Parcelable
     private  String eventType = null;
     private ArrayList<ConnectionObject> goingProfiles = new ArrayList<>();
 
-    private String salesStartAt = null;
-    private  String salesStopAt = null;
+    private String salesStartAt = "";
+    private  String salesStopAt = "";
     private int maxNoOfTicket = 0;
     private  int ticketsLeft = 0;
 

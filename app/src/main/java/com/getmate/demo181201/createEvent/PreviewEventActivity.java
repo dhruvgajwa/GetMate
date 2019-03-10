@@ -314,15 +314,26 @@ public class PreviewEventActivity extends AppCompatActivity {
 
     eventType.setText(event.getEventType()+" Event");
 
-    c.setTimeInMillis(Long.valueOf(event.getSalesStartAt()));
-    salesStartFrom.setText(simpleDateFormat.format(c.getTime())+" "+String.valueOf(c.
-            get(Calendar.HOUR_OF_DAY))+":"+String.valueOf(c.get(Calendar.MINUTE)));
+
+    if(event.getTicketType().equals("notRequired")){
+       salesStopAt.setVisibility(View.GONE);
+       salesStartFrom.setVisibility(View.GONE);
+       maxNoOfTickets.setVisibility(View.GONE);
+    }
+    else {
+        c.setTimeInMillis(Long.valueOf(event.getSalesStartAt()));
+        salesStartFrom.setText(simpleDateFormat.format(c.getTime())+" "+String.valueOf(c.
+                get(Calendar.HOUR_OF_DAY))+":"+String.valueOf(c.get(Calendar.MINUTE)));
 
         c.setTimeInMillis(Long.valueOf(event.getSalesStopAt()));
         salesStopAt.setText(simpleDateFormat.format(c.getTime())+" "+String.valueOf(c.
                 get(Calendar.HOUR_OF_DAY))+":"+String.valueOf(c.get(Calendar.MINUTE)));
 
         maxNoOfTickets.setText(String.valueOf(event.getMaxNoOfTicket()));
+    }
+
+
+
 
 
         creatorEmail.setText(event.getCreatorEmail());
