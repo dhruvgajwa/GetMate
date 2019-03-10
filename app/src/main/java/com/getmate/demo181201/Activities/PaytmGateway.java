@@ -21,11 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.getmate.demo181201.CurrentUserData;
 import com.getmate.demo181201.Objects.Api;
 import com.getmate.demo181201.Objects.Constants;
 import com.getmate.demo181201.Objects.Event;
-import com.getmate.demo181201.Objects.EventTicket;
 import com.getmate.demo181201.Objects.Paytm;
 import com.getmate.demo181201.Objects.Ticket;
 import com.getmate.demo181201.R;
@@ -35,8 +34,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
@@ -58,7 +57,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,6 +70,7 @@ public class PaytmGateway extends AppCompatActivity {
 Button RemoveOneTicket,AddOneTicket,NoOfTickets,Buy;
 TextView title,address, dateAndTime,creator,ticketsSubtotalText,
         ticketsSubtotalPriice,convenienceText,convenienceFees,TotalPrice;
+
 int noT=1;
 Event event= new Event();
 double totalPrice=0.00;
@@ -85,6 +84,7 @@ double totalPrice=0.00;
     private Button downloadTicket;
     private OutputStream os;
     private Intent mShareIntent;
+    private  Event eventCopy = new Event();
 
 public void findViewsById(){
     RemoveOneTicket = findViewById(R.id.remove_one_ticket_pga);
@@ -95,7 +95,7 @@ public void findViewsById(){
     address = findViewById(R.id.address_pga);
     dateAndTime = findViewById(R.id.address_pga);
     creator = findViewById(R.id.creator_pga);
-    ticketsSubtotalText = findViewById(R.id.tickets_subtotal_text);
+    ticketsSubtotalText = findViewById(R.id.tickets_subtotal);
     ticketsSubtotalPriice= findViewById(R.id.price_of_tickets_only);
     convenienceFees = findViewById(R.id.price_of_convenience_fees);
     TotalPrice = findViewById(R.id.total_fees);
@@ -186,7 +186,73 @@ public void updateUIForPaymentSummary(){
         Buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                generateCheckSum();
+
+
+                db.collection("events").document(event.getFirebaseId()).get().addOnCompleteListener(
+                        new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()){
+                                     eventCopy = task.getResult().toObject(Event.class);
+                                    if (eventCopy.getTicketsLeft()>noT){
+
+                                        if (eventCopy.getEventType().equals("free")){
+                                            //TODO: directly go to generate tickets
+                                            ticket = new Ticket(currentTimeStamp,
+                                                    "transection Id",
+                                                    noT,currentTimeStamp,
+                                                    currentUser.getDisplayName(),
+                                                    currentUser.getUid(),
+                                                    currentUser.getDisplayName(),
+                                                    currentUser.getPhotoUrl().toString(),
+                                                    currentUser.getEmail(),
+                                                    currentUser.getPhoneNumber(),
+                                                    event.getCreatorName(),
+                                                    event.getCreatorFirebaseId(),
+                                                    event.getCreatorHandle(),
+                                                    event.getCreatorProfilePic(),
+                                                    event.getCreatorEmail(),
+                                                    event.getCreatorPhoneNo(),
+                                                    event.getTitle(),
+                                                    event.getAddress(),
+                                                    event.getTime(),
+                                                    event.getTicketPrice(),
+                                                    event.getConvenienceFees(),
+                                                    totalPrice,
+                                                    currentUser.getDisplayName(),
+                                                    event.getCreatorName(),
+                                                    "orderId",
+                                                    custId,
+                                                    "banktxnId" );
+                                            addTicketTodatabase(ticket);
+
+
+                                        }
+
+                                        if (eventCopy.getEventType().equals("paid")){
+                                            generateCheckSum();
+                                        }
+
+
+
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(),"Sorry, Only "
+                                                +String.valueOf(eventCopy.getTicketsLeft()+" Tickets Left"),Toast.LENGTH_LONG).show();
+
+                                    }
+                                }
+                                else {
+                                    //TODO: Add a popup here to show the bad signature
+                                    Toast.makeText(getApplicationContext(),"Sorry,No internet connection ",Toast.LENGTH_LONG).show();
+
+                                }
+
+                            }
+                        }
+                );
+
+
             }
         });
 
@@ -519,6 +585,13 @@ public void updateUIForPaymentSummary(){
     ref.set(ticket).addOnSuccessListener(new OnSuccessListener<Void>() {
         @Override
         public void onSuccess(Void aVoid) {
+
+
+
+            db.collection("profiles").document(CurrentUserData.getInstance().getCurrent().getFirebase_id())
+                    .update("myTickets",FieldValue.arrayUnion(ref));
+
+
             Log.i("Kaun","added  ticket to database");
             Log.i("Kaun","6");
             downloadTicket.setVisibility(View.VISIBLE);

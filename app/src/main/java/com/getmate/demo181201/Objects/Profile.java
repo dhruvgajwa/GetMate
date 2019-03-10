@@ -105,9 +105,9 @@ public class Profile implements Parcelable {
     ArrayList<Ticket> myTickets = new ArrayList<>();
 
     public String createdAt=null;
-    public ArrayList<String> allParentTags;
-    public ArrayList<String> achievements;
-    public ArrayList<String> createdEvents;
+    public ArrayList<String> allParentTags= new ArrayList<>();
+    public ArrayList<String> achievements= new ArrayList<>();
+    public ArrayList<String> createdEvents= new ArrayList<>();
     private String name=null;
     private String city = null;
     private String firebase_id=null;
@@ -128,7 +128,7 @@ public class Profile implements Parcelable {
     private ArrayList<String> profilesSwipedMeRight = new ArrayList<>();
     private ArrayList<String> profilesIswipedRight = new ArrayList<>();
 
-    private ArrayList<String> schools=null;
+    private ArrayList<String> schools=new ArrayList<>();
     private String address = null;
     private ArrayList<Work> work=null;
     private boolean isEmailVerified=false;
@@ -136,7 +136,7 @@ public class Profile implements Parcelable {
             interestsE=null,allInterests=null;
    // private ArrayList<String> connections=null;
     private ArrayList<String> recentActivities=null;
-    private ArrayList<String> savedEvents=null;
+    private ArrayList<String> savedEvents=new ArrayList<>();
     private ArrayList<ConnectionObject> connections = new ArrayList<>();
 
 

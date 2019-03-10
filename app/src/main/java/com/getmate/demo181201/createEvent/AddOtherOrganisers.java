@@ -111,7 +111,14 @@ public class AddOtherOrganisers extends AppCompatActivity {
                 }
                 Log.i("KaunHuMein","A3");
                 i.putExtra("link",linkText);
-                i.putStringArrayListExtra("organisers",organisers);
+                if (flag==0){
+                    organisers=null;
+                    i.putStringArrayListExtra("organisers",organisers);
+                }
+                else {
+                    i.putStringArrayListExtra("organisers",organisers);
+                }
+
                 startActivity(i);
 
 

@@ -109,6 +109,7 @@
 
 
             <CheckBox
+                android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
                 android:layout_toLeftOf="@+id/save_btn"
@@ -125,6 +126,7 @@
                 android:focusable="true"
                 />
             <CheckBox
+                android:visibility="gone"
                 android:layout_toLeftOf="@+id/dislike_btn"
                 android:id="@+id/like_btn"
                 android:layout_marginRight="20dp"
@@ -140,6 +142,7 @@
                 />
 
             <CheckBox
+                android:visibility="gone"
                 android:button="@drawable/save_icon_background"
                 android:layout_centerVertical="true"
                 android:checked="false"
@@ -157,7 +160,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/share_icon"
-                android:alpha="0.6"
+                android:alpha="0.8"
                 android:layout_width="32dp"
                 android:layout_height="32dp" />
 

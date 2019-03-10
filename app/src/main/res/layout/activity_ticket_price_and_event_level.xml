@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".createEvent.EventPrivacyAndTicketPrice">
+
+    <LinearLayout
+
+        android:id="@+id/lay_1"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:textSize="32dp"
+            android:layout_marginLeft="24dp"
+            android:textColor="@color/black"
+            android:alpha="0.7"
+            android:textStyle="bold"
+            android:text="Privacy Type !"/>
+        <RelativeLayout
+            android:layout_marginHorizontal="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:checked="true"
+                android:layout_marginRight="12dp"
+                android:backgroundTint="@color/basil_orange"
+                android:layout_centerInParent="true"
+                android:id="@+id/public_eve"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+
+               android:layout_toRightOf="@id/public_eve"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/black"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Public"/>
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:text="public event will be  shown to all user and
+will be shown in search querries"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+
+        <View
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/grey_300"/>
+        <RelativeLayout
+            android:layout_marginHorizontal="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:layout_marginRight="12dp"
+                android:backgroundTint="@color/basil_orange"
+                android:layout_centerInParent="true"
+                android:id="@+id/private_eve"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+
+                android:layout_toRightOf="@id/private_eve"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/black"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Private"/>
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:text="Private Event will not be listed in search querries and can only be ssen on special invitation"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/buttons"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/previous_age"
+            android:text="previous"
+            android:textColor="@color/white"
+            android:background="@color/grey_300"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:textSize="18dp"
+            android:padding="16dp"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:id="@+id/next_age"
+            android:background="@drawable/edit_text_background"
+            android:text="next"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:padding="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

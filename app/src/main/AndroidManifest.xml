@@ -116,7 +116,6 @@
         </provider>
 
         <activity android:name=".Activities.ProfileActivity" />
-        <activity android:name=".Activities.createEvent" />
         <activity
             android:name=".createEvent.getEventTitle"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -127,9 +126,6 @@
             android:name=".createEvent.DateActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".createEvent.GetTags"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
             android:name=".createEvent.AddImageActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
@@ -138,11 +134,26 @@
         <activity
             android:name=".createEvent.AddOtherOrganisers"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".createEvent.PreviewEventActivity" />
+        <activity
+            android:name=".createEvent.PreviewEventActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".createEvent.SetTicketTypeAndPrice" />
-        <activity android:name=".Activities.GuestListActivity" />
-        <activity android:name=".Activities.GuestListForParticularEvent" />
-        <activity android:name=".Activities.MyTickets"></activity>
+        <activity
+            android:name=".Activities.GuestListActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".Activities.GuestListForParticularEvent"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".Activities.MyTickets"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".createEvent.EventPrivacyAndTicketPrice"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity
+            android:name=".createEvent.TicketPrice"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity android:name=".createEvent.TicketSetting"></activity>
     </application>
 
 </manifest>

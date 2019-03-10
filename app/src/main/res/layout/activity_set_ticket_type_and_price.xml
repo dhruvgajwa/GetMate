@@ -25,6 +25,7 @@
 
 
         <ListView
+            android:divider="@color/grey"
             android:background="@color/white"
             android:layout_marginTop="40dp"
             android:layout_below="@+id/text"

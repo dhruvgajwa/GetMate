@@ -1,17 +1,27 @@
 package com.getmate.demo181201.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,17 +37,29 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class DetailedEvents extends AppCompatActivity {
+    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
     RelativeLayout link_relative_layout;
     EventTimelineImageView eventTimelineImageView;
     TextView title,venue,description,creatorName,creatorEmail,creatorPhone,creatorHandle;
     TextView orgname1,orgName2,orgName3;
     TextView orgEmail1,orgEmail2,orgEmail3;
     TextView orgP1,orgP2,orgP3;
+    TextView ticketPrice,ticketsLeft,eventStartFrom,eventStopAt;
     RoundedImageView creatorProfilePic;
     Button link,date,going,buyTicket;
     TextView link1,date1,going1;
@@ -47,6 +69,9 @@ public class DetailedEvents extends AppCompatActivity {
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     private FirebaseFirestore db;
     FirebaseAuth mAuth;
+    TextView like,dislike,save,share;
+
+    Boolean saveFlag=false,likeFlag=false,dislikeFlag=false;
 
 
     @Override
@@ -85,12 +110,43 @@ public class DetailedEvents extends AppCompatActivity {
         buyTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(DetailedEvents.this,PaytmGateway.class);
-                Gson gson = new Gson();
-                String data = gson.toJson(event);
-                i.putExtra("data",data);
 
-                startActivity(i);
+
+
+                if (event.getTicketType().equals("free")){
+                  //1. check how many tickets are left?
+                    // 2. the directly go to the print ticket and register in database
+
+                    /*db.collection("events").document(event.getFirebaseId()).get().addOnCompleteListener(
+                            new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    Event eventCopy = task.getResult().toObject(Event.class);
+                                    if (eventCopy.getTicketsLeft()>0){
+                                        Intent i = new Intent(DetailedEvents.this,TicketActivity.class);
+
+                                    }
+                                }
+                            }
+                    );*/
+                    Intent i = new Intent(DetailedEvents.this,PaytmGateway.class);
+                    Gson gson = new Gson();
+                    String data = gson.toJson(event);
+                    i.putExtra("data",data);
+                    startActivity(i);
+                }
+                else if (event.getTicketType().equals("paid")){
+                    Intent i = new Intent(DetailedEvents.this,PaytmGateway.class);
+                    Gson gson = new Gson();
+                    String data = gson.toJson(event);
+                    i.putExtra("data",data);
+                    startActivity(i);
+                }
+                else if (event.getTicketType().equals("notRequired")){
+
+                }
+
+
             }
         });
 
@@ -124,7 +180,175 @@ public class DetailedEvents extends AppCompatActivity {
             }
         });
 
+        //TODO: Set the network request for like and dislikes
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!likeFlag){
+                    like.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.thumps_up_red,0,0);
+                    likeFlag =true;
 
+
+                    if (dislikeFlag){
+                        dislike.setCompoundDrawablesWithIntrinsicBounds(0,
+                                R.drawable.dislike_icon_black,0,0);
+                        dislikeFlag = false;
+                    }
+                }
+                else {
+                    like.setCompoundDrawablesWithIntrinsicBounds(0,
+                           R.drawable.thumps_up_black,0,0);
+                    likeFlag = false;
+                }
+            }
+        });
+        dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+                if (!dislikeFlag){
+                    dislike.setCompoundDrawablesWithIntrinsicBounds(0,
+                            R.drawable.dislike_icon_red,0,0);
+                     dislikeFlag =true;
+                     if (likeFlag==true){
+                         like.setCompoundDrawablesWithIntrinsicBounds(0,
+                                 R.drawable.thumps_up_black,0,0);
+                         likeFlag = false;
+                     }
+
+
+
+                }
+                else {
+                    dislike.setCompoundDrawablesWithIntrinsicBounds(0,
+                            R.drawable.dislike_icon_black,0,0);
+                    dislikeFlag = false;
+                }
+
+
+
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!saveFlag){
+                    save.setCompoundDrawablesWithIntrinsicBounds(0,
+                           R.drawable.save_icon_filled,0,0);
+                    FirebaseFirestore.getInstance().collection("profiles").
+                            document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update("savedEvents",FieldValue.arrayUnion(event.getFirebaseId()));
+                    saveFlag =true;
+                }
+                else {
+                    save.setCompoundDrawablesWithIntrinsicBounds(0,
+                            R.drawable.save_icon_outlined,0,0);
+                    FirebaseFirestore.getInstance().collection("profiles").
+                            document(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                            update("savedEvents",FieldValue.arrayRemove(event.getFirebaseId()));
+                    saveFlag = true;
+                }
+            }
+        });
+
+
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProgressDialog progressDialog = new ProgressDialog(DetailedEvents.this);
+
+                final String id = event.getFirebaseId();
+
+                LayoutInflater inflater = (LayoutInflater)getApplicationContext().
+                        getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = inflater.inflate(R.layout.popup_for_sharing_event, null);
+                final float scale =getApplicationContext().getResources().getDisplayMetrics().density;
+                int pixels = (int) (340 * scale + 0.5f);
+                int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                int height = LinearLayout.LayoutParams.MATCH_PARENT;
+                boolean focusable = true; // lets taps outside the popup also dismiss it
+                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                popupWindow.setAnimationStyle(R.style.Animation);
+                popupView.setLayoutParams(new LinearLayout.LayoutParams(pixels,pixels));
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+                // dismiss the popup window when touched
+                popupView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return true;
+                    }
+                });
+
+                Button shareUsingCohortso = popupView.findViewById(R.id.share_using_cohortso);
+                Button shareUsingOtherMedia = popupView.findViewById(R.id.share_using_other_media);
+                shareUsingCohortso.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(DetailedEvents.this,ChatActivity.class);
+                        i.putExtra("text","http://cohortso.in/event/"+id);
+                        i.putExtra("forSharingEvent",true);
+                        startActivity(i);
+
+                    }
+                });
+
+                shareUsingOtherMedia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        progressDialog.show();
+                        progressDialog.setMessage("Loading.....Please wait");
+                        int SDK_INT = Build.VERSION.SDK_INT;
+                        if (SDK_INT > 8)
+                        {
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                                    .permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+
+                            try {
+                                Intent shareIntent;
+                                URL url = new URL(event.getImageUrl());
+                                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                                String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/Share.png";
+                                OutputStream out = null;
+                                File file=new File(path);
+                                try {
+                                    out = new FileOutputStream(file);
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                                    out.flush();
+                                    out.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                path=file.getPath();
+                                Uri bmpUri = Uri.parse("file://"+path);
+                                shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                                shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey please check this application "
+                                        + "http://cohortso.in/event/"+id);
+                                shareIntent.setType("image/png");
+                                progressDialog.dismiss();
+                                startActivity(Intent.createChooser(shareIntent,"Share with"));
+
+                            } catch(IOException e) {
+                                System.out.println(e);
+                            }
+
+
+                        }
+                    }
+                });
+
+            }
+
+            });
 
     }
 
@@ -207,7 +431,15 @@ public class DetailedEvents extends AppCompatActivity {
         buyTicket = findViewById(R.id.buy_ticket);
         cEmail = findViewById(R.id.creator_email_de);
         cPhone = findViewById(R.id.creator_phone_de);
-
+        like = findViewById(R.id.like_btn_text);
+        dislike = findViewById(R.id.dislike_btn_text);
+        save = findViewById(R.id.save_btn_text);
+        share = findViewById(R.id.share_btn_text);
+        ticketPrice = findViewById(R.id.ticket_price);
+        ticketsLeft = findViewById(R.id.tickets_left);
+        eventStartFrom = findViewById(R.id.e_s_f);
+        eventStopAt = findViewById(R.id.e_s_a);
+        link_relative_layout = findViewById(R.id.link_rl);
     }
 
 
@@ -227,11 +459,49 @@ public class DetailedEvents extends AppCompatActivity {
         }
 
 
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(event.getFrom());
+        eventStartFrom.setText(simpleDateFormat.format(c.getTime())+" "+String.valueOf(c.
+                get(Calendar.HOUR_OF_DAY))+":"+String.valueOf(c.get(Calendar.MINUTE)));
+
+        c.setTimeInMillis(event.getTo());
+        eventStopAt.setText(simpleDateFormat.format(c.getTime())+" "+String.valueOf(c.
+                get(Calendar.HOUR_OF_DAY))+":"+String.valueOf(c.get(Calendar.MINUTE)));
+
+
+        if (event.getTicketType().equals("free")){
+            ticketPrice.setText("Free\n" +
+                    " on EventHorts");
+            ticketsLeft.setText(event.getTicketsLeft()+" Tickets Left");
+
+        }
+        else if (event.getTicketType().equals("paid")){
+            ticketPrice.setText("INR "+event.getTicketPrice());
+            ticketsLeft.setText(event.getTicketsLeft()+" Tickets Left");
+        }
+        else if (event.getTicketType().equals("notRequired")){
+            ticketPrice.setText("No registration required");
+            ticketsLeft.setVisibility(View.GONE);
+        }
+
+
+
+        if (event.getTicketType().equals("free")){
+            buyTicket.setText("Get Ticket");
+        }
+        else if (event.getTicketType().equals("notRequired")){
+            buyTicket.setVisibility(View.GONE);
+        }
+        else if(event.getTicketType().equals("paid")){
+
+        }
+
+
         CharSequence time = DateUtils.getRelativeTimeSpanString
                 (Long.parseLong(event.getTime()), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
         date1.setText(time);
-        // creatorEmail.setText(event.getcreatorEmail());
-        //creatorPhone.setText(event.getCreatorPhone());
+        creatorEmail.setText(event.getCreatorEmail());
+        creatorPhone.setText(event.getCreatorPhoneNo());
 
         if (event.getOrganisers() != null) {
             Log.i("KaunHUMein", "org size is " + event.getOrganisers().size());
@@ -240,7 +510,7 @@ public class DetailedEvents extends AppCompatActivity {
         }
 
 
-        if (event.getOrganisers() != null) {
+        if (event.getOrganisers().size()!=0) {
 
             for (int i = 0; i < event.getOrganisers().size(); i++) {
                 if (i == 0) {

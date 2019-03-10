@@ -15,31 +15,45 @@ public class Event implements Serializable,Parcelable
     private String imageUrl = null;
     private String creatorHandle = null;
     private String creatorEmail = null;
+    private  String privacy = null;
     private String creatorPhoneNo = null;
     private double lat = 0;
     private String creatorProfilePic=null;
     private double lon = 0;
     private String city = null;
-    private ArrayList<Organisers> organisers = null;
+    private ArrayList<Organisers> organisers = new ArrayList<>();
     private String description = null;
     private String  Time = null;
     private String creatorFirebaseId= null;
     private String Address =null;
     private String firebaseId = null;
     private String url =null;
-    private int savedCount =1;
-    private int goingCount = 1;
+    private int savedCount =0;
+    private int goingCount = 0;
     private ArrayList<String> goingProfile = null;
     private ArrayList<String> savedBy = null;
     private ArrayList<String> tags = null;
     private ArrayList<String> allParentTags = null;
     private  Long from=Long.valueOf(0);
     private Long to =Long.valueOf(0);
+    private String ticketType=null;
+    private  String eventType = null;
     private ArrayList<ConnectionObject> goingProfiles = new ArrayList<>();
 
+    private String salesStartAt = null;
+    private  String salesStopAt = null;
+    private int maxNoOfTicket = 0;
+    private  int ticketsLeft = 0;
+
     protected Event(Parcel in) {
+        salesStartAt = in.readString();
+        salesStopAt =in.readString();
+        maxNoOfTicket = in.readInt();
+        ticketsLeft = in.readInt();
+        privacy = in.readString();
         to = in.readLong();
         from = in.readLong();
+        ticketType= in.readString();
         timestamp = in.readLong();
         convenienceFees = in.readDouble();
         ticketPrice = in.readDouble();
@@ -64,6 +78,7 @@ public class Event implements Serializable,Parcelable
         savedBy = in.createStringArrayList();
         tags = in.createStringArrayList();
         firebaseId = in.readString();
+        eventType = in.readString();
         allParentTags = in.createStringArrayList();}
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -87,6 +102,37 @@ public class Event implements Serializable,Parcelable
     }
 
 
+    public String getSalesStartAt() {
+        return salesStartAt;
+    }
+
+    public void setSalesStartAt(String salesStartAt) {
+        this.salesStartAt = salesStartAt;
+    }
+
+    public String getSalesStopAt() {
+        return salesStopAt;
+    }
+
+    public void setSalesStopAt(String salesStopAt) {
+        this.salesStopAt = salesStopAt;
+    }
+
+    public int getMaxNoOfTicket() {
+        return maxNoOfTicket;
+    }
+
+    public void setMaxNoOfTicket(int maxNoOfTicket) {
+        this.maxNoOfTicket = maxNoOfTicket;
+    }
+
+    public int getTicketsLeft() {
+        return ticketsLeft;
+    }
+
+    public void setTicketsLeft(int ticketsLeft) {
+        this.ticketsLeft = ticketsLeft;
+    }
 
     public ArrayList<Organisers> getOrganisers() {
         return organisers;
@@ -110,7 +156,6 @@ public class Event implements Serializable,Parcelable
     public ArrayList<ConnectionObject> getGoingProfiles() {
         return goingProfiles;
     }
-
     public void setGoingProfiles(ArrayList<ConnectionObject> goingProfiles) {
         this.goingProfiles = goingProfiles;
     }
@@ -131,7 +176,13 @@ public class Event implements Serializable,Parcelable
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(to);
+        parcel.writeString(salesStartAt);
+        parcel.writeString(salesStopAt);
+        parcel.writeInt(maxNoOfTicket);
+        parcel.writeInt(ticketsLeft);
+        parcel.writeString(privacy);
         parcel.writeLong(from);
+        parcel.writeString(ticketType);
         parcel.writeLong(timestamp);
         parcel.writeDouble(convenienceFees);
         parcel.writeDouble(ticketPrice);
@@ -141,6 +192,7 @@ public class Event implements Serializable,Parcelable
         parcel.writeDouble(lat);
         parcel.writeString(creatorProfilePic);
         parcel.writeDouble(lon);
+        parcel.writeString(eventType);
         parcel.writeString(city);
         parcel.writeString(description);
         parcel.writeString(Time);
@@ -201,6 +253,21 @@ public class Event implements Serializable,Parcelable
         }
     }
 
+    public String getTicketType() {
+        return ticketType;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
+    }
 
     public double getConvenienceFees() {
         return convenienceFees;
@@ -276,6 +343,14 @@ public class Event implements Serializable,Parcelable
 
     public String getTime() {
         return Time;
+    }
+
+    public String getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(String privacy) {
+        this.privacy = privacy;
     }
 
     public void setTime(String time) {

@@ -31,35 +31,50 @@ import java.util.ArrayList;
 public class GuestListActivity extends AppCompatActivity {
 ArrayList<Event> events = new ArrayList<>();
     ListView listView;
+    TextView textView;
+    ArrayList<String> myEventsFirebaseIds= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_list);
+        textView = findViewById(R.id.text);
+        listView = findViewById(R.id.saved_items_list_view);
         //First Show the list Of all the events created by users
         Profile currentUserProfile = CurrentUserData.getInstance().getCurrent();
-        ArrayList<String> myEventsFirebaseIds= new ArrayList<>(); //= currentUserProfile.getAllCreatedEvents()
+       //= currentUserProfile.getAllCreatedEvents()
         myEventsFirebaseIds = currentUserProfile.getCreatedEvents();
-        GuestListEventAdapter guestListEventAdapter = new GuestListEventAdapter(getApplicationContext(),events);
 
-        listView = findViewById(R.id.saved_items_list_view);
-        listView.setAdapter(guestListEventAdapter);
-        for (String id:myEventsFirebaseIds) {
-            FirebaseFirestore.getInstance().collection("events").document(id).get().addOnCompleteListener(
-                    new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            Event e = task.getResult().toObject(Event.class);
-                            events.add(e);
-                            guestListEventAdapter.notifyDataSetChanged();
+        if (myEventsFirebaseIds.size()!=0){
+            textView.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            GuestListEventAdapter guestListEventAdapter = new GuestListEventAdapter(getApplicationContext(),events);
+            listView.setAdapter(guestListEventAdapter);
+            for (String id:myEventsFirebaseIds) {
+                FirebaseFirestore.getInstance().collection("events").document(id).get().addOnCompleteListener(
+                        new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                Event e = task.getResult().toObject(Event.class);
+                                events.add(e);
+                                guestListEventAdapter.notifyDataSetChanged();
+                            }
                         }
-                    }
-            ).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
+                ).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
-                }
-            });
+                    }
+                });
+            }
         }
+        else {
+            listView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+
+        }
+
+
+
 
     }
 

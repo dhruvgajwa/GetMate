@@ -27,33 +27,82 @@ Intent intent;
         intent = getIntent();
         Log.i("KaunHuMein","A4");
        ListView listView = findViewById(R.id.event_type_list_view);
-        ArrayList<String> allTypes= new ArrayList<>();
-        allTypes.add("Competition");
-        allTypes.add("a");
-        allTypes.add("Charity");
-        allTypes.add("d");
-        allTypes.add("f");
-        allTypes.add("g");
+        ArrayList<ETypeObject> allTypes= new ArrayList<>();
+        allTypes = GetData();
+
         ListViewAdapter listViewAdapter= new ListViewAdapter(allTypes,SetTicketTypeAndPrice.this,intent);
         listView.setAdapter(listViewAdapter);
-        for (int i=0;i<5;i++){
-            allTypes.add("new");
-            allTypes.add("Lol");
-            Log.i("STTAP",String.valueOf(i)+allTypes.get(i));
-        }
 
+    }
+
+    public ArrayList<ETypeObject> GetData(){
+        ArrayList<ETypeObject> allTypes= new ArrayList<>();
+        allTypes.add(new ETypeObject("Conference",0));
+        allTypes.add(new ETypeObject("Seminar, Talk",0));
+        allTypes.add(new ETypeObject("Tradeshow, Expo, Product Launch",0));
+        allTypes.add(new ETypeObject("Convention",0));
+        allTypes.add(new ETypeObject("Festival, Fair",0));
+        allTypes.add(new ETypeObject("Concert, Performance",0));
+        allTypes.add(new ETypeObject("Screening",0));
+        allTypes.add(new ETypeObject("Diner, Gala",0));
+        allTypes.add(new ETypeObject("Class, Training, Workshop",0));
+        allTypes.add(new ETypeObject("Meeting, Networking event",0));
+        allTypes.add(new ETypeObject("Party, Social Gathering",0));
+        allTypes.add(new ETypeObject("Rally",0));
+        allTypes.add(new ETypeObject("Tournament",0));
+        allTypes.add(new ETypeObject("Game, Competition",0));
+        allTypes.add(new ETypeObject("Race, Endurance Event",0));
+        allTypes.add(new ETypeObject("Tour",0));
+        allTypes.add(new ETypeObject("Camp, Trip",0));
+        allTypes.add(new ETypeObject("Appearance, Singing",0));
+        allTypes.add(new ETypeObject("Donation",0));
+        allTypes.add(new ETypeObject("Other",0));
+   return allTypes;
+    }
+
+
+}
+
+class ETypeObject {
+   public String name;
+    public int imageId;
+
+    public ETypeObject(String name, int imageId) {
+        this.name = name;
+        this.imageId = imageId;
+    }
+
+    public ETypeObject() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 }
 
 
-class ListViewAdapter extends BaseAdapter{
+
+
+ class ListViewAdapter extends BaseAdapter{
 
     Context mContext;
-    ArrayList<String> allTypes= new ArrayList<>();
+    ArrayList<ETypeObject> allTypes= new ArrayList<>();
     Intent intent;
     public ListViewAdapter(){}
 
-    public ListViewAdapter(ArrayList<String> AllTypes, Context context,Intent intent){
+    public ListViewAdapter(ArrayList<ETypeObject> AllTypes, Context context,Intent intent){
         mContext = context;
         allTypes = AllTypes;
         this.intent = intent;
@@ -94,15 +143,15 @@ class ListViewAdapter extends BaseAdapter{
         icon =view.findViewById(R.id.parentinterest_rimage);
         type = view.findViewById(R.id.parentInteresttext);
 
-        type.setText(allTypes.get(i1));
+        type.setText(allTypes.get(i1).getName());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,allTypes.get(i1),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,allTypes.get(i1).getName(),Toast.LENGTH_LONG).show();
 
 
-                Intent i = new Intent( ListViewAdapter.this.mContext,PreviewEventActivity.class);
+                Intent i = new Intent( ListViewAdapter.this.mContext,EventPrivacyAndTicketPrice.class);
 
                 i.putExtra("description",intent.getStringExtra("description"));
                 i.putExtra("title",intent.getStringExtra("title"));
@@ -120,7 +169,7 @@ class ListViewAdapter extends BaseAdapter{
                 i.putExtra("imageUri",intent.getStringExtra("imageUri"));
                 i.putExtra("organisers",intent.getStringArrayListExtra("organisers"));
                 i.putExtra("link",intent.getStringExtra("link"));
-                i.putExtra("eventType",allTypes.get(i1));
+                i.putExtra("eventType",allTypes.get(i1).getName());
                 ListViewAdapter.this.mContext.startActivity(i);
             }
         });

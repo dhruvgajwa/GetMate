@@ -35,7 +35,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_home_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_search_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -57,9 +57,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="C:\Users\admin\Desktop\icons\timelineview\location_icons\res\drawable-hdpi\outline_location_on_black_48.png" />
-                                      <entry key="outputName" value="home_icon" />
+                                      <entry key="outputName" value="search_icon" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="b72f20" />
+                                      <entry key="themeColor" value="e50814" />
                                     </map>
                                   </option>
                                 </PersistentState>

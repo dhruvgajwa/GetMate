@@ -32,6 +32,7 @@ import com.getmate.demo181201.CurrentUserData;
 import com.getmate.demo181201.Fragments.FindMate;
 import com.getmate.demo181201.Fragments.MapFragment;
 import com.getmate.demo181201.Fragments.ProfileFragment;
+import com.getmate.demo181201.Fragments.SearchFragment;
 import com.getmate.demo181201.Fragments.TimelineFragment;
 import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.Objects.Profile;
@@ -59,12 +60,12 @@ public class MainActivity extends AppCompatActivity  implements
         MapFragment.OnFragmentInteractionListener ,
         ProfileFragment.OnFragmentInteractionListener,
         RecentActivityFragment.OnFragmentInteractionListener,SavedItemsFragment.OnFragmentInteractionListener,
-        ConnectionsFragment.OnFragmentInteractionListener {
+        ConnectionsFragment.OnFragmentInteractionListener , SearchFragment.OnFragmentInteractionListener {
     final Fragment fragment1 =new  TimelineFragment();
-
     final Fragment fragment2 = new FindMate();
     final Fragment fragment3 = new MapFragment();
     final Fragment fragment4 = new ProfileFragment();
+    final Fragment fragment5 = new SearchFragment();
     Fragment active = fragment1;
     FragmentManager fm = getSupportFragmentManager();
 
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity  implements
                 case R.id.navigation_shop:
                     fm.beginTransaction().hide(active).show(fragment1).commit();
                     active = fragment1;
+                    appName.setText("Cohortso");
 
                     return true;
                 case R.id.navigation_gifts:
@@ -165,8 +167,13 @@ public class MainActivity extends AppCompatActivity  implements
                     fm.beginTransaction().hide(active).show(fragment4).commit();
                     appName.setText("Profile");
                     active = fragment4;
+                    return true;
 
 
+                case R.id.search:
+                    fm.beginTransaction().hide(active).show(fragment5).commit();
+                    appName.setText("Seacrh");
+                    active = fragment5;
                     return true;
 
             }
@@ -341,7 +348,8 @@ public class MainActivity extends AppCompatActivity  implements
          }
 
          if (id==R.id.my_tickets){
-
+                Intent intent = new Intent(MainActivity.this, MyTickets.class);
+                startActivity(intent);
          }
         return true;
     }
@@ -377,22 +385,28 @@ public class MainActivity extends AppCompatActivity  implements
                             events.add(querry.toObject(Event.class));
                             Log.i("getEventsData","success"+task.getResult().size());
                            //fragment1.eventListAdapter.notifyDataSetChanged();
-                            Bundle bundle =new Bundle();
-                            bundle.putParcelable("currentUserProfile",currentUserProfile);
-                            bundle.putParcelableArrayList("events",events);
-                            fragment4.setArguments(bundle);
-                            fragment3.setArguments(bundle);
-                            fragment2.setArguments(bundle);
-                            fragment1.setArguments(bundle);
 
-                            // stop animating Shimmer and hide the layout
-                            mShimmerViewContainer.stopShimmerAnimation();
-                            mShimmerViewContainer.setVisibility(View.GONE);
-                            fm.beginTransaction().add(R.id.main_container,fragment4,"4").hide(fragment4).commit();
-                            fm.beginTransaction().add(R.id.main_container,fragment3,"3").hide(fragment3).commit();
-                            fm.beginTransaction().add(R.id.main_container,fragment2,"2").hide(fragment2).commit();
-                            fm.beginTransaction().add(R.id.main_container,fragment1,"2").commit();
+
                         }
+
+                        Bundle bundle =new Bundle();
+                        bundle.putParcelable("currentUserProfile",currentUserProfile);
+                        bundle.putParcelableArrayList("events",events);
+                        fragment4.setArguments(bundle);
+                        fragment3.setArguments(bundle);
+                        fragment2.setArguments(bundle);
+                        fragment1.setArguments(bundle);
+
+                        // stop animating Shimmer and hide the layout
+                        mShimmerViewContainer.stopShimmerAnimation();
+                        mShimmerViewContainer.setVisibility(View.GONE);
+                        fm.beginTransaction().add(R.id.main_container,fragment1,"1").commit();
+                        fm.beginTransaction().add(R.id.main_container,fragment2,"2").hide(fragment2).commit();
+                        fm.beginTransaction().add(R.id.main_container,fragment3,"3").hide(fragment3).commit();
+                        fm.beginTransaction().add(R.id.main_container,fragment4,"4").hide(fragment4).commit();
+                        fm.beginTransaction().add(R.id.main_container,fragment5,"5").hide(fragment5).commit();
+
+
                     }
                     else {
                         Log.i("getEventsData","task unsuccessful");
@@ -468,10 +482,11 @@ public class MainActivity extends AppCompatActivity  implements
                         fragment3.setArguments(bundle);
                         fragment2.setArguments(bundle);
                         fragment1.setArguments(bundle);
-                        fm.beginTransaction().add(R.id.main_container,fragment4,"4").hide(fragment4).commit();
-                        fm.beginTransaction().add(R.id.main_container,fragment3,"3").hide(fragment3).commit();
-                        fm.beginTransaction().add(R.id.main_container,fragment2,"2").hide(fragment2).commit();
-                        fm.beginTransaction().add(R.id.main_container,fragment1,"2").commit();
+
+
+
+
+
 
                     }
                     else {

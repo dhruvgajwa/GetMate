@@ -1,6 +1,8 @@
 package com.getmate.demo181201.createEvent;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.getmate.demo181201.Activities.MainActivity;
 import com.getmate.demo181201.CurrentUserData;
 import com.getmate.demo181201.CustomViews.EventTimelineImageView;
 import com.getmate.demo181201.InterestSelection.RoundedImageView;
@@ -22,6 +25,7 @@ import com.getmate.demo181201.Objects.Event;
 import com.getmate.demo181201.Objects.Profile;
 import com.getmate.demo181201.R;
 import com.getmate.demo181201.VolleyClasses.AppController;
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,14 +41,14 @@ import java.util.Locale;
 
 public class PreviewEventActivity extends AppCompatActivity {
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-
+    TextView salesStartFrom,salesStopAt,maxNoOfTickets;
     Event event = new Event();
     ArrayList<String> interestB = new ArrayList<>();
     ArrayList<String> interestI = new ArrayList<>();
     ArrayList<String> interestE = new ArrayList<>();
     ArrayList<String> allParentTags = new ArrayList<>();
     ArrayList<Event.Organisers> organisers = new ArrayList<>();
-
+    ProgressDialog progressDialog;
 
     RelativeLayout link_relative_layout;
     EventTimelineImageView eventTimelineImageView;
@@ -59,9 +63,11 @@ public class PreviewEventActivity extends AppCompatActivity {
     LinearLayout org1,org2,org3;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-    TextView from,to;
+    TextView from,to,ticketPrice,eventType;
     Button done,saveDraft;
     FirebaseFirestore db;
+    FlexboxLayout flexboxLayout;
+
 
     public  void findViewsById(){
         eventTimelineImageView = findViewById(R.id.event_poster_sa);
@@ -97,7 +103,12 @@ public class PreviewEventActivity extends AppCompatActivity {
         link_relative_layout = findViewById(R.id.link_rl);
         done = findViewById(R.id.done);
         saveDraft = findViewById(R.id.save_draft);
-
+        ticketPrice = findViewById(R.id.ticket_price);
+        eventType = findViewById(R.id.event_type);
+        flexboxLayout = findViewById(R.id.tags_view);
+        salesStartFrom = findViewById(R.id.sales_start_from);
+        salesStopAt = findViewById(R.id.sales_stop_at);
+        maxNoOfTickets = findViewById(R.id.max_no_of_tickets);
 
     }
 
@@ -116,11 +127,17 @@ public class PreviewEventActivity extends AppCompatActivity {
         Long from = i.getLongExtra("from",0);
         Long to = i.getLongExtra("to",0);
 
-
+        progressDialog  = new ProgressDialog(PreviewEventActivity.this);
         interestB = i.getStringArrayListExtra("interestB");
         interestI = i.getStringArrayListExtra("interestI");
         interestE = i.getStringArrayListExtra("interestE");
         allParentTags = i.getStringArrayListExtra("AllParentInterests");
+
+        ArrayList<String> allTags = new ArrayList<>();
+        allTags.addAll(interestB);
+        allTags.addAll(interestE);
+        allTags.addAll(interestI);
+        event.setTags(allTags);
 
         double lat = i.getDoubleExtra("lat",0);
         double lon = i.getDoubleExtra("lon",0);
@@ -128,12 +145,20 @@ public class PreviewEventActivity extends AppCompatActivity {
         String  city = i.getStringExtra("city");
         String imageUri = i.getStringExtra("imageUri");
         Gson gson = new Gson();
+         Double ticketPrice = Double.valueOf(i.getStringExtra("ticketPrice"));
         ArrayList<String > o = new ArrayList<>();
         o = i.getStringArrayListExtra("organisers");
 
-        for (int j=0; j<o.size();j++){
-            organisers.add(gson.fromJson(o.get(j),Event.Organisers.class));
+
+        if(o!=null){
+            for (int j=0; j<o.size();j++){
+                organisers.add(gson.fromJson(o.get(j),Event.Organisers.class));
+            }
         }
+        else {
+
+        }
+
         //USe this shit
         String eventType = i.getStringExtra("eventType");
         String link = i.getStringExtra("link");
@@ -144,7 +169,8 @@ public class PreviewEventActivity extends AppCompatActivity {
         event.setTitle(title);
         event.setDescription(description);
         //TODO: ADD To AND FROM TIMESTAMO IN LONG
-        event.setTags(allParentTags);
+        event.setAllParentTags(allParentTags);
+
         event.setLat(lat);
         event.setLon(lon);
         event.setAddress(address);
@@ -161,7 +187,13 @@ public class PreviewEventActivity extends AppCompatActivity {
         event.setCreatorPhoneNo(currentUserProfile.getPhoneNo());
         event.setUrl(link);
         event.setTime(String.valueOf(from));
-
+        event.setTicketPrice(ticketPrice);
+        event.setTicketType(i.getStringExtra("ticketType"));
+        event.setPrivacy(i.getStringExtra("privacy"));
+        event.setEventType(i.getStringExtra("eventType"));
+        event.setSalesStartAt(i.getStringExtra("salesStartfrom"));
+        event.setSalesStopAt(i.getStringExtra("salesStopAt"));
+        event.setMaxNoOfTicket(i.getIntExtra("maxNoOfTickets",0));
 
 
      updateUI(event);
@@ -172,7 +204,8 @@ public class PreviewEventActivity extends AppCompatActivity {
      done.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-
+        progressDialog.show();
+        progressDialog.setMessage("Publishing your event");
 
              DocumentReference ref = db.collection("events").document();
              String myId = ref.getId();
@@ -181,6 +214,19 @@ public class PreviewEventActivity extends AppCompatActivity {
                  @Override
                  public void onComplete(@NonNull Task<Void> task) {
                      if (task.isSuccessful()){
+
+                         db.collection("profiles").
+                                 document(currentUserProfile.getFirebase_id()).
+                                 update("createdEvents",FieldValue.arrayUnion(myId)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                             @Override
+                             public void onComplete(@NonNull Task<Void> task) {
+                                 progressDialog.dismiss();
+                                 Intent i = new Intent(PreviewEventActivity.this,MainActivity.class);
+                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                 startActivity(i);
+                             }
+                         });
+
                          //TODO:Where to go after successful event publishing
                      }
                  }
@@ -188,7 +234,7 @@ public class PreviewEventActivity extends AppCompatActivity {
          }
      });
 
-     saveDraft.setOnClickListener(new View.OnClickListener() {
+     /*saveDraft.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
              //TODO:  add event as a draft
@@ -196,7 +242,7 @@ public class PreviewEventActivity extends AppCompatActivity {
              db.collection("profiles").document(currentUserProfile.getFirebase_id())
                      .update("eventDraft",FieldValue.arrayUnion(event));
          }
-     });
+     });*/
 
 
 
@@ -211,7 +257,7 @@ public class PreviewEventActivity extends AppCompatActivity {
         description.setText(event.getDescription());
         creatorName.setText(event.getCreatorName());
         going1.setText(event.getGoingCount() + " going");
-
+        ticketPrice.setText("INR "+String.valueOf(event.getTicketPrice()));
 
         if (event.getUrl() != null) {
             link_relative_layout.setVisibility(View.VISIBLE);
@@ -266,7 +312,17 @@ public class PreviewEventActivity extends AppCompatActivity {
         from.setText(simpleDateFormat.format(c.getTime())+" "+String.valueOf(c.
                 get(Calendar.HOUR_OF_DAY))+":"+String.valueOf(c.get(Calendar.MINUTE)));
 
+    eventType.setText(event.getEventType()+" Event");
 
+    c.setTimeInMillis(Long.valueOf(event.getSalesStartAt()));
+    salesStartFrom.setText(simpleDateFormat.format(c.getTime())+" "+String.valueOf(c.
+            get(Calendar.HOUR_OF_DAY))+":"+String.valueOf(c.get(Calendar.MINUTE)));
+
+        c.setTimeInMillis(Long.valueOf(event.getSalesStopAt()));
+        salesStopAt.setText(simpleDateFormat.format(c.getTime())+" "+String.valueOf(c.
+                get(Calendar.HOUR_OF_DAY))+":"+String.valueOf(c.get(Calendar.MINUTE)));
+
+        maxNoOfTickets.setText(String.valueOf(event.getMaxNoOfTicket()));
 
 
         creatorEmail.setText(event.getCreatorEmail());
@@ -313,8 +369,7 @@ public class PreviewEventActivity extends AppCompatActivity {
         }
 
         Picasso.get().load(event.getCreatorProfilePic()).into(creatorProfilePic);
-        eventTimelineImageView.setVisibility(View.VISIBLE);
-        eventTimelineImageView.setImageResource(R.mipmap.event_placeholder);
+
         if (event.getImageUrl() != null) {
             eventTimelineImageView.setImageUrl(event.getImageUrl(), imageLoader);
             eventTimelineImageView.setVisibility(View.VISIBLE);
@@ -330,6 +385,40 @@ public class PreviewEventActivity extends AppCompatActivity {
                 }
             });
         }
+        else {
+            eventTimelineImageView.setVisibility(View.VISIBLE);
+            eventTimelineImageView.setImageResource(R.mipmap.event_placeholder);
+        }
+
+
+        flexboxLayout.setVisibility(View.VISIBLE);
+        int  tagsCount =event.getTags().size() ;//... integer number of textviews
+        TextView[] tages= new TextView[tagsCount];//create dynamic textviewsarray
+        LinearLayout.LayoutParams layoutParams = new
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        //loop to customize the text view and add it to flex box
+        for (int i = 0; i < tagsCount; i++) {
+            tages[i] = new TextView(PreviewEventActivity.this);
+            GradientDrawable gD = new GradientDrawable();
+            int strokeWidth = 5;
+            int strokeColor = getResources().getColor(R.color.grey);
+
+            gD.setStroke(strokeWidth, strokeColor);
+            gD.setCornerRadius(15);
+            gD.setShape(GradientDrawable.RECTANGLE);
+
+            tages[i].setBackground(gD);
+            tages[i].setText(event.getTags().get(i));
+            layoutParams.setMargins(10, 5, 10, 5);
+            tages[i].setPadding(17, 15, 17, 15);
+            flexboxLayout.addView(tages[i], layoutParams);
+        }
+
+
+
+
 
     }
 }

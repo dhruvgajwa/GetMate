@@ -34,6 +34,12 @@ public class MyTickets extends AppCompatActivity {
         ListView listView = findViewById(R.id.my_tickets_list);
         listView.setAdapter(adapter);
 
+
+        if (tickets.size() == 0) {
+
+        }
+
+
     }
 
     public class TicketListAdapter extends BaseAdapter {
@@ -45,9 +51,7 @@ public class MyTickets extends AppCompatActivity {
         public TicketListAdapter(Context context,ArrayList<Ticket> tickets){
             this.context = context;
             this.tickets = tickets;
-            for (int i=0;i<10;i++){
-                this.tickets.addAll(tickets);
-            }
+
         }
 
 
